@@ -113,7 +113,7 @@ int main() {
     if (valid){
       int pos = hash[5] - '0';
       if (pos > 7 || pos < 0 || output[pos] != '_'){
-        cout << "\tVOID: " << ss.str() << " = " << hash;
+        cout << "\tskipped: " << ss.str() << " = " << hash;
         cout << " char("<<pos <<"): " << hash[6] << endl;
         continue;
       }
