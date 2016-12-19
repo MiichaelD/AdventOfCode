@@ -99,7 +99,6 @@ using namespace std;
 
 regex regExp("Disc #(\\d+) has (\\d+) positions; at time=(\\d+), it is at position (\\d+).");
 
-int maxPositions = 0;
 int maxIndex = 0;
 
 struct Disc {
@@ -119,8 +118,8 @@ struct Disc {
 };
 
 ostream& operator<<(ostream &out, Disc &d) {
-  out << d.id << " has  " << d.positions << " positions. starts at pos ";
-  out << d.startPos;
+  out << "Disc " << d.id << " has  " << d.positions;
+  out << " positions. starts at pos " << d.startPos;
   return out;
 }
 
@@ -132,35 +131,44 @@ void printDiscs() {
   }
 }
 
+void loadDisc(const string &line) {
+  smatch match;
+  regex_match(line, match, regExp);
+  int id = atoi(match[1].str().c_str());
+  int positions = atoi(match[2].str().c_str());
+  int startTime = atoi(match[3].str().c_str()) - id;
+  int startPos  = atoi(match[4].str().c_str());
+
+  if (startTime) {
+    startPos -= startTime;
+    startPos %= positions;
+    if (startPos < 0) {
+      startPos = positions - startPos;
+    }
+  }
+  discs.emplace_back( id, positions, startPos );
+}
+
 void loadDiscs() {
   string input;
-  smatch match;
+  int maxPositions = 0;
   while(!cin.eof()) {
     getline(cin, input);
-    regex_match(input, match, regExp);
-    int id = atoi(match[1].str().c_str());
-    int positions = atoi(match[2].str().c_str());
-    int startTime = atoi(match[3].str().c_str()) - id;
-    int startPos  = atoi(match[4].str().c_str());
+    loadDisc(input);
 
-    if (startTime) {
-      startPos -= startTime;
-      startPos %= positions;
-      if (startPos < 0) {
-        startPos = positions - startPos;
-      }
-    }
-    discs.emplace_back( id, positions, startPos );
-
-    if (positions > maxPositions){
-      maxPositions = positions;
-      maxIndex = id;
+    if (discs.back().positions > maxPositions){
+      Disc &d = discs.back();
+      maxPositions = d.positions;
+      maxIndex = d.id - 1;
     }
   }
 }
 
-int getStartTime() {
-  int offset = - discs[maxIndex].startPos;
+void printCorrectStartTime() {
+  int offset =  discs[maxIndex].startPos ?
+                discs[maxIndex].positions - discs[maxIndex].startPos :
+                0;
+  cout << "Pivot " << discs[maxIndex] << "\t" << "Initial offset: " << offset << endl;
   bool needsWork = true;
   while(needsWork) {
     needsWork = false;
@@ -172,12 +180,12 @@ int getStartTime() {
       }
     }
   }
-  return offset;
+  cout << "Correct start time: " << offset << endl;
 }
 
 int main() {
   loadDiscs();
   printDiscs();
-  cout << getStartTime() << endl;
+  printCorrectStartTime();
   return EXIT_SUCCESS;
 }
