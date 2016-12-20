@@ -22,11 +22,59 @@
                 Elf 5 takes Elf 1's two presents.
                 Neither Elf 1 nor Elf 2 have any presents, so both are skipped.
                 Elf 3 takes Elf 5's three presents.
-                So, with five Elves, the Elf that sits starting in position 3 gets all the presents.
+                So, with five Elves, the Elf that sits starting in position 3
+                gets all the presents.
 
-                With the number of Elves given in your puzzle input, which Elf gets all the presents?
+                With the number of Elves given in your puzzle input, which Elf
+                gets all the presents?
 
                 Your puzzle input is 3004953.
+
+                --- Part Two ---
+
+                Realizing the folly of their present-exchange rules, the Elves
+                agree to instead steal presents from the Elf directly across the
+                circle. If two Elves are across the circle, the one on the left
+                (from the perspective of the stealer) is stolen from. The other
+                rules remain unchanged: Elves with no presents are removed from
+                the circle entirely, and the other elves move in slightly to
+                keep the circle evenly spaced.
+
+                For example, with five Elves (again numbered 1 to 5):
+
+                - The Elves sit in a circle; Elf 1 goes first:
+                  1
+                5   2
+                 4 3
+
+                - Elves 3 and 4 are across the circle; Elf 3's present is stolen,
+                being the one to the left. Elf 3 leaves the circle, and the rest
+                of the Elves move in:
+                  1           1
+                5   2  -->  5   2
+                 4 -          4
+
+                - Elf 2 steals from the Elf directly across the circle, Elf 5:
+                  1         1 
+                -   2  -->     2
+                  4         4 
+
+                - Next is Elf 4 who, choosing between Elves 1 and 2, steals from
+                Elf 1:
+                 -          2  
+                    2  -->
+                 4          4
+
+                - Finally, Elf 2 steals from Elf 4:
+                 2
+                    -->  2  
+                 -
+
+                So, with five Elves, the Elf that sits starting in position 2
+                gets all the presents.
+
+                With the number of Elves given in your puzzle input, which Elf
+                now gets all the presents?
 
   Programmer:   Michael Duarte.
 
@@ -101,22 +149,43 @@ list<Elf>::iterator getNeighbor(list<Elf>::iterator elfIt) {
   return elfIt;
 }
 
+list<Elf>::iterator getNeighborAcross(list<Elf>::iterator elfIt) {
+  int toAdvance = elfCount / 2;
+  auto neighbor = elfIt;
+  int toEnd = distance(elfIt, elves.end());
+  if (toAdvance >= toEnd) {
+    // cout << "Distance to end: " << toEnd << " but we want to advance ";
+    // cout << toAdvance << endl;
+    toAdvance -= toEnd;
+    elfIt = elves.begin();
+  }
+  advance(elfIt, toAdvance);
+  return elfIt;
+}
+
+
 int getWinningElf() {
   auto elf = elves.begin();
   while (elfCount > 1) {
-    auto neighbor = getNeighbor(elf);
+    auto neighbor = getNeighborAcross(elf);
     // cout << elf->id << "(" << elf->presents << ") stole from " << neighbor->id;
-    // cout << "(" << neighbor->presents << ") and now has: ";
+    // cout << "(" << neighbor->presents << ") and now has: " << elf->presents;
     elf->stealFrom(*neighbor);
     elves.erase(neighbor);
-    // cout << elf->presents << ". Remaining elves: " << elves.size() << endl;
+//     cout << ". Remaining elves: " << elves.size() << endl;
     --elfCount;
     incrementIterator(elf);
   }
   return elf->id;
 }
 
+void setFastIo(){
+  std::ios::sync_with_stdio(false); // http://en.cppreference.com/w/cpp/io/ios_base/sync_with_stdio
+  cin.tie(NULL);
+}
+
 int main() {
+//   setFastIo();
   setElves();
   // printElves();
   int winner = getWinningElf();
