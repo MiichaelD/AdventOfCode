@@ -102,9 +102,9 @@ using namespace std;
 
 // test
 // const int MAX_ELVES = 5;
-const int MAX_ELVES = 3004953;
-
-int elfCount = MAX_ELVES;
+// const int MAX_ELVES = 3004953;
+int MAX_ELVES;
+int elfCount;
 
 struct Elf{
   int id = 1;
@@ -123,9 +123,11 @@ ostream &operator<<(ostream &out, Elf &e) {
   return out;
 }
 
-list<Elf> elves(MAX_ELVES);
+list<Elf> elves;
 
 void setElves() {
+  elves = list<Elf>(MAX_ELVES);
+  elfCount = MAX_ELVES;
   auto it = elves.begin();
   for (int i = 1; i <= MAX_ELVES; ++i){
     (it++)->id = i;
@@ -185,6 +187,7 @@ void setFastIo(){
 }
 
 int main() {
+  cin >> MAX_ELVES;
 //   setFastIo();
   setElves();
   // printElves();
