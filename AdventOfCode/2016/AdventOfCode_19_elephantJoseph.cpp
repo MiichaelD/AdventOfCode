@@ -169,7 +169,8 @@ list<Elf>::iterator getNeighborAcross(list<Elf>::iterator elfIt) {
 int getWinningElf() {
   auto elf = elves.begin();
   while (elfCount > 1) {
-    auto neighbor = getNeighborAcross(elf);
+    // auto neighbor = getNeighborAcross(elf);
+    auto neighbor = getNeighbor(elf);
     // cout << elf->id << "(" << elf->presents << ") stole from " << neighbor->id;
     // cout << "(" << neighbor->presents << ") and now has: " << elf->presents;
     elf->stealFrom(*neighbor);
