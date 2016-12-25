@@ -133,7 +133,7 @@ vector<string> getInstructions() {
   return output;
 }
 
-void printInstructions(const vector<string> instructions) {
+void printInstructions(const vector<string> &instructions) {
   cout << "There are " << instructions.size() << ": " << endl;
   for (const string &ins : instructions) {
     cout << ins << endl;
