@@ -153,11 +153,8 @@ list<Elf>::iterator getNeighbor(list<Elf>::iterator elfIt) {
 
 list<Elf>::iterator getNeighborAcross(list<Elf>::iterator elfIt) {
   int toAdvance = elfCount / 2;
-  auto neighbor = elfIt;
   int toEnd = distance(elfIt, elves.end());
   if (toAdvance >= toEnd) {
-    // cout << "Distance to end: " << toEnd << " but we want to advance ";
-    // cout << toAdvance << endl;
     toAdvance -= toEnd;
     elfIt = elves.begin();
   }
@@ -165,16 +162,40 @@ list<Elf>::iterator getNeighborAcross(list<Elf>::iterator elfIt) {
   return elfIt;
 }
 
+list<Elf>::iterator getNextNeighborAcross(list<Elf>::iterator elfIt,
+                                      list<Elf>::iterator neighbor) {
+  static int counter = 0;
+  if (neighbor == elves.end()){
+    neighbor = elves.begin();
+  }
+  if (++counter % 2 == 0) {
+    int toEnd = distance(neighbor, elves.end());
+    if (toEnd == 1){
+      neighbor = elves.begin();
+    } else  {
+      advance(neighbor, 1);
+    }
+  }
+  return neighbor;
+}
 
 int getWinningElf() {
   auto elf = elves.begin();
+  // FOR PART 2:
+  // get 1st neighbor across.
+  auto neighbor = getNeighborAcross(elf);
   while (elfCount > 1) {
-    // auto neighbor = getNeighborAcross(elf);
-    auto neighbor = getNeighbor(elf);
+    // FOR PART 1:
+    // auto neighbor = getNeighbor(elf);
+
+    // FOR PART 2:
+    // get the next neighbor across.
+    neighbor = getNextNeighborAcross(elf, neighbor);
+    // auto neighbor = getNeighbor(elf);
     // cout << elf->id << "(" << elf->presents << ") stole from " << neighbor->id;
     // cout << "(" << neighbor->presents << ") and now has: " << elf->presents;
     elf->stealFrom(*neighbor);
-    elves.erase(neighbor);
+    neighbor = elves.erase(neighbor);
 //     cout << ". Remaining elves: " << elves.size() << endl;
     --elfCount;
     incrementIterator(elf);
@@ -188,6 +209,7 @@ void setFastIo(){
 }
 
 int main() {
+  setFastIo();
   cin >> MAX_ELVES;
 //   setFastIo();
   setElves();
