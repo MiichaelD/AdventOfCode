@@ -69,6 +69,41 @@
 
                 What value should be sent to the safe?
 
+                --- Part Two ---
+                The safe doesn't open, but it does make several angry noises to
+                express its frustration.
+
+                You're quite sure your logic is working correctly, so the only
+                other thing is... you check the painting again. As it turns out,
+                colored eggs are still eggs. Now you count 12.
+
+                As you run the program with this new input, the prototype
+                computer begins to overheat. You wonder what's taking so long,
+                and whether the lack of any instruction more powerful than "add
+                one" has anything to do with it. Don't bunnies usually multiply?
+
+                Anyway, what value should actually be sent to the safe?
+
+  Notes:        For part 1 a = 7
+                d = a ...
+                d * c ...
+                7 * 6 = 42
+                42 * 5 = 210
+                ...
+                ...
+                7! = 5040
+
+                This is obligatory:
+                94 * 90 = 9306
+
+                So answer was: 
+                9306 + 5040 = 14346
+
+                For part 2 a = 12:
+                12! = 479,001,600
+                
+                so answer was:
+                9306 + 479001600 = 479010906
 
   Programmer:   Michael Duarte.
 
@@ -96,7 +131,24 @@ unordered_map<char, int> registers;
 
 void set(char reg, int value) {
   registers[reg] = value;
-  // cout << "setting " << reg << " = " << value << endl;
+  cout << "setting " << reg << " = " << value << endl;
+}
+
+void initRegisters() {
+  for (char c = 'a'; c < 'e'; ++c){
+    set(c, 0);
+  }
+  // uncomment next line for part 1
+  set('a', 7);
+  // uncomment next line for part 2
+  // set('a', 12);
+
+}
+
+void printRegisters() {
+  for (char c = 'a'; c < 'e'; ++c){
+    cout << c << " = " << registers[c] << endl;
+  }
 }
 
 void increment(char reg, bool positive = true) {
@@ -106,32 +158,71 @@ void increment(char reg, bool positive = true) {
     set(reg, registers[reg]-1);
 }
 
+void toggle(string &&value, int index, vector<string> &instructions) {
+  // printRegisters();
+  cout << "Toggling " << index << " + " << value << " = ";
+  index += value[0] == '-' || isdigit(value[0]) ? atoi(value.c_str()) : registers[value[0]];
+  cout << index ;
+  if (index >= instructions.size() || index < 0) {
+    cout << ". Ignoring :("<< endl;
+    return;
+  }
+  string &instructionToToggle = instructions[index];
+
+  cout << " from: [" << instructionToToggle << "] to: [";
+  switch (instructionToToggle[0]) {
+    case 'c':
+    instructionToToggle[0] = 'j';
+    instructionToToggle[1] = 'n';
+    instructionToToggle[2] = 'z';
+    break;
+
+    case 'd':
+    case 't':
+    instructionToToggle[0] = 'i';
+    instructionToToggle[1] = 'n';
+    instructionToToggle[2] = 'c';
+    break;
+
+    case 'i':
+    instructionToToggle[0] = 'd';
+    instructionToToggle[1] = 'e';
+    instructionToToggle[2] = 'c';
+    break;
+
+    case 'j':
+    instructionToToggle[0] = 'c';
+    instructionToToggle[1] = 'p';
+    instructionToToggle[2] = 'y';
+    break;
+  }
+  cout << instructionToToggle << "]" << endl;
+}
+
 void copy(const string &from, const string &to) {
-  // cout << "Setting " << to << " = " << from << " which is: ";
-  int value = isdigit(from[0]) ? atoi(from.c_str()) : registers[from[0]];
+  cout << "Setting " << to << " = " << from << " which is: ";
+  int value = from[0] == '-'||isdigit(from[0]) ? atoi(from.c_str()) : registers[from[0]];
+  if (isdigit(to[0])){
+    cout << endl;
+    return; // ignore command.
+  }
   set(to[0], value);
 
 }
 
 int jump(const string &check, const string &value) {
-  // cout << "check (" << check << ") is ";
+  cout << "check (" << check << ") is ";
   int checked = isdigit(check[0]) ? atoi(check.c_str()) : registers[check[0]];
-  // cout<< checked << ". Jumping: ";
-  if (checked != 0 ) {
-    // cout << value << endl; 
-    return atoi(value.c_str());
+    int ivalue = value[0] == '-' || isdigit(value[0]) ? atoi(value.c_str()) : registers[value[0]];
+  cout<< checked << ". Jumping: ";
+  if (checked != 0 && ivalue) {
+    cout << ivalue << endl; ;
+    return ivalue;
   } 
-  // cout << "default (1) " << endl;
+  cout << "default (1) " << endl;
   return 1;
 }
 
-void initRegisters() {
-  for (char c = 'a'; c < 'e'; ++c){
-    set(c, 0);
-  }
-  // uncomment next line for part 2
-  // set('c',1);
-}
 
 vector<string> getInstructions() {
   vector<string> output;
@@ -143,7 +234,7 @@ vector<string> getInstructions() {
   return output;
 }
 
-void printInstructions(const vector<string> instructions) {
+void printInstructions(const vector<string> &instructions) {
   cout << "There are " << instructions.size() << ": " << endl;
   for (const string &ins : instructions) {
     cout << ins << endl;
@@ -151,16 +242,16 @@ void printInstructions(const vector<string> instructions) {
   cout << endl;
 }
 
-regex rcp ("cpy ([a-zA-Z0-9]+) (\\w)");
+regex rcp ("cpy ([-\\w\\d]+) ([-\\w\\d]+)");
 regex rinc("inc (\\w)");
 regex rdec("dec (\\w)");
-regex rjnz("jnz ([a-zA-Z0-9]+) ([-\\d]+)");
+regex rtgl("tgl (\\w)");
+regex rjnz("jnz ([-\\w\\d]+) ([-\\w\\d]+)");
 
-
-
-int processInstruction(const string &instruction) {
-  // cout << "processing: " << instruction << ".-\t";
+int processInstruction(vector<string> &instructions, int index) {
   std::smatch stringmatch;
+  const string &instruction = instructions[index];
+  cout << index << ") " << instruction << ".-\t";
   switch (instruction[0]) {
     case 'c':
     regex_match (instruction, stringmatch, rcp);
@@ -177,6 +268,11 @@ int processInstruction(const string &instruction) {
     increment(stringmatch[1].str()[0]);
     break;
 
+    case 't':
+    regex_match(instruction, stringmatch, rtgl);
+    toggle(stringmatch[1].str(), index, instructions);
+    break;
+
     case 'j':
     regex_match(instruction, stringmatch, rjnz);
     return jump(stringmatch[1].str(), stringmatch[2].str());
@@ -187,12 +283,11 @@ int processInstruction(const string &instruction) {
   return 1;
 }
 
-void processInstructions(const vector<string> instructions) {
-  int processed = 0;
-  for (int i = 0 ; i < instructions.size();) {
-    ++processed;
-    // cout << "i " << i << ")\t";
-    i += processInstruction(instructions[i]);
+void processInstructions(vector<string> instructions) {
+  uint32_t processed = 0;
+  for (int i = 0 ; i >= 0 && i < instructions.size();) {
+    ++processed;;
+    i += processInstruction(instructions, i);
   }
   cout << "Total instructions processed: " << processed << endl;
 }
@@ -203,5 +298,6 @@ int main() {
   // printInstructions(instructions);
   processInstructions(instructions);
   cout << endl << "Result: " << registers['a'] << endl;
+  printRegisters();
   return EXIT_SUCCESS;
 }
