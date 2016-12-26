@@ -62,6 +62,20 @@
                 can access the system. Given the list of scrambling operations
                 in your puzzle input, what is the result of scrambling abcdefgh?
 
+                Your puzzle answer was baecdfgh.
+
+                --- Part Two ---
+
+                You scrambled the password correctly, but you discover that you
+                can't actually modify the password file on the system. You'll
+                need to un-scramble one of the existing passwords by reversing
+                the scrambling process.
+
+                What is the un-scrambled version of the scrambled password
+                fbgdceah?
+
+                Your puzzle answer was cegdahbf.
+
   Programmer:   Michael Duarte.
 
   Date:         12/26/2016
@@ -116,13 +130,26 @@ void rotateSteps(string &input, int steps, bool right = true) {
 // rotations. Once the index is determined, rotate the string to the right one
 // time, plus a number of times equal to that index, plus one additional time if
 // the index was at least 4.
-void rotateBased(string &input, char letter) {
+void rotateBased(string &input, char letter, bool inverse = false) {
   int ix = -1;
   for (int i = 0; ix == -1 && i < input.length(); ++i) {
     if (input[i] == letter) ix = i;
   }
-  if (ix > 3) ++ix; // additional time if index is at least 4;
-  rotateSteps(input, ix+1);
+  if (inverse){
+    //reddit.com/r/adventofcode/comments/5ji29h/2016_day_21_solutions/dbgkbpv/
+    switch(ix) {
+      case 0:  case 1: rotateSteps(input, 7); break;
+      case 2: rotateSteps(input, 2); break;
+      case 3: rotateSteps(input, 6); break;
+      case 4: rotateSteps(input, 1); break;
+      case 5: rotateSteps(input, 5); break;
+      case 7: rotateSteps(input, 4); break;
+      default: break;
+    }
+  } else {
+    if (ix > 3) ++ix; // additional time if index is at least 4;
+    rotateSteps(input, ix+1);
+  }
 }
 
 // Means that the span of letters at indexes X through Y (including the letters
@@ -160,28 +187,27 @@ regex rrevepos("reverse positions (\\d+) through (\\d+)");
 //move position X to position Y
 regex rmovepos("move position (\\d+) to position (\\d+)");
 
-
-
-void processR(string &input, const string &instruction) {
+void scrambleR(string &input, const string &instruction, bool inverse = false) {
   std::smatch match;
   int x, y;
+  char c;
   switch(instruction[7]) {
     case 'l':
       regex_match (instruction, match, rrotstep);
       x = atoi(match[2].str().c_str());
-      rotateSteps(input, x, false);
+      rotateSteps(input, x, inverse ? true : false);
     break;
 
     case 'r':
       regex_match (instruction, match, rrotstep);
       x = atoi(match[2].str().c_str());
-      rotateSteps(input, x, true);
+      rotateSteps(input, x, inverse ? false : true);
     break;
 
     case 'b':
       regex_match (instruction, match, rrotbase);
-      x = match[1].str()[0];
-      rotateBased(input, x);
+      c = match[1].str()[0];
+      rotateBased(input, c, inverse);
     break;
 
     case ' ':
@@ -193,7 +219,7 @@ void processR(string &input, const string &instruction) {
   }
 }
 
-void processLine(string &input, const string &instruction) {
+void scramble(string &input, const string &instruction, bool inverse = false) {
   std::smatch match;
   switch(instruction[0]) {
     case 's':
@@ -210,48 +236,71 @@ void processLine(string &input, const string &instruction) {
     break;
 
     case 'r':
-      processR(input, instruction);
+      scrambleR(input, instruction, inverse);
     break;
 
     case 'm':
       regex_match (instruction, match, rmovepos);
       int x = atoi(match[1].str().c_str());
       int y = atoi(match[2].str().c_str());
-      movePositions(input, x, y);
+      movePositions(input, inverse ? y : x, inverse ? x: y);
     break;
   }
 }
 
-void doStuff() {
-  // string input = "abcde";
-  // string input = "abcdefgh";
-  string input = "fbgdceah";
+vector<string> getInstructions() {
+  vector<string> result;
+  result.reserve(100);
   string instruction;
-  cout << input << " being processed: " << endl;
   do{
     getline(cin, instruction);
-    processLine(input, instruction);
-    cout << "\t" << input << " | " << instruction << endl;
+    result.push_back(instruction);
   }while(!cin.eof());
-  cout << "Solution: " << input << endl;
+  return result;
 }
 
-void test() {
-  string input = "0123456789abcdefghijklmnopqrstuvwxyz";
-  cout << input << " -> ";
-  // rotateSteps(input, 1, true);
-  // cout << input << " -> ";
-  // rotateSteps(input, 1, false);
-  // cout << input << " -> ";
-  // rotateSteps(input, 5, true);
-  // cout << input << " -> ";
-  // rotateSteps(input, 5, false);
+void doStuff(vector<string> instructions) {
+  string input = "abcdefghijklmnopqrstuvwxyz";
+  bool inverse = false;
+  for (int i = 0 ; i < 2; ++i) {
+    if (i == 1) {
+      inverse = true;
+      reverse(instructions.begin(), instructions.end());
+    }
+    cout << "Processing:\t" << input << endl;
+    for (string &instruction : instructions) {
+      scramble(input, instruction, inverse);
+      // cout << "\t" << input << " | " << instruction << endl;
+    }
+    cout << "Solution:\t" << input << endl << endl;
+  }
+}
 
-  // reversePositions(input, 5, 10);
-  cout << input << endl;
+void pt1(const vector<string> &instructions) {
+  string input = "abcdefgh";
+  cout << "Part 1:\nProcessing:\t" << input << endl;
+  for (const string &instruction : instructions) {
+    scramble(input, instruction);
+    cout << "\t" << input << " | " << instruction << endl;
+  }
+  cout << "Solution:\t" << input << endl << endl;
+}
+
+void pt2(vector<string> instructions) {
+  reverse(instructions.begin(), instructions.end());
+  string input = "fbgdceah";
+  cout << "Part 2:\nProcessing:\t" << input << endl;
+  for (const string &instruction : instructions) {
+    scramble(input, instruction, true);
+    cout << "\t" << input << " | " << instruction << endl;
+  }
+  cout << "Solution:\t" << input << endl << endl;
 }
 
 int main() {
-  doStuff();
+  auto instructions = getInstructions();
+  // pt1(instructions);
+  // pt2(instructions);
+  doStuff(instructions);
   return EXIT_SUCCESS;
 }
