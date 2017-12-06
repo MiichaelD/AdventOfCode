@@ -78,7 +78,6 @@ struct Solution {
   Solution(const Coordinate &c):solved(true) {
     coord = c;
   }
-
 };
 
 bool isHorizontal = true;
@@ -209,6 +208,8 @@ void capture1() {
 }
 
 int main(){
+  // http://www.cplusplus.com/reference/ios/ios_base/imbue/
+  // https://stackoverflow.com/a/7304184
   cin.imbue(locale(cin.getloc(), new comma_space_enter));
   capture1();
   cout << getDistance() << endl;
