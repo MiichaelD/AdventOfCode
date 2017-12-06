@@ -127,12 +127,10 @@
     <ClCompile Include="../adventofcode\2016\AdventOfCode_9_Compression.cpp" />
     <ClCompile Include="../adventofcode\2016\AdventOfCode_9_Compression_2.cpp" />
     <ClCompile Include="../adventofcode\2016\md5\md5.cpp" />
+    <ClCompile Include="..\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../adventofcode\2016\md5\md5.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

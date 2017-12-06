@@ -15,103 +15,103 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_10_bots.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_10_bots.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_12_monorail.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_12_monorail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_13_maze.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_13_maze.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_14_64hash.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_14_64hash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_15_timing.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_15_timing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_16_dragonChecksum.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_16_dragonChecksum.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_18_rogue.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_18_rogue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_19_elephantJoseph.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_19_elephantJoseph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_19_elephantJoseph_v1.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_19_elephantJoseph_v1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_1_taxiCab.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_1_taxiCab.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_1_taxiCab_2.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_1_taxiCab_2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_20_firewall.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_20_firewall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_21_scrambled.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_21_scrambled.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_22_gridComputing.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_22_gridComputing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_23_safe.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_23_safe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_25_clockSignal.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_25_clockSignal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_25_clockSignal_v1.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_25_clockSignal_v1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_2_restroom.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_2_restroom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_2_restroom_2.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_2_restroom_2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_3_triangles.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_3_triangles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_3_triangles_2.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_3_triangles_2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_4_Obscurity.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_4_Obscurity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_4_Obscurity_2.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_4_Obscurity_2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_5_md5hash.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_5_md5hash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_6_SignalNoise.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_6_SignalNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_7_IPv7.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_7_IPv7.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_8_screen.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_8_screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_9_Compression.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_9_Compression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\AdventOfCode_9_Compression_2.cpp">
+    <ClCompile Include="../adventofcode\2016\AdventOfCode_9_Compression_2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="adventofcode\2016\md5\md5.cpp">
+    <ClCompile Include="../adventofcode\2016\md5\md5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="adventofcode\2016\md5\md5.h">
+    <ClInclude Include="../adventofcode\2016\md5\md5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
