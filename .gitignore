@@ -28,6 +28,9 @@
 *.out
 *.app
 
+# Visual Code
+.vscode/
+
 # Visual Studio from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 # User-specific files
 *.suo
