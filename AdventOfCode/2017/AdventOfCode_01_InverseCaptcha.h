@@ -1,5 +1,8 @@
 /*
- Description:   --- Day 1: Inverse Captcha ---
+
+  Link:         http://adventofcode.com/2017/day/1
+ 
+  Description:  --- Day 1: Inverse Captcha ---
 
     The night before Christmas, one of Santa's Elves calls you in a panic. "The printer's
     broken! We can't print the Naughty or Nice List!" By the time you make it to sub-basement 17,
@@ -62,7 +65,7 @@
     What is the solution to your new captcha?
     Your puzzle answer was 1146.
 
-  Compiling: g++ -std=c++14 main.cpp -o main
+  Compiling:    g++ -std=c++11 main.cpp -o main
                
   Programmer:   Michael Duarte.
 
@@ -79,8 +82,6 @@
 namespace aoc2017_01{
 
   inline void addToSumIfEqual(const std::string &input, uint32_t &sum, int i, int j) {
-    // std::cout << "\tcomparing: " << input[i] << " == " << input[j] << " ? sum = ";
-    // std::cout << sum + (input[i] == input[j] ? input[i] - '0': 0) << std::endl;
     if (input[i] == input[j]) {
       sum += input[i] - '0';
     }
