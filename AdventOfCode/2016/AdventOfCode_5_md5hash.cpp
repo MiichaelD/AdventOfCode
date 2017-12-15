@@ -70,7 +70,7 @@
                
   Programmer:   Michael Duarte.
 
-  Compilation:  g++ -std=c++11 md5/md5.cpp -o main AdventOfCode_5_md5hash.cpp 
+  Compilation:  g++ -std=c++11 ../md5/md5.cpp -o main AdventOfCode_5_md5hash.cpp 
 
   Date:         12/05/2016
 */
@@ -83,7 +83,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include "md5/md5.h"
+#include "../md5/md5.h"
 
 using namespace std;
 

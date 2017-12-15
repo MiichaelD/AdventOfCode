@@ -91,7 +91,7 @@
                 one-time pad key?
 
 
-  Compilation:  g++ -std=c++11 md5/md5.cpp -o main AdventOfCode_14_64hash.cpp 
+  Compilation:  g++ -std=c++11 ../md5/md5.cpp -o main AdventOfCode_14_64hash.cpp 
 
   Programmer:   Michael Duarte.
 
@@ -113,7 +113,7 @@
 #include <cmath>
 #include <deque>
 
-#include "md5/md5.h"
+#include "../md5/md5.h"
 
 using namespace std;
 
