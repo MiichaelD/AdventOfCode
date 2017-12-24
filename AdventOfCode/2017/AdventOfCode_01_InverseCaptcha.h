@@ -69,7 +69,7 @@
                
   Programmer:   Michael Duarte.
 
-  Date:         12/14/2016
+  Date:         12/14/2017
 */
 
 #ifndef _2017_ADVENTOFCODE_01_INVERRSE_CAPTCHA_H_
