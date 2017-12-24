@@ -114,11 +114,12 @@ namespace aoc2017_02{
         int min = numbers[i] < numbers[j] ? numbers[i] : numbers[j];
         int max = numbers[i] < numbers[j] ? numbers[j] : numbers[i];
         if (max % min == 0) {
-          cout << "\t" << max << " is divisible by " << min << " += " << max / min << endl;
+          cout << max << " is divisible by " << min << " += " << max / min << endl;
           checksum += max / min;
         }
       }
     }
+    cout << "Line checksum: " << checksum << endl << endl;
     return checksum;
   }
 
@@ -135,7 +136,8 @@ namespace aoc2017_02{
   }
 
   void solve(int part = 1) {
-    std::cout << "Output:\t" << getSpreadsheetChecksum(part) << std::endl;
+    int output = getSpreadsheetChecksum(part);
+    std::cout << "Output:\t" <<  output << std::endl;
   }
 };
 
