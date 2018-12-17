@@ -1,7 +1,7 @@
 
-#include "2018/AdventOfCode_01_ChronalCalibration.h"
+#include "2018/AdventOfCode_02_InventoryManagementSystem.h"
 
 int main() {
-  aoc2018_01::solve(2);
+  aoc2018_02::solve();
   return EXIT_SUCCESS;
 }
