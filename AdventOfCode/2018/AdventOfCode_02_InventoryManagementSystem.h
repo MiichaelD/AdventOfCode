@@ -45,7 +45,7 @@
 
     What letters are common between the two correct box IDs? (In the example above, this is found by removing the differing character from either ID, producing fgij.)
 
-  Compiling:    g++ -std=c++11 main.cpp -o main
+  Compiling:   
                
   Programmer:   Michael Duarte.
 
@@ -57,12 +57,13 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <unordered_set>
 #include <vector>
 
 namespace aoc2018_02 {
 
-  int  solve1() {    
+  void solve1() {    
     using namespace std;
     int dos = 0;
     int tres = 0;
@@ -92,17 +93,56 @@ namespace aoc2018_02 {
         }
         cout << "\t " << k++ << ": dos " << dos << ", tres " << tres << endl; 
     }
-    return dos * tres;
+    cout << (dos * tres) << endl;
   }
 
-  int solve2() {    
+  void solve2() {    
     using namespace std;
-    return 0;
+    vector<string> ids;
+    while(!cin.eof()) {
+        string input;
+        cin >> input;
+        ids.emplace_back(move(input));
+    }
+    cout << "Palabras: " << ids.size() << ". Ejemplo: " << ids[0] << ". Longitud: ";
+    cout << ids[0].length() << endl << endl;
+
+    for (int i = 0; i < ids.size(); ++i) {
+        for (int j = i+1; j < ids.size(); ++j) {
+            bool oneDiferent = false;
+            int diffChar = -1;
+            for (int k = 0; k < ids[i].length(); ++k) {
+                if (ids[i][k] != ids[j][k]) {
+                    if (!oneDiferent) {
+                        oneDiferent = true;
+                        diffChar = k;
+                        continue;
+                    }
+                    oneDiferent = false;
+                    break;
+                }
+            }
+            if (oneDiferent) {
+                for (int k = 0; k < ids[i].length(); ++k) {
+                    if (ids[i][k] == ids[j][k]) {
+                        cout << ids[i][k];
+                    }
+                }
+                cout << endl;
+                return;
+            }
+        }
+    }
+    cout << "<NOT_FOUND>" << endl;
   }
 
   void solve(int part = 1) {
     using namespace std;
-    cout << (part == 1 ? solve1() : solve2()) << endl;
+    if (part == 1) {
+        solve1();
+    } else {
+        solve2();
+    }
   }
 
 };
