@@ -45,7 +45,7 @@
 
     What letters are common between the two correct box IDs? (In the example above, this is found by removing the differing character from either ID, producing fgij.)
 
-  Compiling:   
+  Compiling:    g++ -std=c++11 main.cpp -o main
                
   Programmer:   Michael Duarte.
 
