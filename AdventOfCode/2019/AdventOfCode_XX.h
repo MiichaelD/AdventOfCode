@@ -12,8 +12,17 @@
 #ifndef _2019_ADVENTOFCODE_XX_H_
 #define _2019_ADVENTOFCODE_XX_H_
 
-#include <iostream>
-#include <string>
+#include <algorithm> // std::sort
+#include <iomanip>      // std::setprecision
+#include <iostream> // std::cin, std::cout, std::fixed
+#include <ctype.h>  // char related functions
+#include <cmath>   // pow, floor, sqrt
+#include <deque>
+#include <limits> // std::numeric_limits<T>::max
+#include <memory>
+#include <sstream>
+#include <tuple>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
