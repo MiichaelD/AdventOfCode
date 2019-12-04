@@ -32,29 +32,63 @@ namespace aoc2019_04 {
   const char DELIMITER = '-';
   
   int n1, n2;
-  string in1, in2;
 
   void init(const string &input) {
     int aux;
     stringstream ss;
     for (int i = 0 ; i < input.length(); ++i) {
       if (input[i] == DELIMITER) {
-        in1 = ss.str();
-        ss.str(string());
         n1 = aux;
         aux = 0;
       } else {
         aux *= 10;
         aux += input[i] - '0';
-        ss << input[i];
       }
     }
-    in2 = ss.str();
     n2 = aux;
-    cout << n1 << " (" <<in1<< "), "<<n2<<" ("<<in2<<") "<< endl;
+    cout << n1 << " - " << n2 << endl;
   }
 
-  vector<string> getPasswordCandidates() {
+  bool validate1(const string &term) {
+    bool valid = false;
+    for (int j = 0; j < term.length() - 1; ++j) {
+      if (term[j] > term[j + 1]) {
+        valid = false;
+        break;
+      } else if (term[j] == term[j + 1]) {
+        valid = true;
+      }
+    }
+    return valid;
+  }
+
+  bool validate2(const string &term) {
+    bool valid = false;
+    for (int j = 0; j < term.length() - 1; ++j) {
+      if (term[j] > term[j + 1]) {
+        valid = false;
+        break;
+      } else if (term[j] == term[j + 1]) {
+        if ((j + 2) < term.length() && term[j] == term[j + 2]) {
+          // Group is bigger than 2
+          // cout << "\t" << term << " j " << j;
+          int x = j;
+          for (; j < term.length(); ++j) {
+            if (term[x] != term[j]) {
+              j -= 2;
+              break;
+            }
+          }
+          // cout  << " -> " << j+1 << endl;
+        } else {
+          valid = true;
+        }
+      }
+    }
+    return valid;
+  }
+
+  vector<string> getPasswordCandidates(int part = 1) {
     vector<string> result;
     stringstream ss;
 
@@ -66,45 +100,25 @@ namespace aoc2019_04 {
         continue;
       }
 
-      bool valid = false;
-      for (int j = 0; j < aux.length() - 1; ++j) {
-        if (aux[j] > aux[j + 1]) {
-          valid = false;
-          break;
-        } else if (aux[j] == aux[j + 1]) {
-          valid = true;
-        }
-      }
-      if (valid) {
+      if (part == 1 ? validate1(aux) : validate2(aux)) {
         // cout << "Adding: " << aux << endl;
         result.push_back(aux);
       }
     }
-
     return result;
   }
 
-  void solve1() {   
-    // string input = "178416-676461";
-    string input = "387638-919123";
-    // cin >> input;
-    init(input);
-    
-    vector<string> passwords = getPasswordCandidates();
-    cout << passwords.size() << endl;
-  }
-
-  void solve2() {    
-    
-  }
 
   void solve(int part = 1) {
     using namespace std;
-    if (part == 1) {
-      solve1();
-    } else {
-      solve2();
-    }
+
+    string input = "178416-676461";
+    // string input = "387638-419123";
+    // cin >> input;
+    init(input);
+    
+    vector<string> passwords = getPasswordCandidates(part);
+    cout << passwords.size() << endl;
   }
 };
 
