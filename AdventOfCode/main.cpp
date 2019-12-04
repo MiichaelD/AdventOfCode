@@ -1,8 +1,8 @@
 
-#include "2019/AdventOfCode_03.h"
+#include "2019/AdventOfCode_04.h"
 
 // Compiling:    g++ -std=c++11 main.cpp -o main
 int main() {
-  aoc2019_03::solve();
+  aoc2019_04::solve();
   return EXIT_SUCCESS;
 }
