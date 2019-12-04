@@ -29,10 +29,69 @@
 namespace aoc2019_04 {  
   using namespace std;
 
+  const char DELIMITER = '-';
+  
+  int n1, n2;
+  string in1, in2;
+
+  void init(const string &input) {
+    int aux;
+    stringstream ss;
+    for (int i = 0 ; i < input.length(); ++i) {
+      if (input[i] == DELIMITER) {
+        in1 = ss.str();
+        ss.str(string());
+        n1 = aux;
+        aux = 0;
+      } else {
+        aux *= 10;
+        aux += input[i] - '0';
+        ss << input[i];
+      }
+    }
+    in2 = ss.str();
+    n2 = aux;
+    cout << n1 << " (" <<in1<< "), "<<n2<<" ("<<in2<<") "<< endl;
+  }
+
+  vector<string> getPasswordCandidates() {
+    vector<string> result;
+    stringstream ss;
+
+    for (int i = max(n1, 100000); i <= n2; ++i) {
+      ss << i;
+      string aux = ss.str();
+      ss.str(string());
+      if (aux.length() != 6) {
+        continue;
+      }
+
+      bool valid = false;
+      for (int j = 0; j < aux.length() - 1; ++j) {
+        if (aux[j] > aux[j + 1]) {
+          valid = false;
+          break;
+        } else if (aux[j] == aux[j + 1]) {
+          valid = true;
+        }
+      }
+      if (valid) {
+        // cout << "Adding: " << aux << endl;
+        result.push_back(aux);
+      }
+    }
+
+    return result;
+  }
+
   void solve1() {   
-    string input;
-    cin >> input;
+    // string input = "178416-676461";
+    string input = "387638-919123";
+    // cin >> input;
+    init(input);
     
+    vector<string> passwords = getPasswordCandidates();
+    cout << passwords.size() << endl;
   }
 
   void solve2() {    
