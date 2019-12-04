@@ -6,7 +6,7 @@
                
   Programmer:   Michael Duarte.
 
-  Date:         12/02/2019
+  Date:         12/XX/2019
 */
 
 #ifndef _2019_ADVENTOFCODE_XX_H_
@@ -19,8 +19,6 @@
 
 namespace aoc2019_XX {  
   using namespace std;
-
-  
 
   void solve1() {   
     string input;
