@@ -124,22 +124,13 @@ namespace aoc2019_06 {
     return totalOrbits;
   }
 
-  void solve1() {   
-    auto planets = fillPlanets();
-    cout << totalOrbits(planets) << endl;
-  }
-
-  void solve2() {  
-    auto planets = fillPlanets();
-    cout << minOrbitTransfers(planets, "YOU", "SAN") << endl;
-  }
-
   void solve(int part = 1) {
     using namespace std;
+    auto planets = fillPlanets();
     if (part == 1) {
-      solve1();
+      cout << totalOrbits(planets) << endl;
     } else {
-      solve2();
+      cout << minOrbitTransfers(planets, "YOU", "SAN") << endl;
     }
   }
 };
