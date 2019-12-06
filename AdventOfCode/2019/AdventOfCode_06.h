@@ -32,17 +32,10 @@ namespace aoc2019_06 {
   const char DELIMITER = ')';
 
   struct Planet {
-    size_t ind;
     string name;
     string parentName;
     unordered_set<string> orbitingPlanets;
-    Planet(size_t id, const string &n) : ind(id), name(n) {};
-  };
-
-  struct planet_hash {
-    size_t operator () (const Planet &p) const {
-      return p.ind;
-    }
+    Planet(const string &n) : name(n) {};
   };
 
   pair<string, string> processInput(const string &input) {
@@ -62,12 +55,12 @@ namespace aoc2019_06 {
 
   void addPlanetIfNotInMap(unordered_map<string, Planet> &planets, const string &p) {
     if (planets.find(p) == planets.end()) {
-      planets.emplace(p, Planet(planets.size(), p));
+      planets.emplace(p, Planet(p));
     }
   }
 
   void printPlanet(const Planet &planet) {
-    cout << "Planet " << planet.ind << ": " << planet.name;
+    cout << "Planet " << planet.name;
     if (planet.orbitingPlanets.empty()) {
       cout << endl;
     } else {
