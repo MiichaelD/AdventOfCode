@@ -6,7 +6,7 @@
                
   Programmer:   Michael Duarte.
 
-  Date:         12/XX/2019
+  Date:         12/05/2019
 */
 
 #ifndef _2019_ADVENTOFCODE_05_H_
