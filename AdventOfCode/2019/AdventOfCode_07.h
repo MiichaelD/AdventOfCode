@@ -136,9 +136,6 @@ namespace aoc2019_07 {
   void findMaxThrust(const vector<int> &intCodes, vector<int> phaseSettings) {
     int thrusterOutput = INT_MIN, aux;
     do {
-      vector<vector<int>> intCodesVec =  {intCodes, intCodes, intCodes, intCodes, intCodes};
-      vector<int> pc {0,0,0,0,0};
-
       cout << "Permutation: " << phaseSettings[0];
       for (int i = 1; i < phaseSettings.size(); ++i) {
         cout << "," << phaseSettings[i];
@@ -146,6 +143,8 @@ namespace aoc2019_07 {
       cout << endl;
       
       // Initialization with Phase Settings + 0 as initial input for first Amp.
+      vector<vector<int>> intCodesVec =  {intCodes, intCodes, intCodes, intCodes, intCodes};
+      vector<int> pc {0,0,0,0,0};
       deque<int> outputs;
       for (int i = 0 ; i < phaseSettings.size(); ++i) {
         outputs.push_front(phaseSettings[i]);
