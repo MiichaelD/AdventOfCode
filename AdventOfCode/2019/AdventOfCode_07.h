@@ -1,14 +1,16 @@
 /*
-  Link:         http://adventofcode.com/2019/day/X
+  Link:         http://adventofcode.com/2019/day/7
  
+
   Compiling:    g++ -std=c++11 main.cpp -o main
                
   Programmer:   Michael Duarte.
-  Date:         12/XX/2019
+
+  Date:         12/07/2019
 */
 
-#ifndef _2019_ADVENTOFCODE_XX_H_
-#define _2019_ADVENTOFCODE_XX_H_
+#ifndef _2019_ADVENTOFCODE_07_H_
+#define _2019_ADVENTOFCODE_07_H_
 
 #include <algorithm> // std::sort
 #include <iomanip>      // std::setprecision
@@ -24,7 +26,7 @@
 #include <unordered_set>
 #include <vector>
 
-namespace aoc2019_XX {  
+namespace aoc2019_07 {  
   using namespace std;
 
   void solve1() {   
@@ -47,4 +49,4 @@ namespace aoc2019_XX {
   }
 };
 
-#endif /* _2019_ADVENTOFCODE_XX_H_ */
+#endif /* _2019_ADVENTOFCODE_07_H_ */
