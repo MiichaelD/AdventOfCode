@@ -1,8 +1,6 @@
 /*
   Link:         http://adventofcode.com/2019/day/X
- 
   Compiling:    g++ -std=c++11 main.cpp -o main
-               
   Programmer:   Michael Duarte.
   Date:         12/XX/2019
 */
