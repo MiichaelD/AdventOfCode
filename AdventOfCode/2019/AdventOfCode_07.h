@@ -99,8 +99,8 @@ namespace aoc2019_07 {
           aux1 = getValue(intCodes, pc + 1, param[0]);
           aux2 = getValue(intCodes, pc + 2, param[1]);
           pc = aux1 ? aux2 : pc + 3;
-          break;  // Eq-Zero Jump
-        case 6: 
+          break;
+        case 6:  // Eq-Zero Jump 
           aux1 = getValue(intCodes, pc + 1, param[0]);
           aux2 = getValue(intCodes, pc + 2, param[1]);
           pc = (aux1 == 0 ? aux2 : pc + 3);
