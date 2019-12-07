@@ -53,22 +53,20 @@ namespace aoc2019_06 {
     return make_pair(id1,id2);
   }
 
-  void addPlanetIfNotInMap(unordered_map<string, Planet> &planets, const string &p) {
+  inline void addPlanetIfNotInMap(unordered_map<string, Planet> &planets, const string &p) {
     if (planets.find(p) == planets.end()) {
       planets.emplace(p, Planet(p));
     }
   }
 
-  void printPlanet(const Planet &planet) {
-    cout << "Planet " << planet.name;
-    if (planet.orbitingPlanets.empty()) {
-      cout << endl;
-    } else {
-      cout << " has following orbiting planets: " << endl;
-    }
-
-    for (auto &p : planet.orbitingPlanets) {
-      cout << "\t" << p << endl;
+  inline void printPlanets(const unordered_map<string, Planet> &planets) {
+    for (const auto &entry : planets) {  
+      const Planet &planet = entry.second;
+      cout << "Planet  " << planet.name;
+      cout << (planet.orbitingPlanets.empty() ? "" : " with orbiting planets: ") << endl;
+      for (auto &p : planet.orbitingPlanets) {
+        cout << "\t" << p << endl;
+      }
     }
   }
 
@@ -82,10 +80,8 @@ namespace aoc2019_06 {
       addPlanetIfNotInMap(planets, orbitingPlanets.second);
       planets.at(orbitingPlanets.first).orbitingPlanets.insert(orbitingPlanets.second);
       planets.at(orbitingPlanets.second).parentName = orbitingPlanets.first;
-    }
-    for (auto p : planets) {  
-      printPlanet(p.second);
-    }
+    }  
+    printPlanets(planets);
     return planets;
   }
   
