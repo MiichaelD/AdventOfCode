@@ -133,10 +133,9 @@ namespace aoc2019_07 {
     return running;
   }
 
-  void findMaxThrust(const vector<int> &intCodesOriginal, vector<int> phaseSettings) {
+  void findMaxThrust(const vector<int> &intCodes, vector<int> phaseSettings) {
     int thrusterOutput = INT_MIN, aux;
     do {
-      vector<int> intCodes = intCodesOriginal;
       vector<vector<int>> intCodesVec =  {intCodes, intCodes, intCodes, intCodes, intCodes};
       vector<int> pc {0,0,0,0,0};
 
