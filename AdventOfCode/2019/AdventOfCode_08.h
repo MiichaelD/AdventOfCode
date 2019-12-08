@@ -25,22 +25,94 @@
 namespace aoc2019_08 {  
   using namespace std;
 
-  void solve1() {   
-    string input;
-    cin >> input;
-    
+  const int WIDTH = 25;
+  const int HEIGHT = 6;
+
+  const int BLACK = 0;
+  const int WHITE = 1;
+  const int TRANSPARENT= 2;
+
+  void printImageData(const vector<vector<vector<int>>> &imageData) {
+    for (int l = 0; l < imageData.size(); ++l) {
+      cout << "Layer " << l+1 << ":" << endl;
+      for (int h = 0; h < imageData[l].size(); ++h) {
+        for (int w = 0; w < imageData[l][h].size(); ++w) {
+          cout << " " << imageData[l][h][w];
+        }
+        cout << endl;
+      }
+      cout << endl;
+    }  
   }
 
-  void solve2() {    
+  int getOnesTimesTwosInLayerWithFewerZeros(const vector<vector<vector<int>>> &imageData) {
+    int result = -1;
+    int minZeroes = INT_MAX;
+    for (int l = 0; l < imageData.size(); ++l) {
+      int numberCounters[10] = {0,0,0,0,0,0,0,0,0,0};
+      for (int h = 0; h < imageData[l].size(); ++h) {
+        for (int w = 0; w < imageData[l][h].size(); ++w) {
+          int num = imageData[l][h][w];
+          ++numberCounters[num];
+        }
+      }
+      if (numberCounters[0] < minZeroes) {
+        minZeroes = numberCounters[0];
+        result = numberCounters[1] * numberCounters[2];
+        if (minZeroes == 0) {
+          break;  // No need to keep iterating.
+        }
+      }
+    }
+    return result;
+  }
+
+  vector<vector<vector<int>>> decode(const vector<vector<vector<int>>> &imageData) {   
+    vector<vector<vector<int>>> result;
+    result.push_back(vector<vector<int>>(HEIGHT, vector<int>(WIDTH)));
+    for (int h = 0; h < imageData[0].size(); ++h) {
+      for (int w = 0; w < imageData[0][0].size(); ++w) {
+        for (int l = 0; l < imageData.size(); ++l) {
+          int num = imageData[l][h][w];
+          if (num != TRANSPARENT) {
+            result.back()[h][w] = num;
+            cout << (num == WHITE ? " 0" : " _");
+            break;
+          }
+        }
+      }
+      cout << endl;
+    }
+    return result; 
     
   }
 
   void solve(int part = 1) {
-    using namespace std;
+    using namespace std; 
+    string input;
+    cin >> input;
+    vector<vector<vector<int>>> imageData;
+    int pixelsPerLayer = WIDTH * HEIGHT;
+    int layers = input.length() / (pixelsPerLayer);
+    for (int l = 0; l < layers; ++l) {
+      cout << "Layer " << l << ": " << endl;
+      imageData.emplace_back();
+      for (int h = 0; h < HEIGHT; ++h) {
+        imageData.back().emplace_back();
+        for (int w = 0; w < WIDTH; ++w) {
+          int c = input[(l * pixelsPerLayer) + (h * WIDTH) + w] - '0';
+          cout << c << ",";
+          imageData.back().back().push_back(c);
+        }
+        cout << endl;
+      }
+      cout << endl;
+    }
     if (part == 1) {
-      solve1();
+      cout << getOnesTimesTwosInLayerWithFewerZeros(imageData) << endl;
     } else {
-      solve2();
+      vector<vector<vector<int>>> decoded = decode(imageData);
+      // printImageData(decoded);
     }
   }
 };
