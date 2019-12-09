@@ -157,13 +157,12 @@ namespace aoc2019_09 {
     cin >> input;
     vector<long long> intCodes = getIntCodes(input);
     deque<long long> outputs;
-    outputs.push_back(1ll);  
-    processIntCodes(intCodes, outputs);
     if (part == 1) {
-      // initialPhaseSettings = {0,0,0,0,0};
+      outputs.push_back(1ll);  
     } else {
-      // initialPhaseSettings = {5,6,7,8,9};
+      outputs.push_back(2ll);  
     }
+    processIntCodes(intCodes, outputs);
   }
 };
 
