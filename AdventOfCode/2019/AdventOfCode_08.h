@@ -76,7 +76,7 @@ namespace aoc2019_08 {
           int num = imageData[l][h][w];
           if (num != TRANSPARENT) {
             result.back()[h][w] = num;
-            cout << (num == WHITE ? " 0" : " _");
+            cout << (num == WHITE ?"\033[1;31m\033[1;47m 8\033[0m":"\033[1;30m _\033[0m");
             break;
           }
         }
