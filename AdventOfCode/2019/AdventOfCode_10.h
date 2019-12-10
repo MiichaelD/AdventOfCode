@@ -25,11 +25,50 @@
 namespace aoc2019_10 {  
   using namespace std;
 
-  const char ASTEROID = '#';
   const char SPACE = '.';
+  const char ASTEROID = '#';
+  const char BEST_ASTEROID = 'X';
 
   const int DOWN = 1;
-  const int RIGHT = 2;
+  const int LEFT = 2;
+
+  const float EPSILON = 0.0001f;
+
+  struct Result {
+    vector<vector<int>> visibilityMap;
+    pair<int,int> best;
+    int maxVisibility;
+  };
+
+  struct SurroundingAsteroid {
+    float angle;
+    int orientation;
+    int row;
+    int col;
+    SurroundingAsteroid(float a, int o, int r, int c) : angle(a), orientation(o), row(r), col(c) {}
+  };
+
+  // bool sortChingon(const SurroundingAsteroid& a, const SurroundingAsteroid& b) {
+  //   if (a.orientation != b.orientation) {
+  //     return a.orientation < b.orientation;
+  //   }
+  // }
+
+  struct SortChingon {
+    int row, col;
+    SortChingon(int r, int c) : row{r}, col{c} {}
+    bool operator () (const SurroundingAsteroid& a, const SurroundingAsteroid& b) {
+      if (a.orientation != b.orientation) {
+        return a.orientation < b.orientation;
+      }
+      if (fabs(a.angle - b.angle) > EPSILON) {
+        return a.angle - b.angle;
+      }
+      int deltaA = abs(row - a.row) + abs(col - a.col);
+      int deltaB = abs(row - b.row) + abs(col - b.col);
+      return deltaA < deltaB;
+    }
+  };
 
   struct pair_hash {
     template <class T1, class T2>
@@ -45,14 +84,26 @@ namespace aoc2019_10 {
     cout << "Map: " << endl;
     for (const auto &vec: map) {
       for (T c : vec) {
+        if (c == BEST_ASTEROID) {
+          cout << "\033[1;31mX\033[0m";
+        } else {
         cout << c;
+        }
       }
       cout << endl;
     }
   }
 
+  void print(const vector<SurroundingAsteroid> &vec) {
+    cout << "Surrounding Asteroids: " << endl;
+    int index = -1;
+    for (const auto &sa: vec) {
+      cout << "Asteroid " << ++index << ": [x=" << sa.col << ", y=" << sa.row << ']' << endl;
+    }
+  }
+
   inline int getOrientation(int row, int col, int r, int c) {
-    return (r > row ? RIGHT : 0) | (c > col ? DOWN : 0);
+    return (r < row ? LEFT : 0) | (c > col ? DOWN : 0);
   }
 
   int getVisibility(const vector<vector<char>> &map, int row, int col) {
@@ -60,19 +111,18 @@ namespace aoc2019_10 {
       return 0;
     }
     int total = 0;
-    unordered_set<pair<float,int>, pair_hash> visible;
+    unordered_map<pair<float,int>, int, pair_hash> visible;
     // cout << "\tAsteroid [" << row << ", " << col << "]: ";
-    // Direct asteroids;
-    for (int i = 0, c, r; i < 2; ++i) {
+    for (int i = 0, c, r; i < 2; ++i) {  // Direct asteroids;
       for (c = (i == 0 ? col + 1 : col - 1); c >= 0 && c < map[row].size(); i == 0 ? ++c : --c) {
-        if (map[row][c] == ASTEROID) {
+        if (map[row][c] != SPACE) {
           // cout << (i == 0 ? "(right), " : "(left), ");
           ++total;
           break;
         }
       }
       for (r = (i == 0 ? row + 1 : row - 1); r >= 0 && r < map.size(); i == 0 ? ++r : --r) {
-        if (map[r][col] == ASTEROID) {
+        if (map[r][col] != SPACE) {
           // cout << (i == 0 ? "(below), " : "(above), ");
           ++total;
           break;
@@ -81,8 +131,7 @@ namespace aoc2019_10 {
     }
     // cout << total << " Direct Asteroids and ";
 
-    // Angular asteroids.
-    for (int r = 0; r < map.size(); ++r) {
+    for (int r = 0; r < map.size(); ++r) {  // Angular asteroids.
       for (int c = 0; c < map[r].size(); ++c) {
         if ((r == row || c == col) || map[r][c] == SPACE) { continue; }
         int orientation = getOrientation(row, col, r, c);
@@ -90,32 +139,56 @@ namespace aoc2019_10 {
         auto p = make_pair(ratio, orientation);
         if (visible.find(p) == visible.end()) {
           // cout << endl << "\t -> " << r << ", " << c << " is visible";
-          visible.insert(p);
         } else {
           // cout << endl << "\t XX " << r << ", " << c << " is blocked";
         }
+        ++visible[p];
       }
     }
     // cout << visible.size() << " Angular Asteroids." << endl;
-
     return total + visible.size();
   }
 
-  vector<vector<int>> createVisibilityMap(const vector<vector<char>> &map) {
-    vector<vector<int>> result = 
+  Result createVisibilityMap(vector<vector<char>> &map) {
+    Result result;
+    result.visibilityMap = 
         vector<vector<int>>(map.size(), vector<int>(map.back().size(), 0));
+    vector<vector<int>> &visMap = result.visibilityMap;
     int maxVisibility = INT_MIN;
+    pair<int, int> bestLocation;
     for (int r = 0; r < map.size(); ++r) {
       for (int c = 0; c < map[r].size(); ++c) {
-        result[r][c] = getVisibility(map, r, c);
-        maxVisibility = max(maxVisibility, result[r][c]);
+        visMap[r][c] = getVisibility(map, r, c);
+        if (maxVisibility < visMap[r][c]) {
+          maxVisibility = visMap[r][c];
+          bestLocation.first = r;
+          bestLocation.second = c;
+        }
       }
     }
-    cout << maxVisibility << endl;
+    result.best = bestLocation;
+    result.maxVisibility = maxVisibility;
+    map[bestLocation.first][bestLocation.second] = BEST_ASTEROID;
     return result;
   }
 
-  void solve1() {   
+  vector<SurroundingAsteroid> getVaporizatioOrder(const vector<vector<char>> &map, int row, int col) {
+    vector<SurroundingAsteroid> result;
+    for (int r = 0; r < map.size(); ++r) {  // Angular asteroids.
+      for (int c = 0; c < map[r].size(); ++c) {
+        if ((r == row && c == col) || map[r][c] == SPACE) { continue; }
+        int orientation = getOrientation(row, col, r, c);
+        int deltaR = abs(row - r);
+        int deltaC = abs(col - c);
+        float ratio = (deltaR == 0 || deltaC == 0) ? 0 : ((float) deltaR) / deltaC;
+        auto p = make_pair(ratio, orientation);
+        result.emplace_back(ratio, orientation, r, c);
+      }
+    }
+    return result;
+  }
+
+  void solve(int part = 1) {
     string input;
     vector<vector<char>> map;
     while (!cin.eof()){
@@ -125,21 +198,14 @@ namespace aoc2019_10 {
         map.back()[i] = input[i];
       }
     }
+    auto result = createVisibilityMap(map);
     print(map);
-    auto visibilityMap = createVisibilityMap(map);
-  }
-
-  void solve2() {    
-    
-  }
-
-  void solve(int part = 1) {
-    using namespace std;
-    if (part == 1) {
-      solve1();
-    } else {
-      solve2();
-    }
+    cout << "Asteroid [x=" << result.best.second << ", y=" << result.best.first;
+    cout << "] visibility: " << result.maxVisibility << endl;
+    auto vaporizationOrder = getVaporizatioOrder(map, result.best.first, result.best.second);
+    sort(vaporizationOrder.begin(), vaporizationOrder.end(),
+         SortChingon(result.best.first, result.best.second));
+    // print(vaporizationOrder);
   }
 };
 
