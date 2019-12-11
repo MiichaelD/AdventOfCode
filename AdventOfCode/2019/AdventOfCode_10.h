@@ -85,7 +85,7 @@ namespace aoc2019_10 {
     for (const auto &vec: map) {
       for (T c : vec) {
         if (c == BEST_ASTEROID) {
-          cout << "\033[1;31mX\033[0m";
+          cout << "\033[1;31m\033[1;47mX\033[0m";
         } else {
         cout << c;
         }
