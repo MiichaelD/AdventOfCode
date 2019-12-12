@@ -37,6 +37,9 @@ namespace aoc2019_11 {
   const int POS_MODE = 0;
   const int IMM_MODE = 1;
   const int REL_MODE = 2;
+
+  const int BLACK = 0;
+  const int WHITE = 1;
   
   const int ORIENTATION_LEFT = 0;
   const int ORIENTATION_RIGHT = 1;
@@ -49,7 +52,8 @@ namespace aoc2019_11 {
   }
   
   class Robot {
-    int x,y;
+    int x = 0, y = 0;
+    int minX = 0, maxX = 0, minY = 0, maxY = 0;
     int orientation;
     int totalPanels = 0;
     unordered_map<pair<int,int>, int, pair_hash> paintedCoords;
@@ -68,24 +72,32 @@ namespace aoc2019_11 {
     }
 
     int getColor() const {
-      auto findRes = paintedCoords.find(getCoords());
-      if (findRes != paintedCoords.end()){
-        return findRes->second;
-      }
-      return 0; // black by default
+      return getColorAt(getCoords());
     }
 
     unordered_map<pair<int,int>, int, pair_hash> getPaintedPanels() const {
       return paintedCoords;  // copy
     }
 
+    void paint(int color, const pair<int,int> &p) {
+      paintedCoords[p] = color;
+    }
+
     void paint(int color) {
-      // auto pos = getCoords();
-      // auto findRes = paintedCoords.find(pos);
-      // if (findRes == paintedCoords.end()){
-      //    cout << "New position saved: "; print(pos); cout << "- Total " << ++totalPanels << endl;
-      // }
-      paintedCoords[getCoords()] = color;
+      paint(color, getCoords());
+    }
+
+    void print() {
+      cout << "Printing: [" << maxX - minX << ", " << maxY - minY << "]" << endl;
+      for (int j = minY; j <= maxY; ++j) {
+        for (int i = minX; i <= maxX; ++i) {
+          pair<int,int> pos = make_pair(i,j);
+          int color = getColorAt(pos);
+          cout << (color == BLACK ? "\033[1;31m\033[1;47m  \033[0m" : "\033[1;30m _\033[0m");
+          // cout << (color == BLACK ? " X" : " _");
+        }
+        cout << endl;
+      }
     }
     
     void move(int direction) {
@@ -105,10 +117,10 @@ namespace aoc2019_11 {
       }
 
       switch (orientation) {
-      case ORIENTATION_LEFT: --x; break;
-      case ORIENTATION_RIGHT: ++x; break;
-      case ORIENTATION_UP: --y; break;
-      case ORIENTATION_DOWN: ++y; break;
+      case ORIENTATION_LEFT:  --x; minX = min(minX,x); break;
+      case ORIENTATION_RIGHT: ++x; maxX = max(maxX,x); break;
+      case ORIENTATION_UP:    --y; minY = min(minY,y); break;
+      case ORIENTATION_DOWN:  ++y; maxY = max(maxY,y); break;
       }
     }
   };
@@ -255,7 +267,9 @@ namespace aoc2019_11 {
       robot.paint(1); // start at white panel
     }
     processIntCodes(intCodes, outputs);
-    cout << "Panels painted: " << robot.getPaintedPanels().size() << endl; 
+    auto paintedPanels = robot.getPaintedPanels();
+    robot.print();
+    cout << "Panels painted: " << paintedPanels.size() << endl; 
   }
 };
 
