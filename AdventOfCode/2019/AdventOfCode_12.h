@@ -28,10 +28,10 @@ namespace aoc2019_12 {
   const int MAX_STEPS = 2780;
 
   class Moon {
-    int vx = 0, vy = 0, vz = 0;
+    int64_t vx = 0, vy = 0, vz = 0;
     unordered_set<string> states;
     public:
-    int x = 0, y = 0, z = 0;
+    int64_t x = 0, y = 0, z = 0;
     Moon(int x1, int y1, int z1) : x(x1), y(y1), z(z1) { 
       saveState();
     }
@@ -41,7 +41,7 @@ namespace aoc2019_12 {
       cout << "Vel=[x=" << vx << ", y= " << vy << ", z= " << vz << "]" << endl;
     }
 
-    void applyGravity(int vx1, int vy1, int vz1) {
+    void applyGravity(int64_t vx1, int64_t vy1, int64_t vz1) {
       vx += vx1;
       vy += vy1;
       vz += vz1;
@@ -105,7 +105,7 @@ namespace aoc2019_12 {
 
   bool doStep(vector<Moon> &moons, unordered_set<string> &systemStates) {
     for (int i = 0; i < moons.size(); ++i) {
-      int vx = 0, vy = 0, vz = 0;
+      int64_t vx = 0, vy = 0, vz = 0;
       for (int j = 0; j < moons.size(); ++j) {
         if (i == j) continue;
         vx += getVelocity(moons[i].x, moons[j].x);
@@ -114,7 +114,6 @@ namespace aoc2019_12 {
       }
       moons[i].applyGravity(vx, vy, vz);
     }
-    int repeatedStates = 0;
     stringstream systemStateSs;
     for (auto &moon : moons) {
       moon.applyVelocity();
