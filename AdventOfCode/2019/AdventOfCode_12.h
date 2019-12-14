@@ -25,52 +25,134 @@
 namespace aoc2019_12 {  
   using namespace std;
 
+  const int MAX_STEPS = 2780;
+
   class Moon {
-    int x, y, z;
-    Moon() : x(0), y(0), z(0) { }
-    Moon(int x1, int y1, int z1) : x(x1), y(y1), z(z1) { }
+    int vx = 0, vy = 0, vz = 0;
+    unordered_set<string> states;
+    public:
+    int x = 0, y = 0, z = 0;
+    Moon(int x1, int y1, int z1) : x(x1), y(y1), z(z1) { 
+      saveState();
+    }
+
+    void print() const {
+      cout << "Pos=[x= " << x << ", y= " << y << ", z= " << z << "]\t";
+      cout << "Vel=[x=" << vx << ", y= " << vy << ", z= " << vz << "]" << endl;
+    }
+
+    void applyGravity(int vx1, int vy1, int vz1) {
+      vx += vx1;
+      vy += vy1;
+      vz += vz1;
+    }
+
+    void applyVelocity() {
+      x += vx;
+      y += vy;
+      z += vz;
+    }
+
+    string getState() const {
+      stringstream ss;
+      ss << "x=" << x << " y=" << y << " z=" << z << " vx=" << vx << " vy=" << vy << " vz=" << vz;
+      return ss.str();
+    }
+
+    void saveState() {
+      // string state = getState();
+      // if (states.find(state) != states.end()) {
+      //   cout << "\t\033[1;31m\033[1;47m Duplicate found! \033[0m" << state << endl;
+      // }
+      states.insert(getState());
+    }
+
+    bool isStateRepeated() {
+      return states.find(getState()) != states.end();
+    }
+
+    long long getPotencialEnergy() const {
+      return abs(x) + abs(y) + abs(z);
+    }
+
+    long long getKineticEnergy() const {
+      return abs(vx) + abs(vy) + abs(vz);
+    }
+
+    long long getTotalEnergy() const {
+      return getPotencialEnergy() * getKineticEnergy();
+    }
   };
 
-  Moon createMoonFromInput(const string &input) {
-    Moon moon;
-    int aux = 0;
-    bool parsingNumber = false;
-    for (int i = 0 ; i < input.size(); ++i) {
-      if (isDigit(input[i])) {
-        aux *= 10;
-        aux += input[i] - '0';
-      }
-    } 
-    return moon;
+  inline int getVelocity(int v1, int v2) {
+    if (v1 == v2) {
+      return 0;
+    }
+    return (v1 < v2) ? 1 : -1 ;
   }
-
 
   vector<Moon> createMoons() {
     string input;
     vector<Moon> moons;
+    int x, y, z;
     while (!cin.eof()) {
-      cin >> input;
-      moons.push_back(createMoonFromInput(input));
+      getline(cin, input);
+      sscanf(input.c_str(), "<x=%d, y=%d, z=%d>", &x, &y, &z);
+      moons.emplace_back(x, y, z);
     }
     return moons;
   }
 
-  void solve1() {   
-    vector<Moon> moons = createMoons();
-    
+  bool doStep(vector<Moon> &moons, unordered_set<string> &systemStates) {
+    for (int i = 0; i < moons.size(); ++i) {
+      int vx = 0, vy = 0, vz = 0;
+      for (int j = 0; j < moons.size(); ++j) {
+        if (i == j) continue;
+        vx += getVelocity(moons[i].x, moons[j].x);
+        vy += getVelocity(moons[i].y, moons[j].y);
+        vz += getVelocity(moons[i].z, moons[j].z);
+      }
+      moons[i].applyGravity(vx, vy, vz);
+    }
+    int repeatedStates = 0;
+    stringstream systemStateSs;
+    for (auto &moon : moons) {
+      moon.applyVelocity();
+      moon.print();
+      systemStateSs << moon.getState() << endl;
+      moon.saveState();
+    }
+    string systemState = systemStateSs.str();
+    if (systemStates.find(systemState) != systemStates.end()) {
+      cout << "\tState repeated: " << systemState << endl;
+      return true;
+    }
+    systemStates.insert(systemState);
+    return false;
   }
 
-  void solve2() {    
-    
+  long long getTotalEnergy(const vector<Moon> &moons) {
+    long long res = 0;
+    for (auto &moon : moons) {
+      res += moon.getTotalEnergy();
+    }
+    return res;
   }
 
   void solve(int part = 1) {
-    using namespace std;
-    if (part == 1) {
-      solve1();
-    } else {
-      solve2();
+    vector<Moon> moons = createMoons();
+    unordered_set<string> systemStates;
+    for (const Moon &moon : moons) {
+      moon.print();
     }
+    cout << endl;
+    for (int step = 1; step <= MAX_STEPS; ++step) {
+      cout << "Step " << step << ": " << endl;
+      if (doStep(moons, systemStates)) {
+        break;
+      }
+    }
+    cout << "Total Energy: " << getTotalEnergy(moons) << endl;
   }
 };
 
