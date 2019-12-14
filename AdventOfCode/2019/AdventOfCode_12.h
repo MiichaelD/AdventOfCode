@@ -25,9 +25,38 @@
 namespace aoc2019_12 {  
   using namespace std;
 
-  void solve1() {   
+  class Moon {
+    int x, y, z;
+    Moon() : x(0), y(0), z(0) { }
+    Moon(int x1, int y1, int z1) : x(x1), y(y1), z(z1) { }
+  };
+
+  Moon createMoonFromInput(const string &input) {
+    Moon moon;
+    int aux = 0;
+    bool parsingNumber = false;
+    for (int i = 0 ; i < input.size(); ++i) {
+      if (isDigit(input[i])) {
+        aux *= 10;
+        aux += input[i] - '0';
+      }
+    } 
+    return moon;
+  }
+
+
+  vector<Moon> createMoons() {
     string input;
-    cin >> input;
+    vector<Moon> moons;
+    while (!cin.eof()) {
+      cin >> input;
+      moons.push_back(createMoonFromInput(input));
+    }
+    return moons;
+  }
+
+  void solve1() {   
+    vector<Moon> moons = createMoons();
     
   }
 
