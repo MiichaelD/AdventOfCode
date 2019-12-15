@@ -24,7 +24,6 @@
 
 namespace aoc2019_13 {  
   
-
   using namespace std;
 
   struct pair_hash {
@@ -52,6 +51,40 @@ namespace aoc2019_13 {
   template<class T>
   inline void print(const pair<T,T> &p) {
     cout << "[" << p.first << ", " << p.second << "] ";
+  }
+
+  void printTiles(const unordered_map<pair<int,int>, int, pair_hash>  &tiles) {
+    int minX = 0, maxX = 0, minY = 0, maxY = 0;
+    for (const auto &entry : tiles) {
+      minX = min(minX, entry.first.first);
+      maxX = max(maxX, entry.first.first);
+      minY = min(minY, entry.first.second);
+      maxY = max(maxY, entry.first.second);
+      // cout << "Tile " << i++ << ": @ "; print(entry.first); cout << " => " << entry.second << endl; 
+    }
+    cout << "Printing: [" << maxX - minX << ", " << maxY - minY << "]" << endl;
+      for (int j = minY; j <= maxY; ++j) {
+        for (int i = minX; i <= maxX; ++i) {
+          pair<int,int> pos = make_pair(i,j);
+          auto tile = tiles.find(pos);
+          if (tile == tiles.end() || tile->second == EMPTY_TILE) {
+            cout << "  ";
+            continue;
+          }
+          switch (tile->second) {
+            case WALL_TILE:
+            cout << "\033[1;30m\033[1;47m  \033[0m"; break;
+            case BLOCK_TILE:
+            cout << "\033[1;30m\033[1;46m  \033[0m"; break;
+            case HOR_PADDLE_TILE:
+            cout << "\033[1;30m\033[1;43m P\033[0m"; break;
+            case BALL_TILE:
+            cout << "\033[1;34m\033[1;41m B\033[0m"; break;
+          }
+          // cout << (color == BLACK ? " X" : " _");
+        }
+        cout << endl;
+      }
   }
 
   struct Tile {
@@ -129,8 +162,8 @@ namespace aoc2019_13 {
       int y = outputs[n - 2];
       int aux = outputs[n - 1];
       if (x == -1 && y == 0) {
-        cout << "Player's Score: " << aux << endl;
         score = aux;
+        // printTiles(tiles);
       } else {
         tiles[make_pair(x, y)] = aux;
         if (aux == BALL_TILE) {
@@ -163,7 +196,7 @@ namespace aoc2019_13 {
           if (ballX < paddleX) aux1 = -1;
           else if (ballX > paddleX) aux1 = 1;
           else aux1 = 0;
-          cout << "Input: " << aux1 << ", BallX: " << ballX << ", PaddleX: " << paddleX << endl;
+          // cout << "Input: " << aux1 << ", BallX: " << ballX << ", PaddleX: " << paddleX << endl;
           setValue(intCodes, pc + 1, param[0], aux1);
           // outputs.pop_front();
           pc += 2;
@@ -209,7 +242,7 @@ namespace aoc2019_13 {
     }
   }
 
-  size_t countTiles(const unordered_map<pair<int,int>, int, pair_hash>  &tiles, const int type) {
+  size_t countTiles(const unordered_map<pair<int,int>, int, pair_hash> &tiles, const int type) {
     size_t tileCount = 0;
     int i = 0; 
     for (const auto &entry : tiles) {
@@ -225,15 +258,15 @@ namespace aoc2019_13 {
     using namespace std;
     string input;
     cin >> input;
-    vector<long long> intCodes = getIntCodes(input);
-    deque<long long> outputs;
+    vector<int64_t> intCodes = getIntCodes(input);
+    deque<int64_t> outputs;
     if (part == 2) {
       intCodes[0] = 2;
     }
     processIntCodes(intCodes, outputs);
+    printTiles(tiles);
     cout << "Block tiles: " << countTiles(tiles, BLOCK_TILE) << endl;
     cout << "Player's score: " << score << endl;
-    // cout << "Panels painted: " << paintedPanels.size() << endl; 
   }
 };
 
