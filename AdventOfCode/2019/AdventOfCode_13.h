@@ -62,6 +62,7 @@ namespace aoc2019_13 {
   };
 
   long long relativeBase = 0;
+  int ballX, paddleX, score = 0;
   unordered_map<pair<int,int>, int, pair_hash> tiles;
 
   void printIntCodes(const vector<int> &intCodes) {
@@ -124,7 +125,20 @@ namespace aoc2019_13 {
   void processOutputs(deque<long long> &outputs) {
     int n = outputs.size();
     if ((n % 3) == 0) {
-      tiles[make_pair(outputs[n - 3], outputs[n - 2])] =  outputs[n - 1];      
+      int x = outputs[n - 3];
+      int y = outputs[n - 2];
+      int aux = outputs[n - 1];
+      if (x == -1 && y == 0) {
+        cout << "Player's Score: " << aux << endl;
+        score = aux;
+      } else {
+        tiles[make_pair(x, y)] = aux;
+        if (aux == BALL_TILE) {
+          ballX = x;
+        } else if (aux == HOR_PADDLE_TILE) {
+          paddleX = x;
+        }
+      }
     }
   }
 
@@ -146,8 +160,12 @@ namespace aoc2019_13 {
           pc += 4;
           break;
         case 3: // Input
-          setValue(intCodes, pc + 1, param[0], outputs.front());
-          outputs.pop_front();
+          if (ballX < paddleX) aux1 = -1;
+          else if (ballX > paddleX) aux1 = 1;
+          else aux1 = 0;
+          cout << "Input: " << aux1 << ", BallX: " << ballX << ", PaddleX: " << paddleX << endl;
+          setValue(intCodes, pc + 1, param[0], aux1);
+          // outputs.pop_front();
           pc += 2;
           break;
         case 4:  // Output
@@ -192,15 +210,15 @@ namespace aoc2019_13 {
   }
 
   size_t countTiles(const unordered_map<pair<int,int>, int, pair_hash>  &tiles, const int type) {
-    size_t emptyCount = 0;
+    size_t tileCount = 0;
     int i = 0; 
     for (const auto &entry : tiles) {
-      cout << "Tile " << i++ << ": @ "; print(entry.first); cout << " => " << entry.second << endl; 
+      // cout << "Tile " << i++ << ": @ "; print(entry.first); cout << " => " << entry.second << endl; 
       if (entry.second == type) {
-        ++emptyCount;
+        ++tileCount;
       }
     }
-    return emptyCount;
+    return tileCount;
   }
 
   void solve(int part = 1) {
@@ -213,7 +231,8 @@ namespace aoc2019_13 {
       intCodes[0] = 2;
     }
     processIntCodes(intCodes, outputs);
-    cout << "Empty tiles: " << countTiles(tiles, BLOCK_TILE) << endl;
+    cout << "Block tiles: " << countTiles(tiles, BLOCK_TILE) << endl;
+    cout << "Player's score: " << score << endl;
     // cout << "Panels painted: " << paintedPanels.size() << endl; 
   }
 };
