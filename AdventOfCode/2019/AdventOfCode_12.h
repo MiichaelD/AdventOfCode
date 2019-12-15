@@ -32,7 +32,7 @@ namespace aoc2019_12 {
     unordered_set<string> states;
     public:
     int64_t x = 0, y = 0, z = 0;
-    Moon(int x1, int y1, int z1) : x(x1), y(y1), z(z1) { 
+    Moon(int64_t x1, int64_t y1, int64_t z1) : x(x1), y(y1), z(z1) { 
       saveState();
     }
 
@@ -71,20 +71,20 @@ namespace aoc2019_12 {
       return states.find(getState()) != states.end();
     }
 
-    long long getPotencialEnergy() const {
+    int64_t getPotencialEnergy() const {
       return abs(x) + abs(y) + abs(z);
     }
 
-    long long getKineticEnergy() const {
+    int64_t getKineticEnergy() const {
       return abs(vx) + abs(vy) + abs(vz);
     }
 
-    long long getTotalEnergy() const {
+    int64_t getTotalEnergy() const {
       return getPotencialEnergy() * getKineticEnergy();
     }
   };
 
-  inline int getVelocity(int v1, int v2) {
+  inline int64_t getVelocity(int64_t v1, int64_t v2) {
     if (v1 == v2) {
       return 0;
     }
@@ -94,10 +94,10 @@ namespace aoc2019_12 {
   vector<Moon> createMoons() {
     string input;
     vector<Moon> moons;
-    int x, y, z;
+    int64_t x, y, z;
     while (!cin.eof()) {
       getline(cin, input);
-      sscanf(input.c_str(), "<x=%d, y=%d, z=%d>", &x, &y, &z);
+      sscanf(input.c_str(), "<x=%lld, y=%lld, z=%lld>", &x, &y, &z);
       moons.emplace_back(x, y, z);
     }
     return moons;
