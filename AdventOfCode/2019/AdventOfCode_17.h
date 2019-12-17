@@ -179,7 +179,7 @@ namespace aoc2019_17 {
           break;
         case 4:  // Output
           aux1 = getValue(intCodes, pc + 1, param[0]);
-          if (inputs.size() == -1 || aux1 > 127) {
+          if (aux1 > 127) {
             cout << ' ' << aux1;
           } else {
             cout << ' ' << (char) aux1;
@@ -344,8 +344,7 @@ namespace aoc2019_17 {
     string input;
     cin >> input;
     vector<int> intCodes = getIntCodes<int>(input);
-    deque<int> inputs;
-    deque<int> outputs;
+    deque<int> inputs, outputs;
     part = 1;
     if (part == 1) {
       processIntCodes(intCodes, inputs, outputs);
