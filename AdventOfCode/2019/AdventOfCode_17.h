@@ -177,7 +177,7 @@ namespace aoc2019_17 {
             setValue(intCodes, pc + 1, param[0], 0);
           } else {
             aux1 = ++inputIndex < inputs.size() ? inputs[inputIndex] : 0;
-            cout << static_cast<char>(aux1);            
+            cout << static_cast<char>(aux1) << std::flush;  
             setValue(intCodes, pc + 1, param[0], aux1);
           }
           pc += 2;
@@ -188,9 +188,9 @@ namespace aoc2019_17 {
             outputs.push_back(aux1);
           } else {
             if (aux1 > 127) {
-              cout << " " << aux1;
+              cout << " " << aux1 << std::flush;
             } else {
-              cout << " " << static_cast<char>(aux1);
+              cout << " " << static_cast<char>(aux1) << std::flush;
             }
           }
           pc += 2;
