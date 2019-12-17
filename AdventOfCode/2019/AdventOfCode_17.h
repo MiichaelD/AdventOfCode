@@ -67,7 +67,7 @@ namespace aoc2019_17 {
   const int N = 'n';  // no
 
   pair<int,int> robotPos;
-  int64_t relativeBase = 0;
+  int relativeBase = 0;
 
   template<class T>
   inline void printPair(const pair<T,T> &p) {
@@ -82,6 +82,14 @@ namespace aoc2019_17 {
     cout << endl;
   }
 
+  template<class T>
+  void printDeque(const deque<T> &deque) {
+    for (const T &ele : deque) {
+      cout << ele << ", ";
+    }
+    cout << endl;
+  }
+
   void printMap(const vector<vector<char>> &map) {
     for (int y = 0; y < map.size(); ++y) {
       for (int x = 0; x < map.back().size(); ++x) {
@@ -91,11 +99,12 @@ namespace aoc2019_17 {
     }
   }
 
-  vector<int64_t> getIntCodes(const string &input) {
-    vector<int64_t> intCodes;
-    int64_t aux = 0;
+  template<class T>
+  vector<T> getIntCodes(const string &input) {
+    vector<T> intCodes;
+    T aux = 0;
     bool negative = false;
-    for (int i = 0 ; i < input.length(); ++i) {
+    for (size_t i = 0 ; i < input.length(); ++i) {
       if (input[i] == '-') {
         negative = true;
       } else if (input[i] == ',') {
@@ -331,50 +340,29 @@ namespace aoc2019_17 {
     cout << endl << "Total Steps: " << totalSteps << endl;;
   }
 
-  template<class T>
-  void printDeque(const deque<T> &deque) {
-    for (const T &ele : deque) {
-      cout << ele << ", ";
-    }
-    cout << endl;
-  }
-
   void solve(int part = 1) {
     string input;
     cin >> input;
-    vector<int64_t> intCodes = getIntCodes(input);
-    deque<int64_t> inputs;
-    deque<int64_t> outputs;
-    // part = 1;
+    vector<int> intCodes = getIntCodes<int>(input);
+    deque<int> inputs;
+    deque<int> outputs;
+    part = 1;
     if (part == 1) {
       processIntCodes(intCodes, inputs, outputs);
       auto map = generateMap(outputs);
       cout << "Outputs size: " << outputs.size() << endl;
-      auto intersections = getIntersections(map);
-      int64_t intersectionsSum = getSumOfIntersectionCoords(intersections);
-      cout << "Sum of intersections: " << intersectionsSum << endl;
+      // auto intersections = getIntersections(map);
+      // auto intersectionsSum = getSumOfIntersectionCoords(intersections);
+      // cout << "Sum of intersections: " << intersectionsSum << endl;
+      // printPath(map);
     } else if (part == 2) {
       string inputStr = "A,B,A,C,B,C,B,A,C,BEL,10,L,6,R,10ER,6,R,8,R,8,L,6,R,8EL,10,R,8,R,8,L,10EnE";
-      
       for (char c : inputStr) {
         inputs.push_back(c == 'E' ? 10 : (int) c);
       }
       intCodes[0] = 2;
-      // inputs = {0};
-      //   A,COMMA,B,COMMA,A,COMMA,C,COMMA,C,COMMA,A,COMMA,C,EOL, // MAIN ROUTINE
-      //   L,'1','0',COMMA,L,'6',COMMA,R,'1','0',EOL, // A  
-      //   R,'6',COMMA,R,'8',COMMA,R,'8',COMMA,L,'6',COMMA,R,'8',EOL, // B
-      //   L,'1','0',COMMA,R,'8',COMMA,R,'8',COMMA,L,'1','0',COMMA,R,'6',COMMA,R,'8',COMMA,R,'8',COMMA,L,'6',COMMA,R,'8',EOL,// C
-      //   N,EOL
-      // };
-      // printDeque(inputs);
       processIntCodes(intCodes, inputs, outputs);
-      auto map = generateMap(outputs);
-      // cout << "Outputs size: " << outputs.size() << endl;
-      // auto intersections = getIntersections(map);
-      // int64_t intersectionsSum = getSumOfIntersectionCoords(intersections);
-      // cout << "Sum of intersections: " << intersectionsSum << endl;
-      // printPath(map);
+      cout << "Outputs size: " << outputs.size() << endl;
     }
   }
 };
