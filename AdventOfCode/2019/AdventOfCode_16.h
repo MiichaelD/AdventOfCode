@@ -26,6 +26,7 @@ namespace aoc2019_16 {
   using namespace std;
 
   const int TOTAL_PHASES = 100;
+  const int OFFSET_DIGITS = 7;
 
   template<class T>
   void printVector(const vector<T> &vec) {
@@ -37,10 +38,19 @@ namespace aoc2019_16 {
   }
 
   template<class T>
-  inline void printFirstKelements(const vector<T> &vec, int k) {
-    for (int i = 0 ; i < k && i < vec.size(); ++i) {
+  inline void printFirstKelements(const vector<T> &vec, int k, int offset = 0) {
+    for (int i = offset ; i < k && i < vec.size(); ++i) {
       cout << vec[i];
     }
+  }
+
+  inline int getOffsetFromSignal(const vector<int> &signal) {
+    int result = 0;
+    for (int i = 0 ; i < OFFSET_DIGITS; ++i) {
+      result *= 10;
+      result += signal[i];
+    }
+    return result;
   }
 
   vector<int> getSignal(const string &input) {
@@ -51,7 +61,7 @@ namespace aoc2019_16 {
     return signal;
   }
 
-  int getPatternElement(const vector<int> &pattern, int index) {
+  inline int getPatternElement(const vector<int> &pattern, int index) {
     // Skip the first one, cyclic iterations.
     return pattern.at((index + 1) % pattern.size());
   }
@@ -96,30 +106,25 @@ namespace aoc2019_16 {
     }
     return output;
   }
-  
 
-  void solve1() {   
+  void solve(int part = 1) {
     const vector<int> initialPattern = {0, 1, 0, -1};
     string input;
     cin >> input;
     vector<int> signal = getSignal(input);
-    vector<int> result = computePhases(signal, initialPattern, TOTAL_PHASES);
-
-    cout << "Result for "; printVector(signal); cout << " after " << TOTAL_PHASES;
-    cout << " iterations is: " << endl; printVector(result);
-    cout << endl << "First 8 digits: "; printFirstKelements(result, 8); cout << endl;
-    
-  }
-
-  void solve2() {    
-    
-  }
-
-  void solve(int part = 1) {
-    if (part == 1) {
-      solve1();
-    } else {
-      solve2();
+    if (part == 1) {}
+      vector<int> result = computePhases(signal, initialPattern, TOTAL_PHASES);
+      cout << "Result for "; printVector(signal); cout << " after " << TOTAL_PHASES;
+      cout << " iterations is: " << endl; printVector(result);
+      cout << endl << "First 8 digits are :" << endl;
+      printFirstKelements(result, 8); cout << endl;
+    if (part == 2) {
+      int offset = getOffsetFromSignal(signal);
+      vector<int> result = computePhases(signal, initialPattern, TOTAL_PHASES);
+      cout << "Result for "; printVector(signal); cout << " after " << TOTAL_PHASES;
+      cout << " iterations is: " << endl; printVector(result);
+      cout << endl << "First 8 digits with an offset of " << offset << " are :" << endl;
+      // printFirstKelements(result, 8, offset); cout << endl;
     }
   }
 };
