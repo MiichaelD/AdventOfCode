@@ -156,6 +156,7 @@ namespace aoc2019_17 {
   template<class T>
   bool processIntCodes(vector<T> &intCodes, deque<T> &inputs, deque<T> &outputs, int part = 1) {
     T intCode, aux1, aux2; 
+    size_t inputIndex = -1;
     for (size_t pc = 0;;) {
       intCode = intCodes[pc];
       int param[3] = {0, 0, 0};
@@ -172,12 +173,12 @@ namespace aoc2019_17 {
           pc += 4;
           break;
         case 3: // Input
-          if (part == 1) {
-            setValue(intCodes, pc + 1, param[0], inputs.front());
+          if (part == 1 || inputs.empty()) {
+            setValue(intCodes, pc + 1, param[0], 0);
           } else {
-            cout << static_cast<char>(inputs.front());            
-            setValue(intCodes, pc + 1, param[0], inputs.front());
-            inputs.pop_front();
+            aux1 = ++inputIndex < inputs.size() ? inputs[inputIndex] : 0;
+            cout << static_cast<char>(aux1);            
+            setValue(intCodes, pc + 1, param[0], aux1);
           }
           pc += 2;
           break;
@@ -352,7 +353,6 @@ namespace aoc2019_17 {
     cin >> input;
     vector<int> intCodes = getIntCodes<int>(input);
     deque<int> inputs, outputs;
-    part = 2;
     if (part == 1) {
       processIntCodes(intCodes, inputs, outputs, part);
       auto map = generateMap(outputs);
