@@ -48,6 +48,23 @@ namespace aoc2019_17 {
   const int SOUTH = 2;
   const int WEST = 3;
   const int EAST = 4;
+  
+  const int LEFT = 5;
+  const int RIGHT = 6;
+
+  const int EOL = 10;
+  const int SCAFFOLD = '#';
+  const int SPACE = '.';
+  const int COMMA = ',';
+  
+  const int A = 'A';  // Movement functions
+  const int B = 'B';
+  const int C = 'C';
+
+  const int L = 'L';  // left
+  const int R = 'R';  // right
+  const int Y = 'y';  // yes
+  const int N = 'n';  // no
 
   pair<int,int> robotPos;
 
@@ -115,7 +132,7 @@ namespace aoc2019_17 {
     }
   }
 
-  bool processIntCodes(vector<int64_t> &intCodes, deque<int> &outputs) {
+  bool processIntCodes(vector<int64_t> &intCodes, deque<int> &inputs, deque<int> &outputs) {
     int64_t intCode;
     int aux1, aux2; 
     for (int pc = 0;;) {
@@ -134,7 +151,9 @@ namespace aoc2019_17 {
           pc += 4;
           break;
         case 3: // Input
-          setValue(intCodes, pc + 1, param[0], 0);
+          cout << "\tInput: " << inputs.front() << ". Remaining: " << inputs.size() << endl;
+          setValue(intCodes, pc + 1, param[0], inputs.front());
+          inputs.pop_front();
           pc += 2;
           break;
         case 4:  // Output
@@ -176,26 +195,41 @@ namespace aoc2019_17 {
     }
   }
 
+  void printMap(const vector<vector<char>> &map) {
+    for (int y = 0; y < map.size(); ++y) {
+      for (int x = 0; x < map.back().size(); ++x) {
+        cout << ' ' << map[y][x];
+      }
+      cout << endl;
+    }
+  }
+
   vector<vector<char>> generateMap( deque<int> &outputs) {
     vector<vector<char>> result;
     result.emplace_back(vector<char>());
+    int scaffoldPieces = 0;
     for (int i : outputs) {
       char c = (char) i;
-      cout << c;
-      if (i == 10) {
-        result.emplace_back(vector<char>());
-      } else {
-        if (c == '^' || c == '>'  || c == '<'  || c == 'v' ) {
-          robotPos = make_pair(result.back().size(), result.size() - 1);
-        }
-        result.back().push_back(c);
+      cout << ' ' <<  c;
+      switch(i) {
+        case 10: result.emplace_back(vector<char>()); break;
+        case '^':
+        case '>':
+        case '<':
+        case 'v': 
+          robotPos = make_pair(result.back().size(), result.size() - 1);  // X, Y
+          result.back().push_back(c);
+          break;
+        case SCAFFOLD: 
+          ++scaffoldPieces;   // Fall through
+        default:
+          result.back().push_back(c);break;
       }
     }
-    
     while (!result.back().size()) {
       result.pop_back();
     }
-    cout << "Robot found in position [x, y] = "; 
+    cout << "There are " << scaffoldPieces << " scaffold pieces. Robot found in position [x, y] = "; 
     printPair(robotPos); cout << endl;
     return result;
   }
@@ -204,8 +238,8 @@ namespace aoc2019_17 {
     vector<pair<int,int>> result;
     for (int y = 1; y < (map.size() -1); ++y) {
       for (int x = 1; x < (map.back().size() - 1); ++x) {
-        if (map[y][x] == '#' && map[y-1][x] == '#' && map[y+1][x] == '#' && map[y][x-1] == '#'
-            && map[y][x+1] == '#') {
+        if (map[y][x] == SCAFFOLD && map[y-1][x] == SCAFFOLD && map[y+1][x] == SCAFFOLD
+            && map[y][x-1] == SCAFFOLD && map[y][x+1] == SCAFFOLD) {
           result.push_back(make_pair(x,y));
         } 
       }
@@ -217,33 +251,104 @@ namespace aoc2019_17 {
     int64_t result = 0;
     for (const auto &p : intersections) {
       result += p.first * p.second;
-      cout << "Intersection: "; printPair(p); cout << " -> total: " << result << endl;
+      // cout << "Intersection: "; printPair(p); cout << " -> total: " << result << endl;
     }
     return result;
   }
 
-  void solve1(int part = 1) {
-    string input;
-    cin >> input;
-    vector<int64_t> intCodes = getIntCodes(input);
-    deque<int> outputs;
-    if (part == 2) { }
-    processIntCodes(intCodes, outputs);
-    auto map = generateMap(outputs);
-    auto intersections = getIntersections(map);
-    int64_t intersectionsSum = getSumOfIntersectionCoords(intersections);
-    cout << "Sum of intersections: " << intersectionsSum << endl;
+  pair<int,int> findNextOrientation(
+    const vector<vector<char>> &map, const pair<int,int> &pos, int curOrient) {
+      int x = pos.first, y = pos.second;
+    if (curOrient != NORTH && y+1 < map.size() && map[y+1][x] == SCAFFOLD) { // Try Down;
+      // cout << "\tSOUTH!" << endl;
+      return make_pair(SOUTH, curOrient == WEST ? LEFT : RIGHT);
+    }
+    if (curOrient != SOUTH && y-1 >= 0 && map[y-1][x] == SCAFFOLD) { // Try Up;
+      // cout << "\tNORTH!" << endl;
+      return make_pair(NORTH, curOrient == WEST ? RIGHT : LEFT);
+    }
+    if (curOrient != WEST && x+1 < map.back().size() && map[y][x+1] == SCAFFOLD) { // Try East;
+      // cout << "\tEast!" << endl;
+      return make_pair(EAST, curOrient == SOUTH ? LEFT : RIGHT);
+    }
+    if (curOrient != EAST && x-1 >= 0 && map[y][x-1] == SCAFFOLD) { // Try West;
+      // cout << "\tWest!" << endl;
+      return make_pair(WEST, curOrient == SOUTH ? RIGHT : LEFT);
+    }
+    return make_pair(-1,-1); // Nowhere to go.
   }
 
-  void solve2() {    
-    
+  int getStepsCount(const vector<vector<char>> &map, pair<int,int> &pos, int curOrient) {
+    int steps = 0;
+    int x = pos.first, y = pos.second;
+    switch(curOrient) {
+      case NORTH: 
+        for (--y; y >= 0 && map[y][x] == SCAFFOLD; --y, ++steps);
+        ++y;
+        break;
+      case WEST:
+        for (--x; x >= 0 && map[y][x] == SCAFFOLD; --x, ++steps);
+        ++x;
+        break;
+      case SOUTH:
+        for (++y; y < map.size() && map[y][x] == SCAFFOLD; ++y, ++steps);
+        --y;
+        break;
+      case EAST:
+        for (++x; x < map.back().size() && map[y][x] == SCAFFOLD; ++x, ++steps);
+        --x;
+        break;
+    }
+    pos = make_pair(x, y);
+    return steps;
+  }
+
+  void printPath(const vector<vector<char>> &map) {
+    pair<int,int> pos = robotPos;
+    int totalSteps = 0, steps, orientation = NORTH, direction; // direction == where to turn;
+    unordered_set<pair<int,int>, pair_hash> visitedPos;
+    for (;;) {
+      auto turnResult = findNextOrientation(map, pos, orientation);
+      orientation = turnResult.first;  // Where is the robot looking at.
+      direction = turnResult.second;   // Left or Right;
+      steps = getStepsCount(map, pos, orientation);
+      if ((orientation == -1 && direction == -1) || steps < 1) {
+        break;
+      }
+      totalSteps += steps;
+      cout << (direction == LEFT ? "L" : "R") << steps << ",";
+      // cout << "New Pos: "; printPair(pos); cout << endl;
+    }
+    cout << endl << "Total Steps: " << totalSteps << endl;;
   }
 
   void solve(int part = 1) {
+    string input;
+    cin >> input;
+    vector<int64_t> intCodes = getIntCodes(input);
+    deque<int> inputs;
+    deque<int> outputs;
     if (part == 1) {
-      solve1();
-    } else {
-      solve2();
+      processIntCodes(intCodes, inputs, outputs);
+      auto map = generateMap(outputs);
+      auto intersections = getIntersections(map);
+      int64_t intersectionsSum = getSumOfIntersectionCoords(intersections);
+      cout << "Sum of intersections: " << intersectionsSum << endl;
+    } else if (part == 2) {
+      outputs[0] = 2;
+      inputs = {
+        A,COMMA,B,COMMA,A,COMMA,C,COMMA,C,COMMA,A,COMMA,C,COMMA,EOL, // MAIN ROUTINE
+        L,COMMA,'1','0',COMMA,L,'6',COMMA,R,'1','0',EOL, // A  
+        R,'6',COMMA,R,'8',COMMA,R,'8',COMMA,L,'6',COMMA,R,'8',EOL, // B
+        L,'1','0',COMMA,R,'8',COMMA,R,'8',COMMA,L,'1','0',COMMA,R,'6',COMMA,R,'8',COMMA,R,'8',COMMA,L,'6',COMMA,R,'8',EOL,// C
+        Y,EOL,EOL
+      };
+      processIntCodes(intCodes, inputs, outputs);
+      // auto map = generateMap(outputs);
+      // auto intersections = getIntersections(map);
+      // int64_t intersectionsSum = getSumOfIntersectionCoords(intersections);
+      // cout << "Sum of intersections: " << intersectionsSum << endl;
+    // printPath(map);
     }
   }
 };
