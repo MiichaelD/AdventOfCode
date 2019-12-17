@@ -67,19 +67,28 @@ namespace aoc2019_17 {
   const int N = 'n';  // no
 
   pair<int,int> robotPos;
+  int64_t relativeBase = 0;
 
   template<class T>
   inline void printPair(const pair<T,T> &p) {
     cout << "[" << p.first << ", " << p.second << "] ";
   }
 
-  int64_t relativeBase = 0;
-
-  void printIntCodes(const vector<int> &intCodes) {
-    for (int i : intCodes) {
-      cout << i << ", ";
+  template<class T>
+  void printVec(const vector<T> &vec) {
+    for (const T &i : vec) {
+      cout << i << ",";
     }
     cout << endl;
+  }
+
+  void printMap(const vector<vector<char>> &map) {
+    for (int y = 0; y < map.size(); ++y) {
+      for (int x = 0; x < map.back().size(); ++x) {
+        cout << ' ' << map[y][x];
+      }
+      cout << endl;
+    }
   }
 
   vector<int64_t> getIntCodes(const string &input) {
@@ -102,13 +111,15 @@ namespace aoc2019_17 {
     return intCodes;
   }
 
-  inline void ensureSpace(vector<int64_t> &intCodes, size_t index) {
+  template<class T>
+  inline void ensureSpace(vector<T> &intCodes, size_t index) {
     if (index >= intCodes.size()) {
-      intCodes.push_back(0ll);
+      intCodes.push_back(static_cast<T>(0));
     }
   }
 
-  inline int64_t getValue(vector<int64_t> &intCodes, size_t index, int paramMode) {
+  template<class T>
+  inline T getValue(vector<T> &intCodes, size_t index, int paramMode) {
     ensureSpace(intCodes, index);
     switch (paramMode) {
       default:
@@ -121,7 +132,8 @@ namespace aoc2019_17 {
     }
   }
   
-  inline void setValue(vector<int64_t> &intCodes, size_t index, int paramMode, int newVal) {
+  template<class T>
+  inline void setValue(vector<T> &intCodes, size_t index, int paramMode, T newVal) {
     ensureSpace(intCodes, index);
     if (paramMode == POS_MODE) {
       intCodes[intCodes[index]] = newVal;
@@ -132,10 +144,10 @@ namespace aoc2019_17 {
     }
   }
 
-  bool processIntCodes(vector<int64_t> &intCodes, deque<int> &inputs, deque<int> &outputs) {
-    int64_t intCode;
-    int aux1, aux2; 
-    for (int pc = 0;;) {
+  template<class T>
+  bool processIntCodes(vector<T> &intCodes, deque<T> &inputs, deque<T> &outputs) {
+    T intCode, aux1, aux2; 
+    for (size_t pc = 0;;) {
       intCode = intCodes[pc];
       int param[3] = {0, 0, 0};
       param[0] = (intCode / 100) % 10;
@@ -179,13 +191,13 @@ namespace aoc2019_17 {
         case 7:  // Less-than Jump
           aux1 = getValue(intCodes, pc + 1, param[0]);
           aux2 = getValue(intCodes, pc + 2, param[1]);
-          setValue(intCodes, pc + 3, param[2], (aux1 < aux2 ? 1 : 0));
+          setValue(intCodes, pc + 3, param[2], static_cast<T>(aux1 < aux2 ? 1 : 0));
           pc += 4;
           break;
         case 8:  // Equals Jump
           aux1 = getValue(intCodes, pc + 1, param[0]);
           aux2 = getValue(intCodes, pc + 2, param[1]);
-          setValue(intCodes, pc + 3, param[2], (aux1 == aux2 ? 1 : 0));
+          setValue(intCodes, pc + 3, param[2], static_cast<T>(aux1 == aux2 ? 1 : 0));
           pc += 4;
           break;
         case 9:  // Update relative base
@@ -200,21 +212,13 @@ namespace aoc2019_17 {
     }
   }
 
-  void printMap(const vector<vector<char>> &map) {
-    for (int y = 0; y < map.size(); ++y) {
-      for (int x = 0; x < map.back().size(); ++x) {
-        cout << ' ' << map[y][x];
-      }
-      cout << endl;
-    }
-  }
-
-  vector<vector<char>> generateMap( deque<int> &outputs) {
+  template<class T>
+  vector<vector<char>> generateMap(deque<T> &outputs) {
     vector<vector<char>> result;
     result.emplace_back(vector<char>());
     int scaffoldPieces = 0;
-    for (int i : outputs) {
-      char c = (char) i;
+    for (const T &i : outputs) {
+      char c = static_cast<char>(i);
       cout << ' ' <<  c;
       switch(i) {
         case 10: result.emplace_back(vector<char>()); break;
@@ -339,8 +343,8 @@ namespace aoc2019_17 {
     string input;
     cin >> input;
     vector<int64_t> intCodes = getIntCodes(input);
-    deque<int> inputs;
-    deque<int> outputs;
+    deque<int64_t> inputs;
+    deque<int64_t> outputs;
     // part = 1;
     if (part == 1) {
       processIntCodes(intCodes, inputs, outputs);
