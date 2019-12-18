@@ -122,7 +122,7 @@ namespace aoc2019_17 {
 
   template<class T>
   inline void ensureSpace(vector<T> &intCodes, size_t index) {
-    if (index >= intCodes.size()) {
+    while (index >= intCodes.size()) {
       intCodes.push_back(static_cast<T>(0));
     }
   }
@@ -286,19 +286,15 @@ namespace aoc2019_17 {
     const vector<vector<char>> &map, const pair<int,int> &pos, int curOrient) {
       int x = pos.first, y = pos.second;
     if (curOrient != NORTH && y+1 < map.size() && map[y+1][x] == SCAFFOLD) { // Try Down;
-      // cout << "\tSOUTH!" << endl;
       return make_pair(SOUTH, curOrient == WEST ? LEFT : RIGHT);
     }
     if (curOrient != SOUTH && y-1 >= 0 && map[y-1][x] == SCAFFOLD) { // Try Up;
-      // cout << "\tNORTH!" << endl;
       return make_pair(NORTH, curOrient == WEST ? RIGHT : LEFT);
     }
     if (curOrient != WEST && x+1 < map.back().size() && map[y][x+1] == SCAFFOLD) { // Try East;
-      // cout << "\tEast!" << endl;
       return make_pair(EAST, curOrient == SOUTH ? LEFT : RIGHT);
     }
     if (curOrient != EAST && x-1 >= 0 && map[y][x-1] == SCAFFOLD) { // Try West;
-      // cout << "\tWest!" << endl;
       return make_pair(WEST, curOrient == SOUTH ? RIGHT : LEFT);
     }
     return make_pair(-1,-1); // Nowhere to go.
@@ -352,6 +348,15 @@ namespace aoc2019_17 {
     string input;
     cin >> input;
     vector<int> intCodes = getIntCodes<int>(input);
+    
+    // Adding the following extra spaces fixes the following problems:
+    // Case 1: No output, straight crash: main: malloc.c:2385: sysmalloc: Assertion `(old_top == initial_top (av) && old_size == 0) || ((unsigned long) (old_size) >= MINSIZE && prev_inuse (old_top) && ((unsigned long) old_end & (pagesize - 1)) == 0)' failed.
+    //         Aborted
+    // Case 2: Output works as expected but ends with this error: double free or corruption (out)
+    //         Aborted
+    for (int i = 0; i < 3000; ++i) {
+      intCodes.push_back((0));
+    }
     deque<int> inputs, outputs;
     if (part == 1) {
       processIntCodes(intCodes, inputs, outputs, part);
@@ -361,7 +366,7 @@ namespace aoc2019_17 {
       auto intersectionsSum = getSumOfIntersectionCoords(intersections);
       cout << "Sum of intersections: " << intersectionsSum << endl;
       printPath(map);
-    } else if (part == 2) {
+    } else {
       string inputStr = "A,B,A,C,B,C,B,A,C,BEL,10,L,6,R,10ER,6,R,8,R,8,L,6,R,8EL,10,R,8,R,8,L,10EnE";
       for (char c : inputStr) {
         inputs.push_back(c == 'E' ? 10 : (int) c);
