@@ -35,7 +35,7 @@ namespace aoc2019_15 {
     }
   };
   
-  const int MAX_TIMES = 1000;
+  const int MAX_TIMES = INT_MAX;
 
   const int POS_MODE = 0;
   const int IMM_MODE = 1;
@@ -49,8 +49,7 @@ namespace aoc2019_15 {
   const int SOUTH = 2;
   const int WEST = 3;
   const int EAST = 4;
-  // const int DIRECTIONS[TOTAL_DIRECTIONS] = {NORTH, EAST, SOUTH, WEST};
-  const int DIRECTIONS[TOTAL_DIRECTIONS] = {WEST, SOUTH, EAST, NORTH};
+  const int DIRECTIONS[TOTAL_DIRECTIONS] = {NORTH, EAST, SOUTH, WEST};
 
   const int WALL_STATUS = 0;
   const int FREE_STATUS = 1;
@@ -70,9 +69,37 @@ namespace aoc2019_15 {
     };
   }
 
+  inline int nextDir(int dir) {
+    if (++dir == 5) {
+      dir = 1;
+    }
+    return dir;
+  }
+
+  inline int oppositeDir(int dir) {
+    switch(dir) {
+      case SOUTH: return NORTH;
+      case EAST: return WEST;
+      case WEST: return EAST;
+      case NORTH:
+      default: return SOUTH;
+    }
+  }
+
+  inline string directionName(int dir) {
+    switch(dir) {
+      case SOUTH: return "SOUTH";
+      case EAST: return "EAST";
+      case WEST: return "WEST";
+      case NORTH:
+      default: return "NORTH";
+    }
+  }
+
   struct Droid {
     pair<int,int> pos = {0, 0}; // x, y
-    int lastDirection = NORTH;
+    int lastDirection = WEST;
+    int lastOutput = FREE_STATUS;
 
     void setDirection(int direction) {
       lastDirection = direction;
@@ -87,20 +114,29 @@ namespace aoc2019_15 {
     }
   };
 
+  Droid droid;
+  int64_t relativeBase = 0;
+  unordered_map<pair<int,int>, int, pair_hash> map;
+  unordered_map<pair<int,int>, deque<int>, pair_hash> tasks;
+
   inline void paintPos(
       const unordered_map<pair<int,int>, int, pair_hash> &map, const pair<int,int> &pos) {
     if (pos.first == 0 && pos.second == 0) {
-      cout << "\033[1;31m\033[1;43m O\033[0m";
+      cout << "\033[1;31m\033[1;43m 0\033[0m";
       return;
-    }    
+    } 
+    if (pos.first == droid.pos.first && pos.second == droid.pos.second) {
+      cout << "\033[1;30m\033[1;43m D\033[0m";
+      return;
+    }      
     auto entry = map.find(pos);
     if (entry == map.end()) {
-      cout << "\033[1;30m\033[1;47m  \033[0m";
+      cout << "\033[1;30m\033[1;47m ?\033[0m";
       return;
     }
     switch (entry->second) {
       case FREE_STATUS:
-      cout << "\033[1;30m\033[1;47m F\033[0m"; break;
+      cout << "\033[1;30m\033[1;47m  \033[0m"; break;
       case WALL_STATUS:
       cout << "\033[1;30m\033[1;46m W\033[0m"; break;
       case SYS_STATUS:
@@ -126,10 +162,6 @@ namespace aoc2019_15 {
         cout << endl;
       }
   }
-
-  Droid droid;
-  int64_t relativeBase = 0;
-  unordered_map<pair<int,int>, int, pair_hash> map;
 
   void printIntCodes(const vector<int> &intCodes) {
     for (int i : intCodes) {
@@ -159,7 +191,7 @@ namespace aoc2019_15 {
   }
 
   inline void ensureSpace(vector<int64_t> &intCodes, size_t index) {
-    if (index >= intCodes.size()) {
+    while (index >= intCodes.size()) {
       intCodes.push_back(0ll);
     }
   }
@@ -197,64 +229,74 @@ namespace aoc2019_15 {
     cout << endl;
   }
 
-  int nextDir(int dir) {
-    if (++dir == 5) {
-      dir = 1;
-    }
-    return dir;
-  }
-
-  void updateInputs(deque<Droid> &inputs, deque<int64_t> &outputs) {
-    // printInputs(inputs);
-    int i = 0;
-    for (int dir = droid.lastDirection; i < TOTAL_DIRECTIONS; ++i, dir = nextDir(dir)) {
-      // if (droid.lastDirection == dir) {continue;}
-      auto pos = droid.pos;
-      advancePos(dir, pos);
-      auto entry = map.find(pos);
-      if (entry == map.end()) {
-        droid.setDirection(dir);
-        inputs.push_back(droid);
-        break;
+  bool hasExploredPosition() {
+    int x = droid.pos.first, y = droid.pos.second;
+    vector<pair<int,int>> positions = {{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
+    int unvisitedNeighbors = 0;
+    for (const auto &pos : positions) {
+      if(map.find(pos) == map.end()) {
+        ++unvisitedNeighbors;
       }
     }
-    if (inputs.empty()) {
+    return !unvisitedNeighbors;
+  }
 
-      // for (int dir : DIRECTIONS) {
-      i = 0;
-      for (int dir = droid.lastDirection; i < TOTAL_DIRECTIONS; ++i, dir = nextDir(dir)) {
+  bool updateInputs(deque<Droid> &inputs) {
+    cout << "Updating inputs for Pos "; printPair(droid.pos); cout << endl;
+    auto entry = map.find(droid.pos);
+    deque<int> &tasksForPos = tasks[droid.pos];
+    // if ((entry == map.end() || !hasExploredPosition()) && droid.lastOutput != WALL_STATUS) {  // Droid in new/unexplored position
+    if (tasksForPos.empty() && droid.lastOutput != WALL_STATUS) {  // Droid in new/unexplored position
+      int oppositeDirection = oppositeDir(droid.lastDirection);
+      tasksForPos.push_back(oppositeDirection); // Try going back where it came from at the end.
+      cout << "\t + Adding Direction: " << directionName(oppositeDirection) << endl;
+      for (int i = 0, dir = droid.lastDirection; i < TOTAL_DIRECTIONS; ++i, dir = nextDir(dir)) {
         auto pos = droid.pos;
-        advancePos(dir, pos);
-        auto entry = map.find(pos);
-        if (entry == map.end() || entry->second == FREE_STATUS) {
-          droid.setDirection(dir);
-          inputs.push_back(droid);
-          break;
+        advancePos(dir, pos); 
+        const auto &entry = map.find(pos);
+        if ((entry == map.end() || entry->second == FREE_STATUS) && oppositeDirection != dir) {
+          cout << "\t + Adding Direction: " << directionName(dir) << endl;
+          tasksForPos.push_back(dir);  // Check every direction in this position
+        } else {
+          bool visited = entry != map.end();
+          cout << "\t - Skipping Direction: " << directionName(dir);
+          if (visited) {
+            cout << "\tReason: We've been there before, it is: "; paintPos(map, pos); cout << endl;
+          } else {
+            cout << "\tReason: Oposite direction" << endl;
+          }
         }
       }
     }
-    std::cout << "INPUT: (" << inputs.size() << ") "; inputs.front().print();
+
+    if (tasksForPos.size()) {
+      droid.setDirection(tasksForPos.back());
+      cout << "\t\tHas " << tasksForPos.size() << " Tasks. "
+           << "Trying Direction: " << directionName(droid.lastDirection) << endl;
+      tasksForPos.pop_back();
+      return true;
+    }
+    return false;
   }
 
-  bool processOutputs(deque<Droid> &inputs, deque<int64_t> &outputs) {
+  bool processOutputs(deque<int64_t> &outputs) {
     auto pos = droid.pos;
-    auto dr = inputs.front();
+    droid.lastOutput = outputs.back();
     switch(outputs.back()) {
       case WALL_STATUS:
         advancePos(droid.lastDirection, pos);
         map[pos] = outputs.back();
-        inputs.pop_front();
         break;
       case FREE_STATUS: 
-        inputs.pop_front();
-        droid.setDirection(dr.lastDirection);
         droid.advance();
         map[droid.pos] = outputs.back();
         break;
       case SYS_STATUS:
-        return true;
+        droid.advance();
+        map[droid.pos] = outputs.back();
+        // return true;
+        break;
     }
-    updateInputs(inputs, outputs);
     return false;
   }
 
@@ -277,18 +319,19 @@ namespace aoc2019_15 {
           pc += 4;
           break;
         case 3: // Input
-          setValue(intCodes, pc + 1, param[0], inputs.front().lastDirection);
-          pc += 2;
-          if (++times >= MAX_TIMES) {
+          if (!updateInputs(inputs) || ++times >= 2623){
+            cout << "Exiting at pos: "; printPair(droid.pos); cout << endl;
             return false;
           }
+          setValue(intCodes, pc + 1, param[0], droid.lastDirection);
+          pc += 2;
           break;
         case 4:  // Output
           aux1 = getValue(intCodes, pc + 1, param[0]);
           outputs.push_back(aux1);
           cout << "Output: " << aux1 << endl;
           pc += 2;
-          if (processOutputs(inputs, outputs)) {
+          if (processOutputs(outputs)) {
             cout << "Found System." << endl;
             return true;
           }
@@ -345,6 +388,7 @@ namespace aoc2019_15 {
     vector<int64_t> intCodes = getIntCodes(input);
     deque<Droid> inputs {droid};
     deque<int64_t> outputs;
+    map[{0,0}] = 1; // initialize origin position as Free
     if (part == 2) { }
     bool res = processIntCodes(intCodes, inputs, outputs);
     printMap(map);

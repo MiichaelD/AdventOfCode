@@ -20,6 +20,6 @@
 
 // Compiling:    g++ -std=c++11 main.cpp -o main
 int main() {
-  aoc2019_18::solve();
+  aoc2019_15::solve();
   return EXIT_SUCCESS;
 }
