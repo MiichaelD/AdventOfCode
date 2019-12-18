@@ -121,14 +121,14 @@ namespace aoc2019_15 {
 
   inline void paintPos(
       const unordered_map<pair<int,int>, int, pair_hash> &map, const pair<int,int> &pos) {
+    if (pos.first == droid.pos.first && pos.second == droid.pos.second) {
+      cout << "\033[1;30m\033[1;43m D\033[0m";
+      return;
+    }
     if (pos.first == 0 && pos.second == 0) {
       cout << "\033[1;31m\033[1;43m 0\033[0m";
       return;
     } 
-    if (pos.first == droid.pos.first && pos.second == droid.pos.second) {
-      cout << "\033[1;30m\033[1;43m D\033[0m";
-      return;
-    }      
     auto entry = map.find(pos);
     if (entry == map.end()) {
       cout << "\033[1;30m\033[1;47m ?\033[0m";
@@ -229,9 +229,9 @@ namespace aoc2019_15 {
     cout << endl;
   }
 
-  bool hasExploredPosition() {
-    int x = droid.pos.first, y = droid.pos.second;
-    vector<pair<int,int>> positions = {{x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
+  bool hasExploredPosition(const pair<int,int> &pos) {
+    int x = pos.first, y = pos.second;
+    vector<pair<int,int>> positions = {{x, y}, {x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
     int unvisitedNeighbors = 0;
     for (const auto &pos : positions) {
       if(map.find(pos) == map.end()) {
@@ -241,43 +241,58 @@ namespace aoc2019_15 {
     return !unvisitedNeighbors;
   }
 
+  inline void maybeAddDirectionToTasksForPos(
+      int dir, deque<int> &tasksForPos, bool ignoreOppositeDir = false) {
+    int oppositeDirection = oppositeDir(droid.lastDirection);
+    auto pos = droid.pos;
+    advancePos(dir, pos); 
+    const auto &entry = map.find(pos);
+    if ((entry == map.end() || entry->second == FREE_STATUS) 
+        && ((ignoreOppositeDir && tasksForPos.size() == 0)
+        || (oppositeDirection != dir && !hasExploredPosition(pos)))) {
+      cout << "\t + Adding Direction: " << directionName(dir) << endl;
+      tasksForPos.push_back(dir);  // Check every direction in this position
+    } else {
+      bool visited = entry != map.end();
+      bool sameDir = oppositeDirection == dir;
+      cout << "\t\t - Skipping Direction: " << directionName(dir);
+      if (sameDir) {
+        cout << "\tReason: Oposite direction" << endl;
+      } else if (visited) {
+        cout << "\tReason: We've been there before, it is: "; paintPos(map, pos); cout << endl;
+      } else {
+        cout << "\tReason: MMMH?? wtf" << endl;
+      }
+    }
+
+  }
+
+  void updateTasksForPos(deque<int> &tasksForPos) {
+    if (tasksForPos.empty() && droid.lastOutput != WALL_STATUS) {  // Droid in new/unexplored position
+      // Try going back where it came from at the end.
+      maybeAddDirectionToTasksForPos(oppositeDir(droid.lastDirection), tasksForPos, true); 
+      for (int i = 0, dir = droid.lastDirection; i < TOTAL_DIRECTIONS; ++i, dir = nextDir(dir)) {
+        maybeAddDirectionToTasksForPos(dir, tasksForPos);
+      }
+    }
+  }
+
   bool updateInputs(deque<Droid> &inputs) {
     cout << "Updating inputs for Pos "; printPair(droid.pos); cout << endl;
     auto entry = map.find(droid.pos);
     deque<int> &tasksForPos = tasks[droid.pos];
-    // if ((entry == map.end() || !hasExploredPosition()) && droid.lastOutput != WALL_STATUS) {  // Droid in new/unexplored position
-    if (tasksForPos.empty() && droid.lastOutput != WALL_STATUS) {  // Droid in new/unexplored position
-      int oppositeDirection = oppositeDir(droid.lastDirection);
-      tasksForPos.push_back(oppositeDirection); // Try going back where it came from at the end.
-      cout << "\t + Adding Direction: " << directionName(oppositeDirection) << endl;
-      for (int i = 0, dir = droid.lastDirection; i < TOTAL_DIRECTIONS; ++i, dir = nextDir(dir)) {
-        auto pos = droid.pos;
-        advancePos(dir, pos); 
-        const auto &entry = map.find(pos);
-        if ((entry == map.end() || entry->second == FREE_STATUS) && oppositeDirection != dir) {
-          cout << "\t + Adding Direction: " << directionName(dir) << endl;
-          tasksForPos.push_back(dir);  // Check every direction in this position
-        } else {
-          bool visited = entry != map.end();
-          cout << "\t - Skipping Direction: " << directionName(dir);
-          if (visited) {
-            cout << "\tReason: We've been there before, it is: "; paintPos(map, pos); cout << endl;
-          } else {
-            cout << "\tReason: Oposite direction" << endl;
-          }
-        }
-      }
-    }
-
+    updateTasksForPos(tasksForPos);
     if (tasksForPos.size()) {
       droid.setDirection(tasksForPos.back());
-      cout << "\t\tHas " << tasksForPos.size() << " Tasks. "
+      cout << "Has " << tasksForPos.size() << " Tasks. "
            << "Trying Direction: " << directionName(droid.lastDirection) << endl;
       tasksForPos.pop_back();
+      // return droid.pos.first == 16 && droid.pos.second == 10 ? false : true;
       return true;
     }
     return false;
   }
+  // TODO (check: Updating inputs for Pos [17, 10])
 
   bool processOutputs(deque<int64_t> &outputs) {
     auto pos = droid.pos;
@@ -294,8 +309,7 @@ namespace aoc2019_15 {
       case SYS_STATUS:
         droid.advance();
         map[droid.pos] = outputs.back();
-        // return true;
-        break;
+        return true;
     }
     return false;
   }
@@ -319,7 +333,8 @@ namespace aoc2019_15 {
           pc += 4;
           break;
         case 3: // Input
-          if (!updateInputs(inputs) || ++times >= 2623){
+          if (!updateInputs(inputs) || ++times >= 4623){
+          // if (!updateInputs(inputs) || ++times >= 2623){ <- ammount of steps needed.
             cout << "Exiting at pos: "; printPair(droid.pos); cout << endl;
             return false;
           }
@@ -333,8 +348,8 @@ namespace aoc2019_15 {
           pc += 2;
           if (processOutputs(outputs)) {
             cout << "Found System." << endl;
-            return true;
           }
+          printMap(map);
           break;
         case 5:  // Non-Zero Jump
           aux1 = getValue(intCodes, pc + 1, param[0]);
