@@ -25,20 +25,16 @@
 namespace aoc2019_12 {  
   using namespace std;
 
-  const int MAX_STEPS = 2780;
+  const size_t MAX_STEPS = SIZE_MAX;
 
   class Moon {
     int64_t vx = 0, vy = 0, vz = 0;
-    unordered_set<string> states;
     public:
     int64_t x = 0, y = 0, z = 0;
-    Moon(int64_t x1, int64_t y1, int64_t z1) : x(x1), y(y1), z(z1) { 
-      saveState();
-    }
+    Moon(int64_t x1, int64_t y1, int64_t z1) : x(x1), y(y1), z(z1) { }
 
     void print() const {
-      cout << "Pos=[x= " << x << ", y= " << y << ", z= " << z << "]\t";
-      cout << "Vel=[x=" << vx << ", y= " << vy << ", z= " << vz << "]" << endl;
+      cout << getState() << endl;
     }
 
     void applyGravity(int64_t vx1, int64_t vy1, int64_t vz1) {
@@ -55,20 +51,9 @@ namespace aoc2019_12 {
 
     string getState() const {
       stringstream ss;
-      ss << "x=" << x << " y=" << y << " z=" << z << " vx=" << vx << " vy=" << vy << " vz=" << vz;
+      ss << "Pos=[x=" << x << ", y=" << y << ", z=" << z << "]\t";
+      ss << "Vel=[x=" << vx << ", y=" << vy << ", z=" << vz << "]";
       return ss.str();
-    }
-
-    void saveState() {
-      // string state = getState();
-      // if (states.find(state) != states.end()) {
-      //   cout << "\t\033[1;31m\033[1;47m Duplicate found! \033[0m" << state << endl;
-      // }
-      states.insert(getState());
-    }
-
-    bool isStateRepeated() {
-      return states.find(getState()) != states.end();
     }
 
     int64_t getPotencialEnergy() const {
@@ -86,9 +71,9 @@ namespace aoc2019_12 {
 
   inline int64_t getVelocity(int64_t v1, int64_t v2) {
     if (v1 == v2) {
-      return 0;
+      return 0ll;
     }
-    return (v1 < v2) ? 1 : -1 ;
+    return (v1 < v2) ? 1ll : -1ll ;
   }
 
   vector<Moon> createMoons() {
@@ -103,6 +88,14 @@ namespace aoc2019_12 {
     return moons;
   }
 
+  string getSystemState(const vector<Moon> &moons) {
+    stringstream systemStateSs;
+    for (auto &moon : moons) {
+      systemStateSs << moon.getState() << endl;
+    }
+    return systemStateSs.str();
+  }
+
   bool doStep(vector<Moon> &moons, unordered_set<string> &systemStates) {
     for (int i = 0; i < moons.size(); ++i) {
       int64_t vx = 0, vy = 0, vz = 0;
@@ -114,24 +107,21 @@ namespace aoc2019_12 {
       }
       moons[i].applyGravity(vx, vy, vz);
     }
-    stringstream systemStateSs;
     for (auto &moon : moons) {
       moon.applyVelocity();
-      moon.print();
-      systemStateSs << moon.getState() << endl;
-      moon.saveState();
+      // moon.print();
     }
-    string systemState = systemStateSs.str();
+    string systemState = getSystemState(moons);
     if (systemStates.find(systemState) != systemStates.end()) {
-      cout << "\tState repeated: " << systemState << endl;
+      cout << endl << "State repeated: " << endl << systemState << endl;
       return true;
     }
     systemStates.insert(systemState);
     return false;
   }
 
-  long long getTotalEnergy(const vector<Moon> &moons) {
-    long long res = 0;
+  int64_t getTotalEnergy(const vector<Moon> &moons) {
+    int64_t res = 0;
     for (auto &moon : moons) {
       res += moon.getTotalEnergy();
     }
@@ -140,14 +130,15 @@ namespace aoc2019_12 {
 
   void solve(int part = 1) {
     vector<Moon> moons = createMoons();
-    unordered_set<string> systemStates;
+    unordered_set<string> systemStates {getSystemState(moons)};
     for (const Moon &moon : moons) {
       moon.print();
     }
     cout << endl;
-    for (int step = 1; step <= MAX_STEPS; ++step) {
-      cout << "Step " << step << ": " << endl;
+    for (size_t step = 1; step <= MAX_STEPS; ++step) {
+      // cout << "Step " << step << ": " << endl;
       if (doStep(moons, systemStates)) {
+        cout << "Repeated state @ step: " << step << endl;
         break;
       }
     }
