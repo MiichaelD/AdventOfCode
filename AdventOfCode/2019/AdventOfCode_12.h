@@ -25,7 +25,8 @@
 namespace aoc2019_12 {  
   using namespace std;
 
-  const size_t MAX_STEPS = SIZE_MAX;
+  const size_t MAX_STEPS = 1000;
+  // const size_t MAX_STEPS = SIZE_MAX;
 
   class Moon {
     int64_t vx = 0, vy = 0, vz = 0;
@@ -135,14 +136,15 @@ namespace aoc2019_12 {
       moon.print();
     }
     cout << endl;
-    for (size_t step = 1; step <= MAX_STEPS; ++step) {
+    size_t step = 1;
+    for (; part == 2 || step <= MAX_STEPS; ++step) {
       // cout << "Step " << step << ": " << endl;
       if (doStep(moons, systemStates)) {
         cout << "Repeated state @ step: " << step << endl;
         break;
       }
     }
-    cout << "Total Energy: " << getTotalEnergy(moons) << endl;
+    cout << "After " << step + (part == 1 ? -1 : 0)  << " steps, Total Energy: " << getTotalEnergy(moons) << endl;
   }
 };
 
