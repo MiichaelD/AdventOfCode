@@ -283,15 +283,13 @@ namespace aoc2019_15 {
     return !unvisitedNeighbors;
   }
 
-  inline void maybeAddDirectionToTasksForPos(
-      int dir, deque<int> &tasksForPos, bool ignoreOppositeDir = false) {
+  inline void maybeAddDirectionToTasksForPos(int dir, deque<int> &tasksForPos) {
     int oppositeDirection = oppositeDir(droid.lastDirection);
     auto pos = droid.pos;
     advancePos(dir, pos); 
     const auto &entry = map.find(pos);
-    if ((entry == map.end() || entry->second == FREE_STATUS) 
-        && ((ignoreOppositeDir && tasksForPos.size() == 0)
-        || (oppositeDirection != dir && !hasExploredPosition(pos)))) {
+    if ((entry == map.end() || entry->second == FREE_STATUS)
+        && oppositeDirection != dir && !hasExploredPosition(pos)) {
       cout << "\t + Adding Direction: " << directionName(dir) << endl;
       tasksForPos.push_back(dir);  // Check every direction in this position
     } else {
@@ -309,32 +307,36 @@ namespace aoc2019_15 {
 
   }
 
-  void updateTasksForPos(deque<int> &tasksForPos) {
-    if (tasksForPos.empty() && droid.lastOutput != WALL_STATUS) {  // Droid in new/unexplored position
-      // Try going back where it came from at the end.
-      maybeAddDirectionToTasksForPos(oppositeDir(droid.lastDirection), tasksForPos, true); 
+  void updateTasksForPos(deque<int> &tasksForPos, bool shouldStopAtOrigin) {
+    if (droid.pos.first == 0 && droid.pos.second == 0 && shouldStopAtOrigin) {
+      return;
+    }
+
+    // Droid in new/unexplored position
+    if (tasksForPos.empty() && droid.lastOutput != WALL_STATUS) {  
+      int oppositeDirection = oppositeDir(droid.lastDirection);	      // Try going back where it came from at the end.
+      tasksForPos.push_back(oppositeDir(droid.lastDirection)); // Try going back where it came from at the end.
+      cout << "\t + Adding Direction: " << directionName(oppositeDirection) << endl;
       for (int i = 0, dir = droid.lastDirection; i < TOTAL_DIRECTIONS; ++i, dir = nextDir(dir)) {
         maybeAddDirectionToTasksForPos(dir, tasksForPos);
       }
     }
   }
 
-  bool updateInputs(deque<Droid> &inputs) {
+  bool updateInputs(deque<Droid> &inputs, deque<int64_t> &outputs) {
     cout << "Updating inputs for Pos "; printPair(droid.pos); cout << endl;
     auto entry = map.find(droid.pos);
     deque<int> &tasksForPos = tasks[droid.pos];
-    updateTasksForPos(tasksForPos);
+    updateTasksForPos(tasksForPos, outputs.size() > 10);
     if (tasksForPos.size()) {
       droid.setDirection(tasksForPos.back());
       cout << "Has " << tasksForPos.size() << " Tasks. "
            << "Trying Direction: " << directionName(droid.lastDirection) << endl;
       tasksForPos.pop_back();
-      // return droid.pos.first == 16 && droid.pos.second == 10 ? false : true;
       return true;
     }
     return false;
   }
-  // TODO (check: Updating inputs for Pos [17, 10])
 
   bool processOutputs(deque<int64_t> &outputs) {
     auto pos = droid.pos;
@@ -375,8 +377,7 @@ namespace aoc2019_15 {
           pc += 4;
           break;
         case 3: // Input
-          // if (!updateInputs(inputs) || ++times >= 4623){
-          if (!updateInputs(inputs) || ++times >= 2623){  // <- ammount of steps needed.
+          if (!updateInputs(inputs, outputs)){
             cout << "Exiting at pos: "; printPair(droid.pos); cout << endl;
             return false;
           }
