@@ -17,9 +17,10 @@
 #include "2019/AdventOfCode_16.h"
 #include "2019/AdventOfCode_17.h"
 #include "2019/AdventOfCode_18.h"
+#include "2019/AdventOfCode_19.h"
 
 // Compiling:    g++ -std=c++11 main.cpp -o main
 int main() {
-  aoc2019_12::solve();
+  aoc2019_19::solve();
   return EXIT_SUCCESS;
 }
