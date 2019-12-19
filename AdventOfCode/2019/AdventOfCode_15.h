@@ -288,9 +288,14 @@ namespace aoc2019_15 {
     cout << endl;
   }
 
-  bool hasExploredPosition(const pair<int,int> &pos) {
+  vector<pair<int,int>> getNeighbors(const pair<int,int> &pos) {
     int x = pos.first, y = pos.second;
-    vector<pair<int,int>> positions = {{x, y}, {x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
+    return {{x, y}, {x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
+  }
+
+  bool hasExploredPosition(const pair<int,int> &pos) {
+    vector<pair<int,int>> positions = getNeighbors(pos);
+    positions.push_back(pos);
     int unvisitedNeighbors = 0;
     for (const auto &pos : positions) {
       if(map.find(pos) == map.end()) {
@@ -321,7 +326,6 @@ namespace aoc2019_15 {
         // cout << "\tReason: MMMH?? wtf" << endl;
       }
     }
-
   }
 
   void updateTasksForPos(deque<int> &tasksForPos, bool shouldStopAtOrigin) {
@@ -458,6 +462,44 @@ namespace aoc2019_15 {
     return tileCount;
   }
 
+  // void flood
+  bool isPosValid(const pair<int,int> &pos) { 
+    const auto & entry = map.find(pos);
+    return entry != map.end() && entry->second != WALL_STATUS;
+  }
+
+  unordered_map<pair<int,int>, int, pair_hash> getSteps(
+      const pair<int,int> &origin, const pair<int,int> &target) {
+    unordered_map<pair<int,int>, int, pair_hash> visited;
+    deque<pair<pair<int,int>, int>> stack;
+    visited[origin] = 0;
+    stack.push_back(make_pair(origin, 0));
+    int maxSteps = 0;
+    while(stack.size()) {
+      auto item = stack.front();
+      stack.pop_front();
+      // cout << "Checking pos: "; printPair(item.first);
+      // cout << "\t has a distance of: " << item.second << endl;
+      maxSteps = max(maxSteps, item.second);
+      if (item.first == target) {
+        cout << "Steps to target: " << item.second << endl;
+        break; // found it;
+      }
+      auto neighbors = getNeighbors(item.first);
+      for (const pair<int,int> &neighPos : neighbors) {
+        const auto &entry = visited.find(neighPos);
+        if (isPosValid(neighPos) && entry == visited.end()) { // Valid position and not visited
+          int step = item.second + 1;
+          visited[neighPos] = step;
+          stack.push_back(make_pair(neighPos, step));
+
+        }
+      }
+    }    
+    cout << "Max Steps: " << maxSteps << endl;
+    return visited;
+  }
+
   void solve(int part = 1) {
     string input;
     cin >> input;
@@ -465,13 +507,21 @@ namespace aoc2019_15 {
     deque<Droid> inputs {droid};
     deque<int64_t> outputs;
     map[{0,0}] = 1; // initialize origin position as Free
-    if (part == 2) {
-    }
     bool res = processIntCodes(intCodes, inputs, outputs);
     printMap(map);
     cout << "Outputs: " << outputs.size() << endl;
     vector<vector<char>> maze = getMap(map);
     printMaze(maze);
+    cout << "Droid: "; printPair(droid.pos); cout << endl << "System: "; printPair(oxigenSystem);
+    cout << endl;
+    if (part == 1) {
+      auto steps = getSteps(droid.pos, oxigenSystem);
+      cout << "Steps from Droid to target: " << steps[oxigenSystem] << endl;
+    } else {
+      auto steps = getSteps(oxigenSystem, make_pair(-1,0));
+
+    }
+
   }
 };
 
