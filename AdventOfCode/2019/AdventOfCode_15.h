@@ -115,6 +115,7 @@ namespace aoc2019_15 {
   };
 
   Droid droid;
+  pair<int,int> oxigenSystem;
   int64_t relativeBase = 0;
   unordered_map<pair<int,int>, int, pair_hash> map;
   unordered_map<pair<int,int>, deque<int>, pair_hash> tasks;
@@ -205,6 +206,22 @@ namespace aoc2019_15 {
     return maze;
   }
 
+  void printMaze(const vector<vector<char>> &maze) {
+    for (int y = 0; y < maze.size(); ++y) {
+      for (int x = 0; x < maze.back().size(); ++x) {
+        switch(maze[y][x]) {
+          case 'D': cout << "\033[1;30m\033[1;43m D\033[0m"; break;
+          case '0': cout << "\033[1;31m\033[1;43m 0\033[0m"; break;
+          case 'W': cout << "\033[1;30m\033[1;46m W\033[0m"; break;
+          case ' ': cout << "\033[1;30m\033[1;47m  \033[0m"; break;
+          case 'S': cout << "\033[1;30m\033[1;43m S\033[0m"; break;
+        } 
+      }
+      cout << endl;
+    }
+    cout << endl;
+  }
+
   void printIntCodes(const vector<int> &intCodes) {
     for (int i : intCodes) {
       cout << i << ", ";
@@ -290,18 +307,18 @@ namespace aoc2019_15 {
     const auto &entry = map.find(pos);
     if ((entry == map.end() || entry->second == FREE_STATUS)
         && oppositeDirection != dir && !hasExploredPosition(pos)) {
-      cout << "\t + Adding Direction: " << directionName(dir) << endl;
-      tasksForPos.push_back(dir);  // Check every direction in this position
+      // cout << "\t + Adding Direction: " << directionName(dir) << endl;
+      tasksForPos.push_back(dir);
     } else {
       bool visited = entry != map.end();
       bool sameDir = oppositeDirection == dir;
-      cout << "\t\t - Skipping Direction: " << directionName(dir);
+      // cout << "\t\t - Skipping Direction: " << directionName(dir);
       if (sameDir) {
-        cout << "\tReason: Oposite direction" << endl;
+        // cout << "\tReason: Oposite direction" << endl;
       } else if (visited) {
-        cout << "\tReason: We've been there before, it is: "; paintPos(map, pos); cout << endl;
-      } else {
-        cout << "\tReason: MMMH?? wtf" << endl;
+        // cout << "\tReason: We've been there before, it is: "; paintPos(map, pos); cout << endl;
+      // } else {
+        // cout << "\tReason: MMMH?? wtf" << endl;
       }
     }
 
@@ -316,7 +333,7 @@ namespace aoc2019_15 {
     if (tasksForPos.empty() && droid.lastOutput != WALL_STATUS) {  
       int oppositeDirection = oppositeDir(droid.lastDirection);	      // Try going back where it came from at the end.
       tasksForPos.push_back(oppositeDir(droid.lastDirection)); // Try going back where it came from at the end.
-      cout << "\t + Adding Direction: " << directionName(oppositeDirection) << endl;
+      // cout << "\t + Adding Direction: " << directionName(oppositeDirection) << endl;
       for (int i = 0, dir = droid.lastDirection; i < TOTAL_DIRECTIONS; ++i, dir = nextDir(dir)) {
         maybeAddDirectionToTasksForPos(dir, tasksForPos);
       }
@@ -324,14 +341,14 @@ namespace aoc2019_15 {
   }
 
   bool updateInputs(deque<Droid> &inputs, deque<int64_t> &outputs) {
-    cout << "Updating inputs for Pos "; printPair(droid.pos); cout << endl;
+    // cout << "Updating inputs for Pos "; printPair(droid.pos); cout << endl;
     auto entry = map.find(droid.pos);
     deque<int> &tasksForPos = tasks[droid.pos];
     updateTasksForPos(tasksForPos, outputs.size() > 10);
     if (tasksForPos.size()) {
       droid.setDirection(tasksForPos.back());
-      cout << "Has " << tasksForPos.size() << " Tasks. "
-           << "Trying Direction: " << directionName(droid.lastDirection) << endl;
+      // cout << "Has " << tasksForPos.size() << " Tasks. "
+      //      << "Trying Direction: " << directionName(droid.lastDirection) << endl;
       tasksForPos.pop_back();
       return true;
     }
@@ -387,10 +404,11 @@ namespace aoc2019_15 {
         case 4:  // Output
           aux1 = getValue(intCodes, pc + 1, param[0]);
           outputs.push_back(aux1);
-          cout << "Output: " << aux1 << endl;
+          // cout << "Output: " << aux1 << endl;
           pc += 2;
           if (processOutputs(outputs)) {
-            cout << "Found System." << endl;
+            oxigenSystem = droid.pos;
+            cout << "Found System @ "; printPair(oxigenSystem); cout << endl;
           }
           // printMap(map);
           break;
@@ -451,11 +469,9 @@ namespace aoc2019_15 {
     }
     bool res = processIntCodes(intCodes, inputs, outputs);
     printMap(map);
-    vector<vector<char>> maze = getMap(map);
-    if (res) {
-      cout << "System found in location:"; printPair(droid.pos); cout << endl;
-    }
     cout << "Outputs: " << outputs.size() << endl;
+    vector<vector<char>> maze = getMap(map);
+    printMaze(maze);
   }
 };
 
