@@ -144,6 +144,29 @@ namespace aoc2019_15 {
     }
   }
 
+  inline char getMazeChar(
+      const unordered_map<pair<int,int>, int, pair_hash> &map, const pair<int,int> &pos) {
+    if (pos.first == droid.pos.first && pos.second == droid.pos.second) {
+      return 'D';
+    }
+    if (pos.first == 0 && pos.second == 0) {
+      return '0';
+    } 
+    auto entry = map.find(pos);
+    if (entry == map.end()) {
+      return 'W';
+    }
+    switch (entry->second) {
+      case FREE_STATUS:
+      return ' ';
+      case SYS_STATUS:
+      return 'S';
+      default:
+      case WALL_STATUS:
+      return 'W';
+    }
+  }
+
   void printMap(const unordered_map<pair<int,int>, int, pair_hash> &map) {
     int minX = 0, maxX = 0, minY = 0, maxY = 0;
     for (const auto &entry : map) {
@@ -154,13 +177,32 @@ namespace aoc2019_15 {
       // cout << "Tile " << i++ << ": @ "; print(entry.first); cout << " => " << entry.second << endl; 
     }
     cout << "Printing: [x=" << maxX - minX + 1 << ", y=" << maxY - minY + 1 << "]" << endl;
-      for (int y = minY; y <= maxY; ++y) {
-        for (int x = minX; x <= maxX; ++x) {
-          pair<int,int> pos = make_pair(x,y);
-          paintPos(map, pos);
-        }
-        cout << endl;
+    for (int y = minY; y <= maxY; ++y) {
+      for (int x = minX; x <= maxX; ++x) {
+        pair<int,int> pos = make_pair(x,y);
+        paintPos(map, pos);
       }
+      cout << endl;
+    }
+  }
+
+  vector<vector<char>> getMap(const unordered_map<pair<int,int>, int, pair_hash> &map) {
+    vector<vector<char>> maze;
+    int minX = 0, maxX = 0, minY = 0, maxY = 0;
+    for (const auto &entry : map) {
+      minX = min(minX, entry.first.first);
+      maxX = max(maxX, entry.first.first);
+      minY = min(minY, entry.first.second);
+      maxY = max(maxY, entry.first.second);
+    }
+    for (int y = minY; y <= maxY; ++y) {
+      maze.emplace_back(vector<char>());
+      for (int x = minX; x <= maxX; ++x) {
+        pair<int,int> pos = make_pair(x,y);
+        maze.back().push_back(getMazeChar(map, pos));
+      }
+    }
+    return maze;
   }
 
   void printIntCodes(const vector<int> &intCodes) {
@@ -333,8 +375,8 @@ namespace aoc2019_15 {
           pc += 4;
           break;
         case 3: // Input
-          if (!updateInputs(inputs) || ++times >= 4623){
-          // if (!updateInputs(inputs) || ++times >= 2623){ <- ammount of steps needed.
+          // if (!updateInputs(inputs) || ++times >= 4623){
+          if (!updateInputs(inputs) || ++times >= 2623){  // <- ammount of steps needed.
             cout << "Exiting at pos: "; printPair(droid.pos); cout << endl;
             return false;
           }
@@ -349,7 +391,7 @@ namespace aoc2019_15 {
           if (processOutputs(outputs)) {
             cout << "Found System." << endl;
           }
-          printMap(map);
+          // printMap(map);
           break;
         case 5:  // Non-Zero Jump
           aux1 = getValue(intCodes, pc + 1, param[0]);
@@ -404,9 +446,11 @@ namespace aoc2019_15 {
     deque<Droid> inputs {droid};
     deque<int64_t> outputs;
     map[{0,0}] = 1; // initialize origin position as Free
-    if (part == 2) { }
+    if (part == 2) {
+    }
     bool res = processIntCodes(intCodes, inputs, outputs);
     printMap(map);
+    vector<vector<char>> maze = getMap(map);
     if (res) {
       cout << "System found in location:"; printPair(droid.pos); cout << endl;
     }
