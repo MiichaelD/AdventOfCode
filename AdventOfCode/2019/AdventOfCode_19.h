@@ -201,10 +201,21 @@ namespace aoc2019_19 {
     //   intCodes.push_back(static_cast<int>(0));
     // }
     
-    int target = 50;
-    int affected = 0;
-    for (int y = 0; y < target; ++y) {
-      for (int x = 0 ; x < target; ++x) {
+    int startX = 0;
+    int startY = 0;
+    int targetX = 50;
+    int targetY = 50;
+    int affectedTotal = 0;
+    int affectedPerRow = 0;
+    if (part == 2) {
+      startX = 10000;
+      targetX = startX + 5;
+      startY = 5261;
+      targetY = startY + 50;
+    } 
+    vector<int> affected;
+    for (int y = startY; y < targetY; ++y) {
+      for (int x = startX; x < targetX; ++x) {
         auto tempIntCodes = intCodes;
         inputs.clear();
         inputs.push_back(x);
@@ -213,13 +224,21 @@ namespace aoc2019_19 {
         processIntCodes(tempIntCodes, inputs, outputs);
         if (outputs.size()) {
           cout << (outputs.back() ? " #" : " .") << flush;
-          if (outputs.back()) ++affected;
+          if (outputs.back()) {
+            ++affectedPerRow;
+          }
           outputs.pop_back();
         }
       }
-      cout << endl;
+      cout << " - Row: " << affectedPerRow <<  endl;
+      // affected.push_back(affectedPerRow);
+      affectedTotal += affectedPerRow;
+      affectedPerRow = 0;
     }
-    cout << endl << "Affected points: " << affected << endl;
+    // for (int i : affected) {
+    //   cout << i <<",";
+    // }
+    cout << endl << "Total Affected points: " << affectedTotal << endl;
   }
 };
 
