@@ -23,27 +23,61 @@
 #include <vector>
 
 namespace aoc2019_19 {  
-
   using namespace std;
-  
+
+  struct pair_hash {
+    template <class T1, class T2>
+    std::size_t operator () (std::pair<T1,T2> const &p) const {
+      std::size_t h1 = std::hash<T1>()(p.first);
+      std::size_t h2 = std::hash<T2>()(p.second);
+      return h1 ^ h2;
+    }
+  };
+
   const int POS_MODE = 0;
   const int IMM_MODE = 1;
   const int REL_MODE = 2;
 
-  int64_t relativeBase = 0;
 
-  void printIntCodes(const vector<int> &intCodes) {
-    for (int i : intCodes) {
-      cout << i << ", ";
+  pair<int,int> robotPos;
+  int relativeBase = 0;
+
+  template<class T>
+  inline void printPair(const pair<T,T> &p) {
+    cout << "[" << p.first << ", " << p.second << "] ";
+  }
+
+  template<class T>
+  void printVec(const vector<T> &vec) {
+    for (const T &i : vec) {
+      cout << i << ",";
     }
     cout << endl;
   }
 
-  vector<int64_t> getIntCodes(const string &input) {
-    vector<int64_t> intCodes;
-    int64_t aux = 0;
+  template<class T>
+  void printDeque(const deque<T> &deque) {
+    for (const T &ele : deque) {
+      cout << ele << ", ";
+    }
+    cout << endl;
+  }
+
+  void printMap(const vector<vector<char>> &map) {
+    for (int y = 0; y < map.size(); ++y) {
+      for (int x = 0; x < map.back().size(); ++x) {
+        cout << ' ' << map[y][x];
+      }
+      cout << endl;
+    }
+  }
+
+  template<class T>
+  vector<T> getIntCodes(const string &input) {
+    vector<T> intCodes;
+    T aux = 0;
     bool negative = false;
-    for (int i = 0 ; i < input.length(); ++i) {
+    for (size_t i = 0 ; i < input.length(); ++i) {
       if (input[i] == '-') {
         negative = true;
       } else if (input[i] == ',') {
@@ -59,13 +93,15 @@ namespace aoc2019_19 {
     return intCodes;
   }
 
-  inline void ensureSpace(vector<int64_t> &intCodes, size_t index) {
+  template<class T>
+  inline void ensureSpace(vector<T> &intCodes, size_t index) {
     while (index >= intCodes.size()) {
-      intCodes.push_back(0ll);
+      intCodes.push_back(static_cast<T>(0));
     }
   }
 
-  inline int64_t getValue(vector<int64_t> &intCodes, size_t index, int paramMode) {
+  template<class T>
+  inline T getValue(vector<T> &intCodes, size_t index, int paramMode) {
     ensureSpace(intCodes, index);
     switch (paramMode) {
       default:
@@ -78,7 +114,8 @@ namespace aoc2019_19 {
     }
   }
   
-  inline void setValue(vector<int64_t> &intCodes, size_t index, int paramMode, int64_t newVal) {
+  template<class T>
+  inline void setValue(vector<T> &intCodes, size_t index, int paramMode, T newVal) {
     ensureSpace(intCodes, index);
     if (paramMode == POS_MODE) {
       intCodes[intCodes[index]] = newVal;
@@ -89,11 +126,13 @@ namespace aoc2019_19 {
     }
   }
 
-  void processIntCodes(vector<int64_t> &intCodes, deque<int64_t> &inputs, deque<int64_t> &outputs) {
-    int64_t intCode, aux1, aux2; 
-    vector<int> param = {0, 0, 0};
+  template<class T>
+  bool processIntCodes(vector<T> &intCodes, deque<T> &inputs, deque<T> &outputs) {
+    T intCode, aux1, aux2; 
     int inputIndex = 0;
-    for (int pc = 0;;) {
+    // cout << "Trying [" << inputs[inputIndex] <<", " << inputs[inputIndex+1] << "] "<< endl;
+    vector<int> param = {0, 0, 0};
+    for (size_t pc = 0;;) {
       intCode = intCodes[pc];
       param[0] = (intCode / 100) % 10;
       param[1] = (intCode / 1000) % 10;
@@ -108,13 +147,15 @@ namespace aoc2019_19 {
           pc += 4;
           break;
         case 3: // Input
-          setValue(intCodes, pc + 1, param[0], inputs[inputIndex++]);
+          aux1 = inputs[inputIndex++];
+          // cout << aux1; // << endl;
+          setValue(intCodes, pc + 1, param[0], aux1);
           pc += 2;
           break;
         case 4:  // Output
           aux1 = getValue(intCodes, pc + 1, param[0]);
+          // cout << "Output: " <<  aux1; //(aux1 == 1 ? " #" : " .");
           outputs.push_back(aux1);
-          // cout << "Outputs: " << aux1 << endl;
           pc += 2;
           break;
         case 5:  // Non-Zero Jump
@@ -130,13 +171,13 @@ namespace aoc2019_19 {
         case 7:  // Less-than Jump
           aux1 = getValue(intCodes, pc + 1, param[0]);
           aux2 = getValue(intCodes, pc + 2, param[1]);
-          setValue(intCodes, pc + 3, param[2], (aux1 < aux2 ? 1 : 0));
+          setValue(intCodes, pc + 3, param[2], static_cast<T>(aux1 < aux2 ? 1 : 0));
           pc += 4;
           break;
         case 8:  // Equals Jump
           aux1 = getValue(intCodes, pc + 1, param[0]);
           aux2 = getValue(intCodes, pc + 2, param[1]);
-          setValue(intCodes, pc + 3, param[2], (aux1 == aux2 ? 1 : 0));
+          setValue(intCodes, pc + 3, param[2], static_cast<T>(aux1 == aux2 ? 1 : 0));
           pc += 4;
           break;
         case 9:  // Update relative base
@@ -146,7 +187,7 @@ namespace aoc2019_19 {
           break;
         case 99:
         default:
-          return;
+          return false;
       }
     }
   }
@@ -154,22 +195,26 @@ namespace aoc2019_19 {
   void solve(int part = 1) {
     string input;
     cin >> input;
-    vector<int64_t> intCodes = getIntCodes(input);
-    deque<int64_t> inputs, outputs;
-
+    vector<int> intCodes = getIntCodes<int>(input);
+    deque<int> inputs, outputs;
+    // for (int i = 0; i < 3000; ++i) {
+    //   intCodes.push_back(static_cast<int>(0));
+    // }
+    
     int target = 50;
     int affected = 0;
-    for (size_t y = 0; y < target; ++y) {
-      for (size_t x = 0 ; x < target; ++x) {
-        vector<int64_t> tempIntCodes = intCodes;
+    for (int y = 0; y < target; ++y) {
+      for (int x = 0 ; x < target; ++x) {
+        auto tempIntCodes = intCodes;
         inputs.clear();
         inputs.push_back(x);
         inputs.push_back(y);
         // cout << "Trying [" << x <<", " << y << "]  Inputs size = " << inputs.size() << endl;
         processIntCodes(tempIntCodes, inputs, outputs);
         if (outputs.size()) {
-          cout << (outputs.back() == 1 ? " #" : " .");
+          cout << (outputs.back() ? " #" : " .") << flush;
           if (outputs.back()) ++affected;
+          outputs.pop_back();
         }
       }
       cout << endl;
