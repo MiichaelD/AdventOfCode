@@ -102,11 +102,47 @@ namespace aoc2019_20 {
     return portalPos;
   }
 
-  void test(const MAP &map, const KEY_TO_PORTALS &portals, const POINT_TO_PORTAL& pointToPortals) {
+  vector<pair<int,int>> getNeighbors(const pair<int,int> &pos) {
+    int x = pos.first, y = pos.second;
+    return {{x, y}, {x - 1, y}, {x + 1, y}, {x, y - 1}, {x, y + 1}};
+  }
+
+
+  bool isValidPos(const MAP &map, const pair<int,int> &pos) { 
+    return map[pos.second][pos.first] == PATH;
   }
 
   size_t findMinSteps(const MAP &map, const pair<int,int> &sPos, const pair<int,int> &ePos) {
-    return SIZE_MAX;
+    unordered_map<pair<int,int>, int, pair_hash> visited;
+    deque<pair<pair<int,int>, size_t>> stack;
+    visited[sPos] = 0;
+    stack.push_back(make_pair(sPos, 0));
+    size_t maxSteps = 0;
+    while(stack.size()) {
+      auto item = stack.front();
+      stack.pop_front();
+      // cout << "Checking pos: "; printPair(item.first);
+      // cout << "\t has a distance of: " << item.second << endl;
+      maxSteps = max(maxSteps, item.second);
+      if (item.first == ePos) {
+        cout << "Steps to target: " << item.second << endl;
+        break; // found it;
+      }
+      auto neighbors = getNeighbors(item.first);
+      for (const pair<int,int> &neighPos : neighbors) {
+        const auto &entry = visited.find(neighPos);
+        if (isValidPos(map, neighPos) && entry == visited.end()) { // Valid position and not visited
+          int step = item.second + 1;
+          visited[neighPos] = step;
+          stack.push_back(make_pair(neighPos, step));
+
+        }
+      }
+    }
+    return maxSteps;
+  }
+
+  void test(const MAP &map, const KEY_TO_PORTALS &portals, const POINT_TO_PORTAL& pointToPortals) {
   }
 
   void solve(int part = 1) {
@@ -139,31 +175,31 @@ namespace aoc2019_20 {
   //     const pair<int,int> &origin, const pair<int,int> &target) {
   //   unordered_map<pair<int,int>, int, pair_hash> visited;
   //   deque<pair<pair<int,int>, int>> stack;
-  //   visited[origin] = 0;
-  //   stack.push_back(make_pair(origin, 0));
-  //   int maxSteps = 0;
-  //   while(stack.size()) {
-  //     auto item = stack.front();
-  //     stack.pop_front();
-  //     // cout << "Checking pos: "; printPair(item.first);
-  //     // cout << "\t has a distance of: " << item.second << endl;
-  //     maxSteps = max(maxSteps, item.second);
-  //     if (item.first == target) {
-  //       cout << "Steps to target: " << item.second << endl;
-  //       break; // found it;
-  //     }
-  //     auto neighbors = getNeighbors(item.first);
-  //     for (const pair<int,int> &neighPos : neighbors) {
-  //       const auto &entry = visited.find(neighPos);
-  //       if (isPosValid(neighPos) && entry == visited.end()) { // Valid position and not visited
-  //         int step = item.second + 1;
-  //         visited[neighPos] = step;
-  //         stack.push_back(make_pair(neighPos, step));
+    // visited[origin] = 0;
+    // stack.push_back(make_pair(origin, 0));
+    // int maxSteps = 0;
+    // while(stack.size()) {
+    //   auto item = stack.front();
+    //   stack.pop_front();
+    //   // cout << "Checking pos: "; printPair(item.first);
+    //   // cout << "\t has a distance of: " << item.second << endl;
+    //   maxSteps = max(maxSteps, item.second);
+    //   if (item.first == target) {
+    //     cout << "Steps to target: " << item.second << endl;
+    //     break; // found it;
+    //   }
+    //   auto neighbors = getNeighbors(item.first);
+    //   for (const pair<int,int> &neighPos : neighbors) {
+    //     const auto &entry = visited.find(neighPos);
+    //     if (isPosValid(neighPos) && entry == visited.end()) { // Valid position and not visited
+    //       int step = item.second + 1;
+    //       visited[neighPos] = step;
+    //       stack.push_back(make_pair(neighPos, step));
 
-  //       }
-  //     }
-  //   }    
-  //   cout << "Max Steps: " << maxSteps << endl;
+    //     }
+    //   }
+    // }    
+    // cout << "Max Steps: " << maxSteps << endl;
   //   return visited;
   // }
 
