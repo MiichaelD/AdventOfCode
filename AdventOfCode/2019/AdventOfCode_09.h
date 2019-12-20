@@ -114,7 +114,8 @@ namespace aoc2019_09 {
         case 4:  // Output
           aux1 = getValue(intCodes, pc + 1, param[0]);
           outputs.push_back(aux1);
-          cout << aux1 << endl;
+          cout << aux1;
+          // cout << (char) aux1; // for printing memes;
           pc += 2;
           break;
         case 5:  // Non-Zero Jump
