@@ -25,18 +25,29 @@
 namespace aoc2019_20 {  
   using namespace std;
 
-  typedef unordered_map<string, vector<pair<int,int>>> PORTAL_MAP;
+  struct pair_hash {
+    template <class T1, class T2>
+    std::size_t operator () (std::pair<T1,T2> const &p) const {
+      std::size_t h1 = std::hash<T1>()(p.first);
+      std::size_t h2 = std::hash<T2>()(p.second);
+      return h1 ^ h2;
+    }
+  };
+
+  typedef unordered_map<string, vector<pair<int,int>>> KEY_TO_PORTALS;
+  typedef unordered_map<pair<int,int>, string, pair_hash> POINT_TO_PORTAL;
   typedef vector<string> MAP;
 
   const char WALL1 = '#';
   const char WALL2 = ' ';
+  const char PATH = '.';
 
   template<class T>
   inline void printPair(const pair<T,T> &p) {
     cout << "[" << p.first << ", " << p.second << "]";
   }
 
-  void printPortals(const PORTAL_MAP& portals) {
+  void printPortals(const KEY_TO_PORTALS& portals) {
     for (const auto &entry : portals) {
       cout << "Key: " << entry.first << " has following positions: ";
       for (const auto &p : entry.second) {
@@ -57,33 +68,43 @@ namespace aoc2019_20 {
     cout << endl;
   }
 
-  void findPortals(const MAP &map, PORTAL_MAP &portals) {
+  void fillPortals(const MAP &map, KEY_TO_PORTALS &portals, POINT_TO_PORTAL &pointToPortals) {
+    int aux = 0;
+    string key = "12";
+    pair<int,int> pos;
     for (int y = 0; y < map.size(); ++y) {
       for (int x = 0; x < map[y].size(); ++x) {
         char c = map[y][x];
         // Skip non alpha chars, and end-of-strings (bottom or right chars)
         if (!isalpha(c) || isalpha(map[y][x-1]) || isalpha(map[y-1][x])) continue;
         if (isalpha(map[y][x+1])) {
-          string key(2,c);  key[1] = map[y][x+1];
-          portals[key].push_back(make_pair(x+1, y)); 
+          key[0] = c;  key[1] = map[y][x+1];
+          aux = x+2 < map[y].size() && map[y][x+2] == PATH ? x+1 : x;
+          pos = make_pair(aux, y);
         } else if (isalpha(map[y+1][x])) {
-          string key(2,c);  key[1] =  map[y+1][x];
-          portals[key].push_back(make_pair(x, y+1)); 
+          key[0] = c;  key[1] =  map[y+1][x];
+          aux = y+2 < map.size() && map[y+2][x] == PATH ? y+1 : y;
+          pos = make_pair(x, aux);
         }
+        portals[key].push_back(pos); 
+        pointToPortals[pos] = key;
       }
     }
   }
 
+  // pair<int,int> getPosNextToPortal()
+
   void solve(int part = 1) {
     string input;
     MAP map;
-    PORTAL_MAP portals;
+    KEY_TO_PORTALS portals;
+    POINT_TO_PORTAL pointToPortals;
     while (!cin.eof()) {
       getline(cin, input);
       map.push_back(input);
     }
     printMap(map);
-    findPortals(map, portals);
+    fillPortals(map, portals, pointToPortals);
     printPortals(portals);
   }
 };
