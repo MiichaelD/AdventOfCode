@@ -64,7 +64,6 @@ namespace aoc2019_20 {
   void printMap(const MAP &map) {
     for (const string &line : map) {
       for (char c : line) {
-        // if (c == WALL2) c = WALL1;
         cout << c;
       }
       cout << endl;
