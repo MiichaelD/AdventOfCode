@@ -114,7 +114,7 @@ namespace aoc2019_20 {
       for (int x = 0; x < map[y].size(); ++x) {
         char c = map[y][x];
         // Skip non alpha chars, and end-of-strings (bottom or right chars)
-        if (!isalpha(c) || isalpha(map[y][x-1]) || isalpha(map[y-1][x])) continue;
+        if (!isalpha(c)) continue;
         if (isalpha(map[y][x+1])) {
           key[0] = c;  key[1] = map[y][x+1];
           aux = x+2 < map[y].size() && map[y][x+2] == PATH ? x+1 : x;
@@ -218,8 +218,8 @@ namespace aoc2019_20 {
 
     KEY_TO_PORTALS portals;
     POINT_TO_PORTAL pointToPortals;
-    fillPortals(map, portals, pointToPortals);
     printMap(map);
+    fillPortals(map, portals, pointToPortals);
     printPortals(portals);
 
     pair<int,int> startPos = getPathPosNextToPortal(map, portals.at(startKey)[0]);
@@ -232,39 +232,4 @@ namespace aoc2019_20 {
     cout << "Min distance: " << minDistance << endl;
   }
 };
-
-
-  // From day 15 part 2: 
-  // unordered_map<pair<int,int>, int, pair_hash> getSteps(
-  //     const pair<int,int> &origin, const pair<int,int> &target) {
-  //   unordered_map<pair<int,int>, int, pair_hash> visited;
-  //   deque<pair<pair<int,int>, int>> stack;
-    // visited[origin] = 0;
-    // stack.push_back(make_pair(origin, 0));
-    // int maxSteps = 0;
-    // while(stack.size()) {
-    //   auto item = stack.front();
-    //   stack.pop_front();
-    //   // cout << "Checking pos: "; printPair(item.first);
-    //   // cout << "\t has a distance of: " << item.second << endl;
-    //   maxSteps = max(maxSteps, item.second);
-    //   if (item.first == target) {
-    //     cout << "Steps to target: " << item.second << endl;
-    //     break; // found it;
-    //   }
-    //   auto neighbors = getNeighbors(item.first);
-    //   for (const pair<int,int> &neighPos : neighbors) {
-    //     const auto &entry = visited.find(neighPos);
-    //     if (isPosValid(neighPos) && entry == visited.end()) { // Valid position and not visited
-    //       int step = item.second + 1;
-    //       visited[neighPos] = step;
-    //       stack.push_back(make_pair(neighPos, step));
-
-    //     }
-    //   }
-    // }    
-    // cout << "Max Steps: " << maxSteps << endl;
-  //   return visited;
-  // }
-
 #endif /* _2019_ADVENTOFCODE_20_H_ */
