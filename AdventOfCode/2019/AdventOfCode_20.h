@@ -92,21 +92,79 @@ namespace aoc2019_20 {
     }
   }
 
-  // pair<int,int> getPosNextToPortal()
+  pair<int,int> getPathPosNextToPortal(const MAP &map, const pair<int,int> &portalPos) {
+    int x = portalPos.first, y = portalPos.second;
+    if (y + 1 < map.size() && map[y + 1][x] == PATH) return make_pair(x, y + 1);
+    if (y - 1 >= 0 && map[y - 1][x] == PATH) return make_pair(x, y - 1);
+    if (x + 1 < map[y].size() && map[y][x + 1] == PATH) return make_pair(x + 1, y);
+    if (x - 1 >= 0 && map[y][x - 1] == PATH) return make_pair(x - 1, y);
+    cout << "getPathPosNextToPortal() - This shouldnt happen! " << endl;
+    return portalPos;
+  }
+
+  void test(const MAP &map, const KEY_TO_PORTALS &portals, const POINT_TO_PORTAL& pointToPortals) {
+  }
+
+  size_t findMinSteps(const MAP &map, const pair<int,int> &sPos, const pair<int,int> &ePos) {
+    return SIZE_MAX;
+  }
 
   void solve(int part = 1) {
-    string input;
+    string input, startKey = "AA", endKey = "ZZ";
     MAP map;
-    KEY_TO_PORTALS portals;
-    POINT_TO_PORTAL pointToPortals;
     while (!cin.eof()) {
       getline(cin, input);
       map.push_back(input);
     }
-    printMap(map);
+
+    KEY_TO_PORTALS portals;
+    POINT_TO_PORTAL pointToPortals;
     fillPortals(map, portals, pointToPortals);
+    printMap(map);
     printPortals(portals);
+
+    pair<int,int> startPos = getPathPosNextToPortal(map, portals.at(startKey)[0]);
+    pair<int,int> endPos = getPathPosNextToPortal(map, portals.at(endKey)[0]);
+    cout << endl << "Start Position :"; printPair(startPos);
+    cout << ", End Position :"; printPair(endPos); cout << endl << endl;
+    test(map, portals, pointToPortals);
+
+    cout << "Min distance: " << findMinSteps(map, startPos, endPos) << endl;
   }
 };
+
+
+  // From day 15 part 2: 
+  // unordered_map<pair<int,int>, int, pair_hash> getSteps(
+  //     const pair<int,int> &origin, const pair<int,int> &target) {
+  //   unordered_map<pair<int,int>, int, pair_hash> visited;
+  //   deque<pair<pair<int,int>, int>> stack;
+  //   visited[origin] = 0;
+  //   stack.push_back(make_pair(origin, 0));
+  //   int maxSteps = 0;
+  //   while(stack.size()) {
+  //     auto item = stack.front();
+  //     stack.pop_front();
+  //     // cout << "Checking pos: "; printPair(item.first);
+  //     // cout << "\t has a distance of: " << item.second << endl;
+  //     maxSteps = max(maxSteps, item.second);
+  //     if (item.first == target) {
+  //       cout << "Steps to target: " << item.second << endl;
+  //       break; // found it;
+  //     }
+  //     auto neighbors = getNeighbors(item.first);
+  //     for (const pair<int,int> &neighPos : neighbors) {
+  //       const auto &entry = visited.find(neighPos);
+  //       if (isPosValid(neighPos) && entry == visited.end()) { // Valid position and not visited
+  //         int step = item.second + 1;
+  //         visited[neighPos] = step;
+  //         stack.push_back(make_pair(neighPos, step));
+
+  //       }
+  //     }
+  //   }    
+  //   cout << "Max Steps: " << maxSteps << endl;
+  //   return visited;
+  // }
 
 #endif /* _2019_ADVENTOFCODE_20_H_ */

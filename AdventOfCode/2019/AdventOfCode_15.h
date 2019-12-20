@@ -35,8 +35,6 @@ namespace aoc2019_15 {
       return h1 ^ h2;
     }
   };
-  
-  const int MAX_TIMES = INT_MAX;
 
   const int POS_MODE = 0;
   const int IMM_MODE = 1;
@@ -380,7 +378,6 @@ namespace aoc2019_15 {
     return false;
   }
 
-  int times = 0;
   bool processIntCodes(vector<int64_t> &intCodes, deque<Droid> &inputs, deque<int64_t> &outputs) {
     int64_t intCode, aux1, aux2; 
     for (int pc = 0;;) {
@@ -451,19 +448,6 @@ namespace aoc2019_15 {
     }
   }
 
-  size_t countTiles(const unordered_map<pair<int,int>, int, pair_hash> &tiles, const int type) {
-    size_t tileCount = 0;
-    int i = 0; 
-    for (const auto &entry : tiles) {
-      // cout << "Tile " << i++ << ": @ "; printPair(entry.first); cout << " => " << entry.second << endl; 
-      if (entry.second == type) {
-        ++tileCount;
-      }
-    }
-    return tileCount;
-  }
-
-  // void flood
   bool isPosValid(const pair<int,int> &pos) { 
     const auto & entry = map.find(pos);
     return entry != map.end() && entry->second != WALL_STATUS;
