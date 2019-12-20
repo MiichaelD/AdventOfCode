@@ -26,13 +26,28 @@ namespace aoc2019_12 {
   using namespace std;
 
   const size_t MAX_STEPS = 1000;
+  const size_t TOTAL_AXIS = 3;
   // const size_t MAX_STEPS = SIZE_MAX;
 
   class Moon {
     int64_t vx = 0, vy = 0, vz = 0;
+    unordered_set<string> states;
     public:
     int64_t x = 0, y = 0, z = 0;
-    Moon(int64_t x1, int64_t y1, int64_t z1) : x(x1), y(y1), z(z1) { }
+    Moon(int64_t x1, int64_t y1, int64_t z1) : x(x1), y(y1), z(z1) { 
+      saveState();
+    }
+
+    size_t getStatesCount() const {
+      return states.size();
+    }
+
+    void saveState() {
+      const string &state = getState();
+      if (states.find(state) == states.end()) {
+        states.insert(getState());
+      }
+    }
 
     void print() const {
       cout << getState() << endl;
@@ -55,6 +70,15 @@ namespace aoc2019_12 {
       ss << "Pos=[x=" << x << ", y=" << y << ", z=" << z << "]\t";
       ss << "Vel=[x=" << vx << ", y=" << vy << ", z=" << vz << "]";
       return ss.str();
+    }
+
+    string getAxisState(int axisIndex) const {
+      switch (axisIndex) {
+        case 0: return "x=" + to_string(x) + "vx=" + to_string(vx);
+        case 1: return "y=" + to_string(y) + "vy=" + to_string(vy);
+        case 2: return "z=" + to_string(z) + "vz=" + to_string(vz);
+        default: return getState();
+      }
     }
 
     int64_t getPotencialEnergy() const {
@@ -110,7 +134,7 @@ namespace aoc2019_12 {
     }
     for (auto &moon : moons) {
       moon.applyVelocity();
-      // moon.print();
+      moon.print();
     }
     string systemState = getSystemState(moons);
     if (systemStates.find(systemState) != systemStates.end()) {
@@ -129,6 +153,72 @@ namespace aoc2019_12 {
     return res;
   }
 
+  inline int64_t gcd(int64_t na, int64_t nb) { 
+    return nb == 0 ? na :gcd(nb, na % nb);  
+  } 
+
+  inline int64_t lcm(size_t na, size_t nb) {
+    return (na * nb) / gcd(na, nb);
+  }
+
+  int64_t lcm1(size_t na, size_t nb) {
+    int64_t lcm = min(na,nb);
+    while((lcm % na != 0)&& (lcm % nb !=0)) {
+      lcm++;
+    }
+    return lcm;
+  }
+
+  int64_t getTotalSteps(const vector<unordered_set<string>> &axesStates) {
+    int64_t result = axesStates[0].size();
+    for (int i = 1; i < axesStates.size(); ++i) {
+      result = lcm(result, axesStates[i].size());
+    }
+    return result;
+  }
+
+  int64_t testTotalSteps() {
+    int64_t result = 18;
+    cout << "\tN1: " << result << endl;
+    for (int i : {28, 44}) {
+      cout << "\tN2 " << i << endl;
+      result = lcm(result, i);
+      cout << "\tResult " << result << endl;
+    }
+    return result;
+  }
+  
+  size_t doStepsUntilRepeat(vector<Moon> &moons, vector<unordered_set<string>> &axesStates) {
+    for (int i = 0; i < moons.size(); ++i) {
+      int64_t vx = 0, vy = 0, vz = 0;
+      for (int j = 0; j < moons.size(); ++j) {
+        if (i == j) continue;
+        vx += getVelocity(moons[i].x, moons[j].x);
+        vy += getVelocity(moons[i].y, moons[j].y);
+        vz += getVelocity(moons[i].z, moons[j].z);
+      }
+      moons[i].applyGravity(vx, vy, vz);
+    }
+    for (int i = 0; i < moons.size(); ++i) {
+      moons[i].applyVelocity();
+    }
+    int repeatedAxes = TOTAL_AXIS;
+    for (int i = 0; i < TOTAL_AXIS; ++i) {
+      stringstream axisStateStream;
+      for (const Moon &moon : moons) {
+        axisStateStream << moon.getAxisState(i) << endl;
+      }
+      string axisStateStr = axisStateStream.str();
+      if (axesStates[i].find(axisStateStr) == axesStates[i].end()) {
+        axesStates[i].insert(axisStateStr);
+        --repeatedAxes;
+      }
+      // cout << "Axis " << i << " size = " << axesStates[i].size() << "\t";
+    }
+    // cout << "\tShould stop? " << (repeatedAxes == TOTAL_AXIS ? "yes" : "no") << endl;
+    return repeatedAxes == TOTAL_AXIS;
+  }
+
   void solve(int part = 1) {
     vector<Moon> moons = createMoons();
     unordered_set<string> systemStates {getSystemState(moons)};
@@ -136,15 +226,22 @@ namespace aoc2019_12 {
       moon.print();
     }
     cout << endl;
-    size_t step = 1;
-    for (; part == 2 || step <= MAX_STEPS; ++step) {
-      // cout << "Step " << step << ": " << endl;
-      if (doStep(moons, systemStates)) {
-        cout << "Repeated state @ step: " << step << endl;
-        break;
+    if (part == 1) {
+      size_t step = 1;
+      for (; part == 2 || step <= MAX_STEPS; ++step) {
+        cout << "Step " << step << ": " << endl;
+        if (doStep(moons, systemStates)) {
+          cout << "Repeated state @ step: " << step << endl;
+          // break;
+        }
       }
+      cout << "After " << step - 1  << " steps, Total Energy: " << getTotalEnergy(moons) << endl;
+    } else {
+      vector<unordered_set<string>> axesStates = {{},{},{}};
+      while (!doStepsUntilRepeat(moons, axesStates));
+      // cout << testTotalSteps() << endl;
+      cout << "Steps to full system repeatition: " << getTotalSteps(axesStates) << endl;
     }
-    cout << "After " << step + (part == 1 ? -1 : 0)  << " steps, Total Energy: " << getTotalEnergy(moons) << endl;
   }
 };
 
