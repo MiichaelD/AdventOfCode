@@ -1,12 +1,12 @@
 /*
-  Link:         http://adventofcode.com/2019/day/X
+  Link:         http://adventofcode.com/2019/day/22
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/XX/2019
+  Date:         12/22/2019
 */
 
-#ifndef _2019_ADVENTOFCODE_XX_H_
-#define _2019_ADVENTOFCODE_XX_H_
+#ifndef _2019_ADVENTOFCODE_22_H_
+#define _2019_ADVENTOFCODE_22_H_
 
 #include <algorithm> // std::sort
 #include <iomanip>      // std::setprecision
@@ -22,26 +22,129 @@
 #include <unordered_set>
 #include <vector>
 
-namespace aoc2019_XX {  
+namespace aoc2019_22 {  
   using namespace std;
 
-  void solve1() {   
-    string input;
-    cin >> input;
-    
+  const size_t TOTAL_CARDS = 10007;
+  
+  const int CUT = 0;
+  const int STA = 1;
+  const int INC = 2;
+
+  template<class T>
+  void printCards(const deque<T> &vec) {
+    for (const T &ele : vec) {
+      cout << ele <<", ";
+    }
+    cout << endl;
+  }
+  
+  int parseNumber(const string &input, size_t startInd) {
+    int aux = 0;
+    bool negative = false;
+    for (size_t i = startInd ; i < input.length(); ++i) {
+      if (input[i] == '-') {
+        negative = true;
+      } else {
+        aux *= 10;
+        aux += (input[i] - '0');
+      }
+    }
+    return (negative ? -aux : aux);
   }
 
-  void solve2() {    
-    
+  string getOperationName(const int &op) {
+    switch(op) {
+      case CUT: return "cut";
+      case STA: return "sta";
+      case INC:
+      default: return "inc";
+    }
   }
+
+  pair<int,int> parseInputString(const string &input) {
+    pair<int,int> result;
+    // cout << "Parsing: " << input << " => ";
+    if (input[0] == 'c' && input[1] == 'u' && input[2] == 't') {  // cut
+      result = make_pair(CUT, parseNumber(input, 4));
+    } else if (input[0] == 'd' && input[5] == 'i' && input[10] == 'n') { // new stack
+      result = make_pair(STA, 0);
+    } else if (input[0] == 'd' && input[5] == 'w' && input[10] == 'i') { // increment
+      result = make_pair(INC, parseNumber(input, 20));
+    }
+    // cout << getOperationName(result.first) << " - " << result.second << endl;c
+    return result;
+  }
+
+  vector<pair<int,int>> parseInput() {
+    vector<pair<int,int>> result;
+    string input;
+    while (!cin.eof()) {
+      getline(cin, input);
+      result.push_back(parseInputString(input));
+    }
+    return result;
+  }
+
+  void cutCards(deque<int> &cards, int n) {
+    if (n > 0) {
+      for (int i = 0; i < n; ++i) {
+        cards.push_back(cards.front());
+        cards.pop_front();
+      }
+    } else {
+      int absN = abs(n);
+      for (int i = 0; i < absN; ++i) {
+        cards.push_front(cards.back());
+        cards.pop_back();
+      }
+    }
+  }
+
+  deque<int> incCards(deque<int> &cards, int n) {
+    deque<int> result(TOTAL_CARDS, 0);
+    int aux = 0;
+    for (int i = 0; i < cards.size(); ++i) {
+      result[aux] = cards[i];
+      aux = (aux + n) % TOTAL_CARDS;
+    }
+    return result;
+  }
+
+  inline void staCards(deque<int> &cards) {
+    std::reverse(cards.begin(),cards.end());
+  }
+
+  void processInput(deque<int> &cards, const vector<pair<int,int>> &input) {
+    for (const pair<int,int> &in : input) {
+      switch (in.first) {
+        case CUT: cutCards(cards, in.second); break;
+        case STA: staCards(cards); break;
+        case INC: cards = incCards(cards, in.second); break;
+      }
+    }
+  }
+
+  size_t findCardIndex(const deque<int> &cards, int targetCard) {
+    for (int i = 0; i < cards.size(); ++i) {
+      if (cards[i] == targetCard) return i;
+    }
+    return -1;
+  }
+
 
   void solve(int part = 1) {
-    if (part == 1) {
-      solve1();
-    } else {
-      solve2();
+    vector<pair<int,int>> input = parseInput();
+    deque<int> cards(TOTAL_CARDS, 0);
+    for (int i = 0; i < TOTAL_CARDS; ++i) {
+      cards[i] = i;
     }
+    processInput(cards,input);
+    size_t indexCard2019 = findCardIndex(cards, 2019);
+    cout << "Card #2019: " << indexCard2019 << endl;
+    
+    // printCards(cards);
   }
 };
 
-#endif /* _2019_ADVENTOFCODE_XX_H_ */
+#endif /* _2019_ADVENTOFCODE_22_H_ */
