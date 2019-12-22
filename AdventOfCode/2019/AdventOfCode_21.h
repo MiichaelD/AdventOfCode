@@ -230,7 +230,7 @@ namespace aoc2019_21 {
     string inputStr = "NOT A TEAND D TEOR T JE";  // Gap 1-step ahead, and safe to land
     inputStr +=       "NOT B TEAND D TEOR T JE";  // Gap 2-step ahead, and safe to land
     inputStr +=       "NOT C TEAND D TEOR T JE";  // Gap 3-step ahead, and safe to land
-    inputStr += "WALKE";                          // Start walking.
+    inputStr += (part == 1 ? "WALKE" : "RUN E");  // Start moving.
     for (char c : inputStr) {
       inputs.push_back(c == 'E' ? 10 : (int) c);
     }
