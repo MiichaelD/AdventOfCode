@@ -227,12 +227,20 @@ namespace aoc2019_21 {
       intCodes.push_back((0));
     }
     deque<int> inputs, outputs;
-    string inputStr = "NOT A TEAND D TEOR T JE";  // Gap 1-step ahead, and safe to land
-    inputStr +=       "NOT B TEAND D TEOR T JE";  // Gap 2-step ahead, and safe to land
-    inputStr +=       "NOT C TEAND D TEOR T JE";  // Gap 3-step ahead, and safe to land
-    inputStr += (part == 1 ? "WALKE" : "RUN E");  // Start moving.
+    string inputStr;
+    if (part == 1) {
+      inputStr += "NOT A TeAND D TeOR T Je";  // Gap 1-step ahead, and safe to land
+      inputStr += "NOT B TeAND D TeOR T Je";  // Gap 2-step ahead, and safe to land
+      inputStr += "NOT C TeAND D TeOR T Je";  // Gap 3-step ahead, and safe to land
+    } else {
+      inputStr += "NOT C TeAND D TeOR T Je";  // Gap 3-step ahead, and safe to land
+      inputStr += "NOT B TeAND D TeOR T Je";  // Gap 2-step ahead, and safe to land
+      inputStr += "NOT A TeAND D TeOR T Je";  // Gap 1-step ahead, and safe to land
+      inputStr += "AND E TeOR I TeOR H TeAND T Je";
+    }
+    inputStr += (part == 1 ? "WALKe" : "RUNe");  // Start moving.
     for (char c : inputStr) {
-      inputs.push_back(c == 'E' ? 10 : (int) c);
+      inputs.push_back(c == 'e' ? 10 : (int) c);
     }
     processIntCodes(intCodes, inputs, outputs);
   }
