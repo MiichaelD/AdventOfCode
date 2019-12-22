@@ -25,7 +25,9 @@
 namespace aoc2019_22 {  
   using namespace std;
 
-  const size_t TOTAL_CARDS = 10007;
+  const size_t TOTAL_CARDS_PT1 = 10007;
+  const size_t TOTAL_CARDS_PT2 = 119315717514047;
+  const size_t TOTAL_SHUFFLES = 101741582076661;
   
   const int CUT = 0;
   const int STA = 1;
@@ -102,11 +104,11 @@ namespace aoc2019_22 {
   }
 
   deque<int> incCards(deque<int> &cards, int n) {
-    deque<int> result(TOTAL_CARDS, 0);
+    deque<int> result(cards.size(), 0);
     int aux = 0;
     for (int i = 0; i < cards.size(); ++i) {
       result[aux] = cards[i];
-      aux = (aux + n) % TOTAL_CARDS;
+      aux = (aux + n) % cards.size();
     }
     return result;
   }
@@ -126,23 +128,37 @@ namespace aoc2019_22 {
   }
 
   size_t findCardIndex(const deque<int> &cards, int targetCard) {
-    for (int i = 0; i < cards.size(); ++i) {
-      if (cards[i] == targetCard) return i;
+    for (size_t i = 0; i < cards.size(); ++i) {
+      if (cards[i] == targetCard) {
+       cout << "Card #" << targetCard << ": " << i << endl;
+        return i;
+      }
     }
     return -1;
   }
 
 
-  void solve(int part = 1) {
-    vector<pair<int,int>> input = parseInput();
-    deque<int> cards(TOTAL_CARDS, 0);
-    for (int i = 0; i < TOTAL_CARDS; ++i) {
+  inline deque<int> fillDeck(size_t cardAmount) {
+    deque<int> cards(cardAmount, 0);
+    for (int i = 0; i < cardAmount; ++i) {
       cards[i] = i;
     }
-    processInput(cards,input);
-    size_t indexCard2019 = findCardIndex(cards, 2019);
-    cout << "Card #2019: " << indexCard2019 << endl;
-    
+    return cards;
+  }
+
+  void solve(int part = 1) {
+    vector<pair<int,int>> input = parseInput();
+    if (part == 1) {
+      deque<int> cards = fillDeck(TOTAL_CARDS_PT1);
+      processInput(cards,input);
+      findCardIndex(cards, 2019);
+    } else {
+      deque<int> cards = fillDeck(TOTAL_CARDS_PT2);
+      for (size_t i = 0 ; i < TOTAL_SHUFFLES; ++i) {
+        processInput(cards,input);
+      }
+      findCardIndex(cards, 2020);
+    }
     // printCards(cards);
   }
 };
