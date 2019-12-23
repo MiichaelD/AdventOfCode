@@ -1,0 +1,3686 @@
+Solving part: 1
+Adding 0 to 0. Size: 1
+Adding 1 to 1. Size: 1
+Adding 2 to 2. Size: 1
+Adding 3 to 3. Size: 1
+Adding 4 to 4. Size: 1
+Adding 5 to 5. Size: 1
+Adding 6 to 6. Size: 1
+Adding 7 to 7. Size: 1
+Adding 8 to 8. Size: 1
+Adding 9 to 9. Size: 1
+Adding 10 to 10. Size: 1
+Adding 11 to 11. Size: 1
+Adding 12 to 12. Size: 1
+Adding 13 to 13. Size: 1
+Adding 14 to 14. Size: 1
+Adding 15 to 15. Size: 1
+Adding 16 to 16. Size: 1
+Adding 17 to 17. Size: 1
+Adding 18 to 18. Size: 1
+Adding 19 to 19. Size: 1
+Adding 20 to 20. Size: 1
+Adding 21 to 21. Size: 1
+Adding 22 to 22. Size: 1
+Adding 23 to 23. Size: 1
+Adding 24 to 24. Size: 1
+Adding 25 to 25. Size: 1
+Adding 26 to 26. Size: 1
+Adding 27 to 27. Size: 1
+Adding 28 to 28. Size: 1
+Adding 29 to 29. Size: 1
+Adding 30 to 30. Size: 1
+Adding 31 to 31. Size: 1
+Adding 32 to 32. Size: 1
+Adding 33 to 33. Size: 1
+Adding 34 to 34. Size: 1
+Adding 35 to 35. Size: 1
+Adding 36 to 36. Size: 1
+Adding 37 to 37. Size: 1
+Adding 38 to 38. Size: 1
+Adding 39 to 39. Size: 1
+Adding 40 to 40. Size: 1
+Adding 41 to 41. Size: 1
+Adding 42 to 42. Size: 1
+Adding 43 to 43. Size: 1
+Adding 44 to 44. Size: 1
+Adding 45 to 45. Size: 1
+Adding 46 to 46. Size: 1
+Adding 47 to 47. Size: 1
+Adding 48 to 48. Size: 1
+Adding 49 to 49. Size: 1
+ID 0 running with messages: 1 and pc = 0
+0 - Input: 0
+ID 1 running with messages: 1 and pc = 0
+1 - Input: 1
+ID 2 running with messages: 1 and pc = 0
+2 - Input: 2
+ID 3 running with messages: 1 and pc = 0
+3 - Input: 3
+ID 4 running with messages: 1 and pc = 0
+4 - Input: 4
+ID 5 running with messages: 1 and pc = 0
+5 - Input: 5
+ID 6 running with messages: 1 and pc = 0
+6 - Input: 6
+ID 7 running with messages: 1 and pc = 0
+7 - Input: 7
+ID 8 running with messages: 1 and pc = 0
+8 - Input: 8
+ID 9 running with messages: 1 and pc = 0
+9 - Input: 9
+ID 10 running with messages: 1 and pc = 0
+10 - Input: 10
+ID 11 running with messages: 1 and pc = 0
+11 - Input: 11
+ID 12 running with messages: 1 and pc = 0
+12 - Input: 12
+ID 13 running with messages: 1 and pc = 0
+13 - Input: 13
+ID 14 running with messages: 1 and pc = 0
+14 - Input: 14
+ID 15 running with messages: 1 and pc = 0
+15 - Input: 15
+ID 16 running with messages: 1 and pc = 0
+16 - Input: 16
+ID 17 running with messages: 1 and pc = 0
+17 - Input: 17
+ID 18 running with messages: 1 and pc = 0
+18 - Input: 18
+ID 19 running with messages: 1 and pc = 0
+19 - Input: 19
+ID 20 running with messages: 1 and pc = 0
+20 - Input: 20
+ID 21 running with messages: 1 and pc = 0
+21 - Input: 21
+ID 22 running with messages: 1 and pc = 0
+22 - Input: 22
+ID 23 running with messages: 1 and pc = 0
+23 - Input: 23
+ID 24 running with messages: 1 and pc = 0
+24 - Input: 24
+ID 25 running with messages: 1 and pc = 0
+25 - Input: 25
+ID 26 running with messages: 1 and pc = 0
+26 - Input: 26
+ID 27 running with messages: 1 and pc = 0
+27 - Input: 27
+ID 28 running with messages: 1 and pc = 0
+28 - Input: 28
+ID 29 running with messages: 1 and pc = 0
+29 - Input: 29
+ID 30 running with messages: 1 and pc = 0
+30 - Input: 30
+ID 31 running with messages: 1 and pc = 0
+31 - Input: 31
+ID 32 running with messages: 1 and pc = 0
+32 - Input: 32
+ID 33 running with messages: 1 and pc = 0
+33 - Input: 33
+ID 34 running with messages: 1 and pc = 0
+34 - Input: 34
+ID 35 running with messages: 1 and pc = 0
+35 - Input: 35
+ID 36 running with messages: 1 and pc = 0
+36 - Input: 36
+ID 37 running with messages: 1 and pc = 0
+37 - Input: 37
+ID 38 running with messages: 1 and pc = 0
+38 - Input: 38
+ID 39 running with messages: 1 and pc = 0
+39 - Input: 39
+ID 40 running with messages: 1 and pc = 0
+40 - Input: 40
+ID 41 running with messages: 1 and pc = 0
+41 - Input: 41
+ID 42 running with messages: 1 and pc = 0
+42 - Input: 42
+ID 43 running with messages: 1 and pc = 0
+43 - Input: 43
+ID 44 running with messages: 1 and pc = 0
+44 - Input: 44
+ID 45 running with messages: 1 and pc = 0
+45 - Input: 45
+ID 46 running with messages: 1 and pc = 0
+46 - Input: 46
+ID 47 running with messages: 1 and pc = 0
+47 - Input: 47
+ID 48 running with messages: 1 and pc = 0
+48 - Input: 48
+ID 49 running with messages: 1 and pc = 0
+49 - Input: 49
+Finished comps: 0
+Finished comps: 50
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 22130
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 22130
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 22130
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 22130
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 22130
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 22130
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 22130
+6 - Output: 48
+6 - Output: 92931
+6 - Output: 5
+6 - Output: 48
+6 - Output: 123908
+6 - Output: 5
+6 - Output: 30
+6 - Output: 100591
+6 - Output: 5
+10 - Output: 48
+10 - Output: 61954
+10 - Output: 125
+11 - Output: 30
+11 - Output: 603546
+11 - Output: 160
+12 - Output: 33
+12 - Output: 158566
+12 - Output: 16
+14 - Output: 25
+14 - Output: 20883
+14 - Output: 191
+15 - Output: 22
+15 - Output: 64151
+15 - Output: 6827
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 22130
+16 - Input: 2302
+16 - Input: 22130
+16 - Input: 3453
+16 - Input: 22130
+18 - Output: 26
+18 - Output: 97397
+18 - Output: 392570
+21 - Output: 26
+21 - Output: 194794
+21 - Output: -28047
+ID 22 running with messages: 2 and pc = 75
+22 - Input: 64151
+22 - Input: 6827
+ID 25 running with messages: 2 and pc = 75
+25 - Input: 20883
+25 - Input: 191
+ID 26 running with messages: 4 and pc = 75
+26 - Input: 97397
+26 - Input: 392570
+26 - Input: 194794
+26 - Input: -28047
+27 - Output: 9
+27 - Output: 68489
+27 - Output: 4409
+ID 30 running with messages: 4 and pc = 75
+30 - Input: 100591
+30 - Input: 5
+30 - Input: 603546
+30 - Input: 160
+31 - Output: 17
+31 - Output: 264507
+31 - Output: -36
+ID 33 running with messages: 2 and pc = 75
+33 - Input: 158566
+33 - Input: 16
+34 - Output: 38
+34 - Output: 108986
+34 - Output: 88867
+35 - Output: 13
+35 - Output: 49853
+35 - Output: 3
+35 - Output: 32
+35 - Output: 358724
+35 - Output: 3
+37 - Output: 48
+37 - Output: 30977
+37 - Output: 10
+37 - Output: 30
+37 - Output: 402364
+37 - Output: 10
+ID 38 running with messages: 2 and pc = 75
+38 - Input: 108986
+38 - Input: 88867
+39 - Output: 38
+39 - Output: 54493
+39 - Output: 32
+40 - Output: 13
+40 - Output: 99706
+40 - Output: 2
+40 - Output: 32
+40 - Output: 89681
+40 - Output: 2
+40 - Output: 28
+40 - Output: 84673
+40 - Output: 2
+40 - Output: 7
+40 - Output: 104774
+40 - Output: 2
+40 - Output: 43
+40 - Output: 30722
+40 - Output: 2
+40 - Output: 25
+40 - Output: 13922
+40 - Output: 2
+40 - Output: 30
+40 - Output: 301773
+40 - Output: 2
+40 - Output: 30
+40 - Output: 502955
+40 - Output: 2
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 22130
+41 - Input: 91473
+41 - Input: 22130
+42 - Output: 32
+42 - Output: 179362
+42 - Output: 1097
+42 - Output: 17
+42 - Output: 88169
+42 - Output: 1097
+ID 43 running with messages: 2 and pc = 75
+43 - Input: 30722
+43 - Input: 2
+44 - Output: 26
+44 - Output: 292191
+44 - Output: 34650
+45 - Output: 22
+45 - Output: 128302
+45 - Output: 1
+45 - Output: 9
+45 - Output: 136978
+45 - Output: 1
+45 - Output: 38
+45 - Output: 163479
+45 - Output: 1
+45 - Output: 17
+45 - Output: 176338
+45 - Output: 1
+46 - Output: 22
+46 - Output: 192453
+46 - Output: -119
+ID 48 running with messages: 8 and pc = 75
+48 - Input: 92931
+48 - Input: 5
+48 - Input: 123908
+48 - Input: 5
+48 - Input: 61954
+48 - Input: 125
+48 - Input: 30977
+48 - Input: 10
+49 - Output: 9
+49 - Output: 205467
+49 - Output: 138
+Finished comps: 1
+ID 7 running with messages: 2 and pc = 75
+7 - Input: 104774
+7 - Input: 2
+ID 9 running with messages: 6 and pc = 75
+9 - Input: 68489
+9 - Input: 4409
+9 - Input: 136978
+9 - Input: 1
+9 - Input: 205467
+9 - Input: 138
+ID 13 running with messages: 4 and pc = 75
+13 - Input: 49853
+13 - Input: 3
+13 - Input: 99706
+13 - Input: 2
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 10837877597000
+ID 17 running with messages: 6 and pc = 75
+17 - Input: 264507
+17 - Input: -36
+17 - Input: 88169
+17 - Input: 1097
+17 - Input: 176338
+17 - Input: 1
+ID 19 running with messages: 2 and pc = 75
+19 - Input: 155102
+19 - Input: 10837877597000
+ID 22 running with messages: 4 and pc = 90
+22 - Input: 128302
+22 - Input: 1
+22 - Input: 192453
+22 - Input: -119
+ID 25 running with messages: 2 and pc = 90
+25 - Input: 13922
+25 - Input: 2
+ID 26 running with messages: 2 and pc = 90
+26 - Input: 292191
+26 - Input: 34650
+ID 28 running with messages: 2 and pc = 75
+28 - Input: 84673
+28 - Input: 2
+ID 30 running with messages: 6 and pc = 90
+30 - Input: 402364
+30 - Input: 10
+30 - Input: 301773
+30 - Input: 2
+30 - Input: 502955
+30 - Input: 2
+ID 32 running with messages: 6 and pc = 75
+32 - Input: 358724
+32 - Input: 3
+32 - Input: 89681
+32 - Input: 2
+32 - Input: 179362
+32 - Input: 1097
+ID 38 running with messages: 4 and pc = 90
+38 - Input: 54493
+38 - Input: 32
+38 - Input: 163479
+38 - Input: 1
+48 - Output: 30
+48 - Output: 201182
+48 - Output: 31250
+Finished comps: 11
+9 - Output: 8
+9 - Output: 292143
+9 - Output: 608442
+17 - Output: 41
+17 - Output: 60982
+17 - Output: -39492
+22 - Output: 8
+22 - Output: 97381
+22 - Output: -812413
+26 - Output: 28
+26 - Output: 169346
+26 - Output: 399173
+ID 28 running with messages: 2 and pc = 90
+28 - Input: 169346
+28 - Input: 399173
+ID 30 running with messages: 2 and pc = 90
+30 - Input: 201182
+30 - Input: 31250
+38 - Output: 8
+38 - Output: 194762
+38 - Output: 2843744
+ID 41 running with messages: 2 and pc = 75
+41 - Input: 60982
+41 - Input: -39492
+Finished comps: 8
+ID 8 running with messages: 6 and pc = 75
+8 - Input: 292143
+8 - Input: 608442
+8 - Input: 97381
+8 - Input: -812413
+8 - Input: 194762
+8 - Input: 2843744
+28 - Output: 7
+28 - Output: 52387
+28 - Output: 798346
+30 - Output: 24
+30 - Output: 104578
+30 - Output: 1000000000
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -19340689654800
+Finished comps: 41
+ID 7 running with messages: 2 and pc = 75
+7 - Input: 52387
+7 - Input: 798346
+8 - Output: 33
+8 - Output: 79283
+8 - Output: 2639773
+ID 19 running with messages: 2 and pc = 75
+19 - Input: 77551
+19 - Input: -19340689654800
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 104578
+24 - Input: 1000000000
+ID 33 running with messages: 2 and pc = 75
+33 - Input: 79283
+33 - Input: 2639773
+Finished comps: 16
+7 - Output: 43
+7 - Output: 15361
+7 - Output: 1596692
+33 - Output: 13
+33 - Output: 149559
+33 - Output: 42236368
+ID 43 running with messages: 2 and pc = 75
+43 - Input: 15361
+43 - Input: 1596692
+Finished comps: 6
+ID 13 running with messages: 2 and pc = 75
+13 - Input: 149559
+13 - Input: 42236368
+43 - Output: 25
+43 - Output: 6961
+43 - Output: 3193384
+Finished comps: 36
+13 - Output: 32
+13 - Output: 269043
+13 - Output: 253418208
+ID 25 running with messages: 2 and pc = 75
+25 - Input: 6961
+25 - Input: 3193384
+ID 32 running with messages: 2 and pc = 75
+32 - Input: 269043
+32 - Input: 253418208
+Finished comps: 17
+25 - Output: 5
+25 - Output: 201386
+25 - Output: 1219872688
+32 - Output: 19
+32 - Output: 310204
+32 - Output: 1667998645056
+Finished comps: 67
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 201386
+5 - Input: 1219872688
+ID 19 running with messages: 2 and pc = 75
+19 - Input: 310204
+19 - Input: 1667998645056
+Finished comps: 30
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 26995782585440
+ID 19 running with messages: 2 and pc = 90
+19 - Input: 232653
+19 - Input: 26995782585440
+Finished comps: 30
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 20160969172696
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 20160969172696
+Finished comps: 25
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 20160
+Finished comps: 75
+Messages for computer 255: 54679, 20160, 
+Sending: 	54679, 20160, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 20160
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 20160
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 20160
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 20160
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 20160
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 20160
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 20160
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 20160
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 20160
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 9873095904000
+16 - Input: 2302
+16 - Input: 20160
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 8994198528000
+16 - Input: 3453
+16 - Input: 20160
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 9873095904000
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 19196187479696
+19 - Input: 155102
+19 - Input: 8994198528000
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 19196187479696
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 20160
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -17618992473600
+41 - Input: 91473
+41 - Input: 20160
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 24592633390080
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 8193540096000
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 18317290103696
+19 - Input: 77551
+19 - Input: -17618992473600
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 20038987284896
+19 - Input: 232653
+19 - Input: 24592633390080
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 17635838089536
+19 - Input: 155102
+19 - Input: 8193540096000
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 19196
+24 - Input: 52289
+24 - Input: 18317290103696
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 18317
+24 - Input: 52289
+24 - Input: 20038987284896
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 20038
+24 - Input: 52289
+24 - Input: 17635838089536
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -16050559795200
+Finished comps: 25
+Messages for computer 255: 54679, 19196, 54679, 18317, 54679, 20038, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 16835179657536
+19 - Input: 77551
+19 - Input: -16050559795200
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 17635
+24 - Input: 52289
+24 - Input: 16835179657536
+Finished comps: 25
+Messages for computer 255: 54679, 20038, 54679, 17635, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 18403612335936
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 16835
+24 - Input: 52289
+24 - Input: 18403612335936
+Finished comps: 25
+Messages for computer 255: 54679, 17635, 54679, 16835, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 18403
+Finished comps: 75
+Messages for computer 255: 54679, 16835, 54679, 18403, 
+Sending: 	54679, 18403, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 18403
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 18403
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 18403
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 18403
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 18403
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 18403
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 18403
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 18403
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 18403
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 7479450316800
+16 - Input: 2302
+16 - Input: 18403
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 6827595445440
+16 - Input: 3453
+16 - Input: 18403
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 7479450316800
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 17689522556736
+19 - Input: 155102
+19 - Input: 6827595445440
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 17689522556736
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 18403
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -14651708924160
+41 - Input: 91473
+41 - Input: 18403
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 22449317077264
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 6232551536827
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 17037667685376
+19 - Input: 77551
+19 - Input: -14651708924160
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 18436518556416
+19 - Input: 232653
+19 - Input: 22449317077264
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 16293202243600
+19 - Input: 155102
+19 - Input: 6232551536827
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 17689
+24 - Input: 52289
+24 - Input: 17037667685376
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 17037
+24 - Input: 52289
+24 - Input: 18436518556416
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 18436
+24 - Input: 52289
+24 - Input: 16293202243600
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -13374771792228
+Finished comps: 25
+Messages for computer 255: 54679, 17689, 54679, 17037, 54679, 18436, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 15698158334987
+19 - Input: 77551
+19 - Input: -13374771792228
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 16293
+24 - Input: 52289
+24 - Input: 15698158334987
+Finished comps: 25
+Messages for computer 255: 54679, 18436, 54679, 16293, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 16975095466919
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 15698
+24 - Input: 52289
+24 - Input: 16975095466919
+Finished comps: 25
+Messages for computer 255: 54679, 16293, 54679, 15698, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 16975
+Finished comps: 75
+Messages for computer 255: 54679, 15698, 54679, 16975, 
+Sending: 	54679, 16975, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 16975
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 16975
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 16975
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 16975
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 16975
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 16975
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 16975
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 16975
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 16975
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 5748930192775
+16 - Input: 2302
+16 - Input: 16975
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 5302835951875
+16 - Input: 3453
+16 - Input: 16975
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 5748930192775
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 16491474122867
+19 - Input: 155102
+19 - Input: 5302835951875
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 16491474122867
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 16975
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -12336942410100
+41 - Input: 91473
+41 - Input: 16975
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 20707338878800
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 4891356859375
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 16045379881967
+19 - Input: 77551
+19 - Input: -12336942410100
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 17083209264095
+19 - Input: 232653
+19 - Input: 20707338878800
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 15341231065631
+19 - Input: 155102
+19 - Input: 4891356859375
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 16491
+24 - Input: 52289
+24 - Input: 16045379881967
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 16045
+24 - Input: 52289
+24 - Input: 17083209264095
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 17083
+24 - Input: 52289
+24 - Input: 15341231065631
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -11379644482500
+Finished comps: 25
+Messages for computer 255: 54679, 16491, 54679, 16045, 54679, 17083, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14929751973131
+19 - Input: 77551
+19 - Input: -11379644482500
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 15341
+24 - Input: 52289
+24 - Input: 14929751973131
+Finished comps: 25
+Messages for computer 255: 54679, 17083, 54679, 15341, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 15887049900731
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14929
+24 - Input: 52289
+24 - Input: 15887049900731
+Finished comps: 25
+Messages for computer 255: 54679, 15341, 54679, 14929, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 15887
+Finished comps: 75
+Messages for computer 255: 54679, 14929, 54679, 15887, 
+Sending: 	54679, 15887, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 15887
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 15887
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 15887
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 15887
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 15887
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 15887
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 15887
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 15887
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 15887
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 4577848979375
+16 - Input: 2302
+16 - Input: 15887
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 4284435153775
+16 - Input: 3453
+16 - Input: 15887
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 4577848979375
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 15573542020731
+19 - Input: 155102
+19 - Input: 4284435153775
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 15573542020731
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 15887
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -10650274632900
+41 - Input: 91473
+41 - Input: 15887
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 19380117394256
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 4009827469103
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 15280128195131
+19 - Input: 77551
+19 - Input: -10650274632900
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 16009498044731
+19 - Input: 232653
+19 - Input: 19380117394256
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14682276560187
+19 - Input: 155102
+19 - Input: 4009827469103
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 15573
+24 - Input: 52289
+24 - Input: 15280128195131
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 15280
+24 - Input: 52289
+24 - Input: 16009498044731
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 16009
+24 - Input: 52289
+24 - Input: 14682276560187
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -9967653201348
+Finished comps: 25
+Messages for computer 255: 54679, 15573, 54679, 15280, 54679, 16009, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14407668875515
+19 - Input: 77551
+19 - Input: -9967653201348
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14682
+24 - Input: 52289
+24 - Input: 14407668875515
+Finished comps: 25
+Messages for computer 255: 54679, 16009, 54679, 14682, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 15090290307067
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14407
+24 - Input: 52289
+24 - Input: 15090290307067
+Finished comps: 25
+Messages for computer 255: 54679, 14682, 54679, 14407, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 15090
+Finished comps: 75
+Messages for computer 255: 54679, 14407, 54679, 15090, 
+Sending: 	54679, 15090, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 15090
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 15090
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 15090
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 15090
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 15090
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 15090
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 15090
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 15090
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 15090
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 3808667244210
+16 - Input: 2302
+16 - Input: 15090
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 3617598584700
+16 - Input: 3453
+16 - Input: 15090
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 3808667244210
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14889130082174
+19 - Input: 155102
+19 - Input: 3617598584700
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 14889130082174
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 15090
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -9467607906360
+41 - Input: 91473
+41 - Input: 15090
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 18407878861920
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 3436115229000
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14698061422664
+19 - Input: 77551
+19 - Input: -9467607906360
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 15198106717652
+19 - Input: 232653
+19 - Input: 18407878861920
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14225868185316
+19 - Input: 155102
+19 - Input: 3436115229000
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14889
+24 - Input: 52289
+24 - Input: 14698061422664
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14698
+24 - Input: 52289
+24 - Input: 15198106717652
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 15198
+24 - Input: 52289
+24 - Input: 14225868185316
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -8992648285200
+Finished comps: 25
+Messages for computer 255: 54679, 14889, 54679, 14698, 54679, 15198, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14044384829616
+19 - Input: 77551
+19 - Input: -8992648285200
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14225
+24 - Input: 52289
+24 - Input: 14044384829616
+Finished comps: 25
+Messages for computer 255: 54679, 15198, 54679, 14225, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14519344450776
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14044
+24 - Input: 52289
+24 - Input: 14519344450776
+Finished comps: 25
+Messages for computer 255: 54679, 14225, 54679, 14044, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14519
+Finished comps: 75
+Messages for computer 255: 54679, 14044, 54679, 14519, 
+Sending: 	54679, 14519, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 14519
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 14519
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 14519
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 14519
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 14519
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 14519
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 14519
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 14519
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 14519
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 3306093903900
+16 - Input: 2302
+16 - Input: 14519
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 3180992537490
+16 - Input: 3453
+16 - Input: 14519
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 3306093903900
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14389323125676
+19 - Input: 155102
+19 - Input: 3180992537490
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 14389323125676
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 14519
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -8652369811320
+41 - Input: 91473
+41 - Input: 14519
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 17711331557072
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 3060624960359
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14264221759266
+19 - Input: 77551
+19 - Input: -8652369811320
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14604500233146
+19 - Input: 232653
+19 - Input: 17711331557072
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13907952928298
+19 - Input: 155102
+19 - Input: 3060624960359
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14389
+24 - Input: 52289
+24 - Input: 14264221759266
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14264
+24 - Input: 52289
+24 - Input: 14604500233146
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14604
+24 - Input: 52289
+24 - Input: 13907952928298
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -8324967348612
+Finished comps: 25
+Messages for computer 255: 54679, 14389, 54679, 14264, 54679, 14604, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13787585351167
+19 - Input: 77551
+19 - Input: -8324967348612
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13907
+24 - Input: 52289
+24 - Input: 13787585351167
+Finished comps: 25
+Messages for computer 255: 54679, 14604, 54679, 13907, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14114987813875
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13787
+24 - Input: 52289
+24 - Input: 14114987813875
+Finished comps: 25
+Messages for computer 255: 54679, 13907, 54679, 13787, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14114
+Finished comps: 75
+Messages for computer 255: 54679, 13787, 54679, 14114, 
+Sending: 	54679, 14114, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 14114
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 14114
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 14114
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 14114
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 14114
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 14114
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 14114
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 14114
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 14114
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2975250409154
+16 - Input: 2302
+16 - Input: 14114
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2892257336924
+16 - Input: 3453
+16 - Input: 14114
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2975250409154
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14029613262670
+19 - Input: 155102
+19 - Input: 2892257336924
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 14029613262670
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 14114
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -8092746687672
+41 - Input: 91473
+41 - Input: 14114
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 17217283118432
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2811579313544
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13946620190440
+19 - Input: 77551
+19 - Input: -8092746687672
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 14178840851380
+19 - Input: 232653
+19 - Input: 17217283118432
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13684792412740
+19 - Input: 155102
+19 - Input: 2811579313544
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14029
+24 - Input: 52289
+24 - Input: 13946620190440
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13946
+24 - Input: 52289
+24 - Input: 14178840851380
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 14178
+24 - Input: 52289
+24 - Input: 13684792412740
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7867003702032
+Finished comps: 25
+Messages for computer 255: 54679, 14029, 54679, 13946, 54679, 14178, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13604114389360
+19 - Input: 77551
+19 - Input: -7867003702032
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13684
+24 - Input: 52289
+24 - Input: 13604114389360
+Finished comps: 25
+Messages for computer 255: 54679, 14178, 54679, 13684, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13829857375000
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13604
+24 - Input: 52289
+24 - Input: 13829857375000
+Finished comps: 25
+Messages for computer 255: 54679, 13684, 54679, 13604, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13829
+Finished comps: 75
+Messages for computer 255: 54679, 13604, 54679, 13829, 
+Sending: 	54679, 13829, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13829
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13829
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13829
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13829
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13829
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13829
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13829
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13829
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13829
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2754805889684
+16 - Input: 2302
+16 - Input: 13829
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2699178875474
+16 - Input: 3453
+16 - Input: 13829
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2754805889684
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13773083951140
+19 - Input: 155102
+19 - Input: 2699178875474
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13773083951140
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13829
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7708147526952
+41 - Input: 91473
+41 - Input: 13829
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16869619402352
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2644675121789
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13717456936930
+19 - Input: 77551
+19 - Input: -7708147526952
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13876313112010
+19 - Input: 232653
+19 - Input: 16869619402352
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13528649395930
+19 - Input: 155102
+19 - Input: 2644675121789
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13773
+24 - Input: 52289
+24 - Input: 13717456936930
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13717
+24 - Input: 52289
+24 - Input: 13876313112010
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13876
+24 - Input: 52289
+24 - Input: 13528649395930
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7552499089572
+Finished comps: 25
+Messages for computer 255: 54679, 13773, 54679, 13717, 54679, 13876, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13474145642245
+19 - Input: 77551
+19 - Input: -7552499089572
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13528
+24 - Input: 52289
+24 - Input: 13474145642245
+Finished comps: 25
+Messages for computer 255: 54679, 13876, 54679, 13528, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13629794079625
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13474
+24 - Input: 52289
+24 - Input: 13629794079625
+Finished comps: 25
+Messages for computer 255: 54679, 13528, 54679, 13474, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13629
+Finished comps: 75
+Messages for computer 255: 54679, 13474, 54679, 13629, 
+Sending: 	54679, 13629, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13629
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13629
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13629
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13629
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13629
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13629
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13629
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13629
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13629
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2606426873589
+16 - Input: 2302
+16 - Input: 13629
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2568731785389
+16 - Input: 3453
+16 - Input: 13629
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2606426873589
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13591545831425
+19 - Input: 155102
+19 - Input: 2568731785389
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13591545831425
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13629
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7443272115972
+41 - Input: 91473
+41 - Input: 13629
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16625644864752
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2531581857189
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13553850743225
+19 - Input: 77551
+19 - Input: -7443272115972
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13663077716825
+19 - Input: 232653
+19 - Input: 16625644864752
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13419103179225
+19 - Input: 155102
+19 - Input: 2531581857189
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13591
+24 - Input: 52289
+24 - Input: 13553850743225
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13553
+24 - Input: 52289
+24 - Input: 13663077716825
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13663
+24 - Input: 52289
+24 - Input: 13419103179225
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7335624822372
+Finished comps: 25
+Messages for computer 255: 54679, 13591, 54679, 13553, 54679, 13663, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13381953251025
+19 - Input: 77551
+19 - Input: -7335624822372
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13419
+24 - Input: 52289
+24 - Input: 13381953251025
+Finished comps: 25
+Messages for computer 255: 54679, 13663, 54679, 13419, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13489600544625
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13381
+24 - Input: 52289
+24 - Input: 13489600544625
+Finished comps: 25
+Messages for computer 255: 54679, 13419, 54679, 13381, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13489
+Finished comps: 75
+Messages for computer 255: 54679, 13381, 54679, 13489, 
+Sending: 	54679, 13489, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13489
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13489
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13489
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13489
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13489
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13489
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13489
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13489
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13489
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2505576907449
+16 - Input: 2302
+16 - Input: 13489
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2479839086109
+16 - Input: 3453
+16 - Input: 13489
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2505576907449
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13463595594885
+19 - Input: 155102
+19 - Input: 2479839086109
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13463595594885
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13489
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7260271716852
+41 - Input: 91473
+41 - Input: 13489
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16454862688432
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2454365649169
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13437857773545
+19 - Input: 77551
+19 - Input: -7260271716852
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13513210879065
+19 - Input: 232653
+19 - Input: 16454862688432
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13342428702745
+19 - Input: 155102
+19 - Input: 2454365649169
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13463
+24 - Input: 52289
+24 - Input: 13437857773545
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13437
+24 - Input: 52289
+24 - Input: 13513210879065
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13513
+24 - Input: 52289
+24 - Input: 13342428702745
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7185692654532
+Finished comps: 25
+Messages for computer 255: 54679, 13463, 54679, 13437, 54679, 13513, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13316955265805
+19 - Input: 77551
+19 - Input: -7185692654532
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13342
+24 - Input: 52289
+24 - Input: 13316955265805
+Finished comps: 25
+Messages for computer 255: 54679, 13513, 54679, 13342, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13391534328125
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13316
+24 - Input: 52289
+24 - Input: 13391534328125
+Finished comps: 25
+Messages for computer 255: 54679, 13342, 54679, 13316, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13391
+Finished comps: 75
+Messages for computer 255: 54679, 13316, 54679, 13391, 
+Sending: 	54679, 13391, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13391
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13391
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13391
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13391
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13391
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13391
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13391
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13391
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13391
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2436534243311
+16 - Input: 2302
+16 - Input: 13391
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2418832385809
+16 - Input: 3453
+16 - Input: 13391
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2436534243311
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13373702922267
+19 - Input: 155102
+19 - Input: 2418832385809
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13373702922267
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13391
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7133487310908
+41 - Input: 91473
+41 - Input: 13391
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16335315165008
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2401259135471
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13356001064765
+19 - Input: 77551
+19 - Input: -7133487310908
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13408206408389
+19 - Input: 232653
+19 - Input: 16335315165008
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13288658884965
+19 - Input: 155102
+19 - Input: 2401259135471
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13373
+24 - Input: 52289
+24 - Input: 13356001064765
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13356
+24 - Input: 52289
+24 - Input: 13408206408389
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13408
+24 - Input: 52289
+24 - Input: 13288658884965
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7081661248452
+Finished comps: 25
+Messages for computer 255: 54679, 13373, 54679, 13356, 54679, 13408, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13271085634627
+19 - Input: 77551
+19 - Input: -7081661248452
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13288
+24 - Input: 52289
+24 - Input: 13271085634627
+Finished comps: 25
+Messages for computer 255: 54679, 13408, 54679, 13288, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13322911697083
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13271
+24 - Input: 52289
+24 - Input: 13322911697083
+Finished comps: 25
+Messages for computer 255: 54679, 13288, 54679, 13271, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13322
+Finished comps: 75
+Messages for computer 255: 54679, 13271, 54679, 13322, 
+Sending: 	54679, 13322, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13322
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13322
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13322
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13322
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13322
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13322
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13322
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13322
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13322
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2388886132682
+16 - Input: 2302
+16 - Input: 13322
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2376576884444
+16 - Input: 3453
+16 - Input: 13322
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2388886132682
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13310538694294
+19 - Input: 155102
+19 - Input: 2376576884444
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13310538694294
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13322
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7045171469784
+41 - Input: 91473
+41 - Input: 13322
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16251143949536
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2364331062248
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13298229446056
+19 - Input: 77551
+19 - Input: -7045171469784
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13334719224724
+19 - Input: 232653
+19 - Input: 16251143949536
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13250548009252
+19 - Input: 155102
+19 - Input: 2364331062248
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13310
+24 - Input: 52289
+24 - Input: 13298229446056
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13298
+24 - Input: 52289
+24 - Input: 13334719224724
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13334
+24 - Input: 52289
+24 - Input: 13250548009252
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -7008869712528
+Finished comps: 25
+Messages for computer 255: 54679, 13310, 54679, 13298, 54679, 13334, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13238302187056
+19 - Input: 77551
+19 - Input: -7008869712528
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13250
+24 - Input: 52289
+24 - Input: 13238302187056
+Finished comps: 25
+Messages for computer 255: 54679, 13334, 54679, 13250, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13274603944312
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13238
+24 - Input: 52289
+24 - Input: 13274603944312
+Finished comps: 25
+Messages for computer 255: 54679, 13250, 54679, 13238, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13274
+Finished comps: 75
+Messages for computer 255: 54679, 13238, 54679, 13274, 
+Sending: 	54679, 13274, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13274
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13274
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13274
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13274
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13274
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13274
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13274
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13274
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13274
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2355812229416
+16 - Input: 2302
+16 - Input: 13274
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2347324090472
+16 - Input: 3453
+16 - Input: 13274
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2355812229416
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13266085111480
+19 - Input: 155102
+19 - Input: 2347324090472
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13266085111480
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13274
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6983616316176
+41 - Input: 91473
+41 - Input: 13274
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16192590060512
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2338866534824
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13257596972536
+19 - Input: 77551
+19 - Input: -6983616316176
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13282850368888
+19 - Input: 232653
+19 - Input: 16192590060512
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13224296479864
+19 - Input: 155102
+19 - Input: 2338866534824
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13266
+24 - Input: 52289
+24 - Input: 13257596972536
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13257
+24 - Input: 52289
+24 - Input: 13282850368888
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13282
+24 - Input: 52289
+24 - Input: 13224296479864
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6958453909392
+Finished comps: 25
+Messages for computer 255: 54679, 13266, 54679, 13257, 54679, 13282, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13215838924216
+19 - Input: 77551
+19 - Input: -6958453909392
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13224
+24 - Input: 52289
+24 - Input: 13215838924216
+Finished comps: 25
+Messages for computer 255: 54679, 13282, 54679, 13224, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13241001331000
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13215
+24 - Input: 52289
+24 - Input: 13241001331000
+Finished comps: 25
+Messages for computer 255: 54679, 13224, 54679, 13215, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13241
+Finished comps: 75
+Messages for computer 255: 54679, 13215, 54679, 13241, 
+Sending: 	54679, 13241, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13241
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13241
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13241
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13241
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13241
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13241
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13241
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13241
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13241
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2333051965316
+16 - Input: 2302
+16 - Input: 13241
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2327251851194
+16 - Input: 3453
+16 - Input: 13241
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2333051965316
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13235186761492
+19 - Input: 155102
+19 - Input: 2327251851194
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13235186761492
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13241
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6941154754728
+41 - Input: 91473
+41 - Input: 13241
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16152334261808
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2321466156521
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13229386647370
+19 - Input: 77551
+19 - Input: -6941154754728
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13246685802034
+19 - Input: 232653
+19 - Input: 16152334261808
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13206430003330
+19 - Input: 155102
+19 - Input: 2321466156521
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13235
+24 - Input: 52289
+24 - Input: 13229386647370
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13229
+24 - Input: 52289
+24 - Input: 13246685802034
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13246
+24 - Input: 52289
+24 - Input: 13206430003330
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6923898606852
+Finished comps: 25
+Messages for computer 255: 54679, 13235, 54679, 13229, 54679, 13246, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13200644308657
+19 - Input: 77551
+19 - Input: -6923898606852
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13206
+24 - Input: 52289
+24 - Input: 13200644308657
+Finished comps: 25
+Messages for computer 255: 54679, 13246, 54679, 13206, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13217900456533
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13200
+24 - Input: 52289
+24 - Input: 13217900456533
+Finished comps: 25
+Messages for computer 255: 54679, 13206, 54679, 13200, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13217
+Finished comps: 75
+Messages for computer 255: 54679, 13200, 54679, 13217, 
+Sending: 	54679, 13217, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13217
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13217
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13217
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13217
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13217
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13217
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13217
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13217
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13217
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2317258378577
+16 - Input: 2302
+16 - Input: 13217
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2313058227449
+16 - Input: 3453
+16 - Input: 13217
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2317258378577
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13213692678589
+19 - Input: 155102
+19 - Input: 2313058227449
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13213692678589
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13217
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6911348681124
+41 - Input: 91473
+41 - Input: 13217
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16123057317296
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2308865689313
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13209492527461
+19 - Input: 77551
+19 - Input: -6911348681124
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13222042453189
+19 - Input: 232653
+19 - Input: 16123057317296
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13192765508677
+19 - Input: 155102
+19 - Input: 2308865689313
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13213
+24 - Input: 52289
+24 - Input: 13209492527461
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13209
+24 - Input: 52289
+24 - Input: 13222042453189
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13222
+24 - Input: 52289
+24 - Input: 13192765508677
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6898821502788
+Finished comps: 25
+Messages for computer 255: 54679, 13213, 54679, 13209, 54679, 13222, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13188572970541
+19 - Input: 77551
+19 - Input: -6898821502788
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13192
+24 - Input: 52289
+24 - Input: 13188572970541
+Finished comps: 25
+Messages for computer 255: 54679, 13222, 54679, 13192, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13201100148877
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13188
+24 - Input: 52289
+24 - Input: 13201100148877
+Finished comps: 25
+Messages for computer 255: 54679, 13192, 54679, 13188, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13201
+Finished comps: 75
+Messages for computer 255: 54679, 13188, 54679, 13201, 
+Sending: 	54679, 13201, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13201
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13201
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13201
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13201
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13201
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13201
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13201
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13201
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13201
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2306070663889
+16 - Input: 2302
+16 - Input: 13201
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2303279022017
+16 - Input: 3453
+16 - Input: 13201
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2306070663889
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13198305123453
+19 - Input: 155102
+19 - Input: 2303279022017
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13198305123453
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13201
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6890470050564
+41 - Input: 91473
+41 - Input: 13201
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16103539354288
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2300490759601
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13195513481581
+19 - Input: 77551
+19 - Input: -6890470050564
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13203864933805
+19 - Input: 232653
+19 - Input: 16103539354288
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13184346970797
+19 - Input: 155102
+19 - Input: 2300490759601
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13198
+24 - Input: 52289
+24 - Input: 13195513481581
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13195
+24 - Input: 52289
+24 - Input: 13203864933805
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13203
+24 - Input: 52289
+24 - Input: 13184346970797
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6882128708292
+Finished comps: 25
+Messages for computer 255: 54679, 13198, 54679, 13195, 54679, 13203, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13181558708381
+19 - Input: 77551
+19 - Input: -6882128708292
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13184
+24 - Input: 52289
+24 - Input: 13181558708381
+Finished comps: 25
+Messages for computer 255: 54679, 13203, 54679, 13184, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13189900050653
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13181
+24 - Input: 52289
+24 - Input: 13189900050653
+Finished comps: 25
+Messages for computer 255: 54679, 13184, 54679, 13181, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13189
+Finished comps: 75
+Messages for computer 255: 54679, 13181, 54679, 13189, 
+Sending: 	54679, 13189, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13189
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13189
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13189
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13189
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13189
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13189
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13189
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13189
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13189
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2298399562789
+16 - Input: 2302
+16 - Input: 13189
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2296310266921
+16 - Input: 3453
+16 - Input: 13189
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2298399562789
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13187808853841
+19 - Input: 155102
+19 - Input: 2296310266921
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13187808853841
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13189
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6875872701588
+41 - Input: 91473
+41 - Input: 13189
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16088900882032
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2294222870269
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13185719557973
+19 - Input: 77551
+19 - Input: -6875872701588
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13191975564677
+19 - Input: 232653
+19 - Input: 16088900882032
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13177337092421
+19 - Input: 155102
+19 - Input: 2294222870269
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13187
+24 - Input: 52289
+24 - Input: 13185719557973
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13185
+24 - Input: 52289
+24 - Input: 13191975564677
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13191
+24 - Input: 52289
+24 - Input: 13177337092421
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6869622381732
+Finished comps: 25
+Messages for computer 255: 54679, 13187, 54679, 13185, 54679, 13191, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13175249695769
+19 - Input: 77551
+19 - Input: -6869622381732
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13177
+24 - Input: 52289
+24 - Input: 13175249695769
+Finished comps: 25
+Messages for computer 255: 54679, 13191, 54679, 13177, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13181500015625
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13175
+24 - Input: 52289
+24 - Input: 13181500015625
+Finished comps: 25
+Messages for computer 255: 54679, 13177, 54679, 13175, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13181
+Finished comps: 75
+Messages for computer 255: 54679, 13175, 54679, 13181, 
+Sending: 	54679, 13181, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13181
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13181
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13181
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13181
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13181
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13181
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13181
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13181
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13181
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2292831272501
+16 - Input: 2302
+16 - Input: 13181
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2291440518829
+16 - Input: 3453
+16 - Input: 13181
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2292831272501
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13180108417857
+19 - Input: 155102
+19 - Input: 2291440518829
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13180108417857
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13181
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6865455501828
+41 - Input: 91473
+41 - Input: 13181
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16079141900528
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2290050608741
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13178717664185
+19 - Input: 77551
+19 - Input: -6865455501828
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13182884544089
+19 - Input: 232653
+19 - Input: 16079141900528
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13173125562585
+19 - Input: 155102
+19 - Input: 2290050608741
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13180
+24 - Input: 52289
+24 - Input: 13178717664185
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13178
+24 - Input: 52289
+24 - Input: 13182884544089
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13182
+24 - Input: 52289
+24 - Input: 13173125562585
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6861291149412
+Finished comps: 25
+Messages for computer 255: 54679, 13180, 54679, 13178, 54679, 13182, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13171735652497
+19 - Input: 77551
+19 - Input: -6861291149412
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13173
+24 - Input: 52289
+24 - Input: 13171735652497
+Finished comps: 25
+Messages for computer 255: 54679, 13182, 54679, 13173, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13175900004913
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13171
+24 - Input: 52289
+24 - Input: 13175900004913
+Finished comps: 25
+Messages for computer 255: 54679, 13173, 54679, 13171, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13175
+Finished comps: 75
+Messages for computer 255: 54679, 13171, 54679, 13175, 
+Sending: 	54679, 13175, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13175
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13175
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13175
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13175
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13175
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13175
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13175
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13175
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13175
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2289008176175
+16 - Input: 2302
+16 - Input: 13175
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2287966218125
+16 - Input: 3453
+16 - Input: 13175
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2289008176175
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13174857572347
+19 - Input: 155102
+19 - Input: 2287966218125
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13174857572347
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13175
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6858167885100
+41 - Input: 91473
+41 - Input: 13175
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16071822664400
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2286924734375
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13173815614297
+19 - Input: 77551
+19 - Input: -6858167885100
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13176938878609
+19 - Input: 232653
+19 - Input: 16071822664400
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13169619642481
+19 - Input: 155102
+19 - Input: 2286924734375
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13174
+24 - Input: 52289
+24 - Input: 13173815614297
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13173
+24 - Input: 52289
+24 - Input: 13176938878609
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13176
+24 - Input: 52289
+24 - Input: 13169619642481
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6855046042500
+Finished comps: 25
+Messages for computer 255: 54679, 13174, 54679, 13173, 54679, 13176, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13168578158731
+19 - Input: 77551
+19 - Input: -6855046042500
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13169
+24 - Input: 52289
+24 - Input: 13168578158731
+Finished comps: 25
+Messages for computer 255: 54679, 13176, 54679, 13169, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13171700001331
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13168
+24 - Input: 52289
+24 - Input: 13171700001331
+Finished comps: 25
+Messages for computer 255: 54679, 13169, 54679, 13168, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13171
+Finished comps: 75
+Messages for computer 255: 54679, 13168, 54679, 13171, 
+Sending: 	54679, 13171, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13171
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13171
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13171
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13171
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13171
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13171
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13171
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13171
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13171
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2286230411875
+16 - Input: 2302
+16 - Input: 13171
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2285536300175
+16 - Input: 3453
+16 - Input: 13171
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2286230411875
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13171005678831
+19 - Input: 155102
+19 - Input: 2285536300175
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13171005678831
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13171
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6852964814100
+41 - Input: 91473
+41 - Input: 13171
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16066943173648
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2284842399211
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13170311567131
+19 - Input: 77551
+19 - Input: -6852964814100
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13172392795531
+19 - Input: 232653
+19 - Input: 16066943173648
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13167513304779
+19 - Input: 155102
+19 - Input: 2284842399211
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13171
+24 - Input: 52289
+24 - Input: 13170311567131
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13170
+24 - Input: 52289
+24 - Input: 13172392795531
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13172
+24 - Input: 52289
+24 - Input: 13167513304779
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6850884217572
+Finished comps: 25
+Messages for computer 255: 54679, 13171, 54679, 13170, 54679, 13172, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13166819403815
+19 - Input: 77551
+19 - Input: -6850884217572
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13167
+24 - Input: 52289
+24 - Input: 13166819403815
+Finished comps: 25
+Messages for computer 255: 54679, 13172, 54679, 13167, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13168900000343
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13166
+24 - Input: 52289
+24 - Input: 13168900000343
+Finished comps: 25
+Messages for computer 255: 54679, 13167, 54679, 13166, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13168
+Finished comps: 75
+Messages for computer 255: 54679, 13166, 54679, 13168, 
+Sending: 	54679, 13168, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13168
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13168
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13168
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13168
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13168
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13168
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13168
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13168
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13168
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2284321973488
+16 - Input: 2302
+16 - Input: 13168
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2283801666304
+16 - Input: 3453
+16 - Input: 13168
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2284321973488
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13168379574620
+19 - Input: 155102
+19 - Input: 2283801666304
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13168379574620
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13168
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6849323770176
+41 - Input: 91473
+41 - Input: 13168
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16063283555584
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2283281477632
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13167859267436
+19 - Input: 77551
+19 - Input: -6849323770176
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13169419714832
+19 - Input: 232653
+19 - Input: 16063283555584
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13165760096768
+19 - Input: 155102
+19 - Input: 2283281477632
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13168
+24 - Input: 52289
+24 - Input: 13167859267436
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13167
+24 - Input: 52289
+24 - Input: 13169419714832
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13169
+24 - Input: 52289
+24 - Input: 13165760096768
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6847763678208
+Finished comps: 25
+Messages for computer 255: 54679, 13168, 54679, 13167, 54679, 13169, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13165239908096
+19 - Input: 77551
+19 - Input: -6847763678208
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13165
+24 - Input: 52289
+24 - Input: 13165239908096
+Finished comps: 25
+Messages for computer 255: 54679, 13169, 54679, 13165, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13166800000064
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13165
+24 - Input: 52289
+24 - Input: 13166800000064
+Finished comps: 25
+Messages for computer 255: 54679, 13165, 54679, 13165, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13166
+Finished comps: 75
+Messages for computer 255: 54679, 13165, 54679, 13166, 
+Sending: 	54679, 13166, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13166
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13166
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13166
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13166
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13166
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13166
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13166
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13166
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13166
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2282934685184
+16 - Input: 2302
+16 - Input: 13166
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2282587945408
+16 - Input: 3453
+16 - Input: 13166
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2282934685184
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13166453207616
+19 - Input: 155102
+19 - Input: 2282587945408
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13166453207616
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13166
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6846723616896
+41 - Input: 91473
+41 - Input: 13166
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16060843810208
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2282241258296
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13166106467840
+19 - Input: 77551
+19 - Input: -6846723616896
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13167146529152
+19 - Input: 232653
+19 - Input: 16060843810208
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164706783776
+19 - Input: 155102
+19 - Input: 2282241258296
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13166
+24 - Input: 52289
+24 - Input: 13166106467840
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13166
+24 - Input: 52289
+24 - Input: 13167146529152
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13167
+24 - Input: 52289
+24 - Input: 13164706783776
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6845683713552
+Finished comps: 25
+Messages for computer 255: 54679, 13166, 54679, 13166, 54679, 13167, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164360096664
+19 - Input: 77551
+19 - Input: -6845683713552
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+24 - Input: 52289
+24 - Input: 13164360096664
+Finished comps: 25
+Messages for computer 255: 54679, 13167, 54679, 13164, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13165400000008
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+24 - Input: 52289
+24 - Input: 13165400000008
+Finished comps: 25
+Messages for computer 255: 54679, 13164, 54679, 13164, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13165
+Finished comps: 75
+Messages for computer 255: 54679, 13164, 54679, 13165, 
+Sending: 	54679, 13165, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13165
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13165
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13165
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13165
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13165
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13165
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13165
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13165
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13165
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2282067914740
+16 - Input: 2302
+16 - Input: 13165
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2281894584350
+16 - Input: 3453
+16 - Input: 13165
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2282067914740
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13165226656452
+19 - Input: 155102
+19 - Input: 2281894584350
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13165226656452
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13165
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6845163761880
+41 - Input: 91473
+41 - Input: 13165
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16059623937520
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2281721267125
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13165053326062
+19 - Input: 77551
+19 - Input: -6845163761880
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13165573277734
+19 - Input: 232653
+19 - Input: 16059623937520
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164353405046
+19 - Input: 155102
+19 - Input: 2281721267125
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13165
+24 - Input: 52289
+24 - Input: 13165053326062
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13165
+24 - Input: 52289
+24 - Input: 13165573277734
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13165
+24 - Input: 52289
+24 - Input: 13164353405046
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6844643849700
+Finished comps: 25
+Messages for computer 255: 54679, 13165, 54679, 13165, 54679, 13165, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164180087821
+19 - Input: 77551
+19 - Input: -6844643849700
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+24 - Input: 52289
+24 - Input: 13164180087821
+Finished comps: 25
+Messages for computer 255: 54679, 13165, 54679, 13164, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164700000001
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+24 - Input: 52289
+24 - Input: 13164700000001
+Finished comps: 25
+Messages for computer 255: 54679, 13164, 54679, 13164, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+Finished comps: 75
+Messages for computer 255: 54679, 13164, 54679, 13164, 
+Sending: 	54679, 13164, 
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13164
+Finished comps: 49
+0 - Output: 5
+0 - Output: 100693
+0 - Output: 13164
+0 - Output: 41
+0 - Output: 30491
+0 - Output: 13164
+0 - Output: 41
+0 - Output: 91473
+0 - Output: 13164
+0 - Output: 16
+0 - Output: 1151
+0 - Output: 13164
+0 - Output: 16
+0 - Output: 2302
+0 - Output: 13164
+0 - Output: 16
+0 - Output: 3453
+0 - Output: 13164
+ID 5 running with messages: 2 and pc = 75
+5 - Input: 100693
+5 - Input: 13164
+ID 16 running with messages: 6 and pc = 75
+16 - Input: 1151
+16 - Input: 13164
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2281547949900
+16 - Input: 2302
+16 - Input: 13164
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2281374645840
+16 - Input: 3453
+16 - Input: 13164
+ID 19 running with messages: 4 and pc = 75
+19 - Input: 155102
+19 - Input: 2281547949900
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164526682776
+19 - Input: 155102
+19 - Input: 2281374645840
+ID 24 running with messages: 2 and pc = 75
+24 - Input: 52289
+24 - Input: 13164526682776
+ID 41 running with messages: 4 and pc = 75
+41 - Input: 30491
+41 - Input: 13164
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6844123937520
+41 - Input: 91473
+41 - Input: 13164
+Finished comps: 8
+5 - Output: 19
+5 - Output: 232653
+5 - Output: 16058404064832
+16 - Output: 19
+16 - Output: 155102
+16 - Output: 2281201354944
+ID 19 running with messages: 6 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164353378716
+19 - Input: 77551
+19 - Input: -6844123937520
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164873290896
+19 - Input: 232653
+19 - Input: 16058404064832
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13163653418208
+19 - Input: 155102
+19 - Input: 2281201354944
+ID 24 running with messages: 6 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+24 - Input: 52289
+24 - Input: 13164353378716
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+24 - Input: 52289
+24 - Input: 13164873290896
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+24 - Input: 52289
+24 - Input: 13163653418208
+41 - Output: 19
+41 - Output: 77551
+41 - Output: -6843604064832
+Finished comps: 25
+Messages for computer 255: 54679, 13164, 54679, 13164, 54679, 13164, 
+ID 19 running with messages: 2 and pc = 90
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13163480127312
+19 - Input: 77551
+19 - Input: -6843604064832
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13163
+24 - Input: 52289
+24 - Input: 13163480127312
+Finished comps: 25
+Messages for computer 255: 54679, 13164, 54679, 13163, 
+19 - Output: 24
+19 - Output: 52289
+19 - Output: 13164000000000
+ID 24 running with messages: 2 and pc = 90
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13163
+24 - Input: 52289
+24 - Input: 13164000000000
+Finished comps: 25
+Messages for computer 255: 54679, 13163, 54679, 13163, 
+24 - Output: 255
+24 - Output: 54679
+24 - Output: 13164
+Finished comps: 75
+Messages for computer 255: 54679, 13163, 54679, 13164, 
+Sending: 	54679, 13164, 
+2nd Y package sent to comp 0: 13164
+2nd Y package sent to comp 0 IN A ROW: 13164
+ID 0 running with messages: 2 and pc = 75
+0 - Input: 54679
+0 - Input: 13164
+Finished comps: 49
+Finished comps: 99
+Finished comps: 149

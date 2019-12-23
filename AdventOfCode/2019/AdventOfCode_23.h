@@ -34,11 +34,14 @@ namespace aoc2019_23 {
     }
   };
   
-  const int MAX_TIMES = 1000;
+  const int TOTAL_COMPUTERS = 50;
 
   const int POS_MODE = 0;
   const int IMM_MODE = 1;
   const int REL_MODE = 2;
+  const int NAT_ADDRS = 255;
+
+  int relativeBase = 0;
 
   struct computer{
     int id;
@@ -53,7 +56,6 @@ namespace aoc2019_23 {
   };
 
 
-  int relativeBase = 0;
 
   template<class T>
   inline void printPair(const pair<T,T> &p) {
@@ -147,7 +149,7 @@ namespace aoc2019_23 {
       outputs.pop_front();
       outputs.pop_front();
       outputs.pop_front();
-      if (outputs[0] == 255) {
+      if (outputs[0] == NAT_ADDRS) {
         return true;
       }
     }
@@ -231,41 +233,67 @@ namespace aoc2019_23 {
     }
   }
 
-  const int TOTAL_COMPUTERS = 50;
+  unordered_set<int64_t> packageSet;
+  int64_t lastY = 0;
+  bool processNat(vector<deque<int64_t>> &messageQueue, int finishedComputers) {
+    if (messageQueue[NAT_ADDRS].size()) {
+      cout << "Messages for computer 255: "; printDeque(messageQueue[NAT_ADDRS]);
+      while (messageQueue[NAT_ADDRS].size() > 2) {
+        messageQueue[NAT_ADDRS].pop_front();
+      }
+      if (finishedComputers >= TOTAL_COMPUTERS) {
+        cout << "Sending: \t"; printDeque(messageQueue[NAT_ADDRS]);
+        int64_t x = messageQueue[NAT_ADDRS].front();
+        messageQueue[NAT_ADDRS].pop_front();
+        int64_t y = messageQueue[NAT_ADDRS].front();
+        messageQueue[NAT_ADDRS].pop_front();
+        messageQueue[0].push_back(x);
+        messageQueue[0].push_back(y);
+
+        if (packageSet.find(y) != packageSet.end()) {
+          cout << "Repeated Y package sent to comp 0: " << y << endl;
+        }
+        packageSet.insert(y);
+
+        if (lastY == y) {
+          cout << "2nd Y package sent to comp 0 IN A ROW: " << y << endl;
+          return true;
+        }
+        lastY = y;
+      }
+    }
+    return false;
+  }
+
   void solve(int part = 1) {
     string input;
     cin >> input;
     vector<int64_t> intCodes = getIntCodes<int64_t>(input);
     vector<deque<int64_t>> messageQueue(1000, deque<int64_t>());
-    vector<computer> computers(TOTAL_COMPUTERS, computer(intCodes));
+    vector<computer> computers(TOTAL_COMPUTERS + 1, computer(intCodes));
     int finishedComputers = 0;
     for (int i = 0; i < TOTAL_COMPUTERS; ++i) {
       messageQueue[i].push_back(i);
       computers[i].id = i;
-      cout << "Adding " << i << " to " << i << ". Size: " << messageQueue[i].size() << endl;
+      // cout << "Adding " << i << " to " << i << ". Size: " << messageQueue[i].size() << endl;
     }
-    for (int j = 0; j < 100; ++j) {
-    // for (;;) {
+    for (;;) {
       for (int i = 0; i < TOTAL_COMPUTERS; ++i) {
-        if (computers[i].isFinished()) {
-          ++finishedComputers;
-          continue;
-        }
         if (messageQueue[i].size()) {
-          cout << "ID " << i << " running with messages: " << messageQueue[i].size();
-          cout << " and pc = " << computers[i].progCount <<  endl;
+          // cout << "ID " << i << " running with messages: " << messageQueue[i].size();
+          // cout << " and pc = " << computers[i].progCount <<  endl;
+          finishedComputers = 0;
         } else {
-          // ++finishedComputers;
+          ++finishedComputers;
         }
         processIntCodes<int64_t>(computers[i], messageQueue);
-        if (messageQueue[255].size()) {
-          cout << "Messages for computer 255: "; printDeque(messageQueue[255]);
-          // finishedComputers = TOTAL_COMPUTERS;
-          // return;
-        }
       }
-      // if (finishedComputers > -1) break;
-      if (finishedComputers > TOTAL_COMPUTERS) break;
+
+      cout << "Finished computers: " << finishedComputers << endl;
+      if (processNat(messageQueue, finishedComputers)
+          || finishedComputers >= TOTAL_COMPUTERS*2) {
+        break;
+      }
     }
   }
 
