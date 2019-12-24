@@ -22,6 +22,7 @@
 #include "2019/AdventOfCode_21.h"
 #include "2019/AdventOfCode_22.h"
 #include "2019/AdventOfCode_23.h"
+#include "2019/AdventOfCode_24.h"
 
 // Compiling:    g++ -std=c++11 main.cpp -o main; ./main [<part>]
 int main(int argc, char *argv[]) {
@@ -30,6 +31,6 @@ int main(int argc, char *argv[]) {
     part = atoi(argv[argc - 1]);
   }
   std::cout << "Solving part: " << part << std::endl;
-  aoc2019_23::solve(part);
+  aoc2019_24::solve(part);
   return EXIT_SUCCESS;
 }
