@@ -6,9 +6,9 @@ namespace util {
 using namespace std;
 
 template<class T>
-inline void printPair(const pair<T,T> &p, bool endl=false) {
+inline void printPair(const pair<T,T> &p, bool lineBreak=false) {
   cout << "[" << p.first << ", " << p.second << "] ";
-  if (endl) {
+  if (lineBreak) {
     cout << endl;
   }
 }

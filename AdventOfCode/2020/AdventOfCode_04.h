@@ -21,9 +21,11 @@ namespace aoc2020_04 {
   using namespace std;
 
   unsigned long long solve1() {
+    return 0l;
   }
 
   unsigned long long solve2() {
+    return 0l;
   }
 
   void solve(int part = 1) {

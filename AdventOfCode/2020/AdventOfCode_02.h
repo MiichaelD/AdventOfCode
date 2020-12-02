@@ -85,9 +85,9 @@ namespace aoc2020_02 {
 
   void solve(int part = 1) {
     using namespace std;
-    util::printPair(solveBoth(), true);
+    util::printPair(solveBoth(), false);
   }
 
-};
+}
 
 #endif /* _2020_ADVENTOFCODE_02_H_ */
