@@ -1,4 +1,7 @@
 
+#ifndef _UTIL_UTIL_H_
+#define _UTIL_UTIL_H_
+
 #include<utility>
 
 namespace util {
@@ -14,3 +17,5 @@ inline void printPair(const pair<T,T> &p, bool lineBreak=false) {
 }
 
 }
+
+#endif // _UTIL_UTIL_H_
