@@ -79,17 +79,6 @@ namespace aoc2020_04 {
     return passIds.empty();
   }
 
-  unsigned long long solve1() {
-    vector<string> lines = getLines();
-    size_t valids = 0;
-    for (const string &p : lines) {
-      if (hasValidPassportIds(p)) {
-        ++valids;
-      }
-    }
-    return valids;
-  }
-
   bool isValidIdValue(const string &key, const string &value) {
     // cout << "\t\tChecking: '" << key << "'\t'" << value << "'";
     if (key == "byr:") {
@@ -192,20 +181,23 @@ namespace aoc2020_04 {
     return passIds.empty() && validIdCount >= 7;
   }
 
-  unsigned long long solve2() {
+  void solve(int part = 1) {
     vector<string> lines = getLines();
     size_t valids = 0;
-    for (const string &p : lines) {
-      if (isValidPassport(p)) {
-        ++valids;
+    if (part == 1) {
+      for (const string &p : lines) {
+        if (hasValidPassportIds(p)) {
+          ++valids;
+        }
+      }
+    } else {
+      for (const string &p : lines) {
+        if (isValidPassport(p)) {
+          ++valids;
+        }
       }
     }
-    return valids;
-  }
-
-  void solve(int part = 1) {
-    using namespace std;
-    cout << (part == 1 ? solve1() : solve2()) << endl;
+    cout << valids << endl;
   }
 
 };
