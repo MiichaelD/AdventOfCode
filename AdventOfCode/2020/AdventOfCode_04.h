@@ -172,12 +172,13 @@ bool isValidPassport(const string &pass) {
     }
   }
   if (skipping && isValidIdValue(id, ss.str())) {
-    // ++validIdCount;
+    ++validIdCount;
   }
   if (passIds.find(kOptionalId) != passIds.end()) {
+    ++validIdCount;
     passIds.erase(kOptionalId);
   }
-  return passIds.empty() && (validIdCount >= 7);
+  return passIds.empty() && validIdCount == 8;
 }
 
 void solve(int part = 1) {
