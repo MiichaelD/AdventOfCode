@@ -22,6 +22,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include "../util/util.h"
 
 namespace aoc2019_05 {  
   using namespace std;

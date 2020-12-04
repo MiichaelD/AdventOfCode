@@ -32,6 +32,6 @@ int main(int argc, char *argv[]) {
     part = atoi(argv[argc - 1]);
   }
   std::cout << "Solving part: " << part << std::endl;
-  aoc2020_03::solve(part);
+  aoc2020_04::solve(part);
   return EXIT_SUCCESS;
 }
