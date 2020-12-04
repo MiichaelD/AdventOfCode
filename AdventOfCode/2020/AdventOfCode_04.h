@@ -81,9 +81,9 @@ bool hasValidPassportIds(const string &pass) {
   return passIds.empty();
 }
 
-inline bool isValueInRange(const string &value, int from, int to, int len = 4) {
+inline bool isValueInRange(const string &value, int from, int to) {
   int val = atoi(value.c_str());
-  return (len == -1 || value.size() == len) && val >= from && val <= to;
+  return val >= from && val <= to;
 }
 
 bool isValidIdValue(const string &key, const string &value) {
@@ -99,9 +99,9 @@ bool isValidIdValue(const string &key, const string &value) {
   }
   if (key == "hgt:") {
     if (value[value.size() - 2] == 'i') {
-      return isValueInRange(value, 59, 76, -1);
+      return isValueInRange(value, 59, 76);
     }
-    return isValueInRange(value, 150, 193, -1);
+    return value[value.size() - 2] == 'c' && isValueInRange(value, 150, 193);
   }
   if (key == "hcl:") {
     if (value[0] != '#' || value.size() != 7) {
@@ -142,7 +142,7 @@ bool isValidPassport(const string &pass) {
   size_t validIdCount = 0;
   for (int i = 0; i < pass.size(); ++i) {
     if (skipping) {
-      if (pass[i] == ' ') {
+      if (isspace(pass[i])) {
         skipping = false;
         if (isValidIdValue(id, ss.str())) {
           // cout << "\tValid" << endl;
@@ -161,23 +161,23 @@ bool isValidPassport(const string &pass) {
     ss << pass[i];
     if (pass[i] == ':') {
       id = ss.str();
-      if (passIds.find(id) != passIds.end()) {
-        passIds.erase(id);
-        // cout << "\tfound: " << id << ". Ids left: " << passIds.size() <<
-        // endl;
+      if (passIds.find(id) == passIds.end()) {
+        return false;
       }
+        passIds.erase(id);
+      // cout << "\tfound: " << id << ". Ids left: " << passIds.size() << endl;
       ss.str("");
       ss.clear();
       skipping = true;
     }
   }
-  if (isValidIdValue(id, ss.str())) {
-    ++validIdCount;
+  if (skipping && isValidIdValue(id, ss.str())) {
+    // ++validIdCount;
   }
   if (passIds.find(kOptionalId) != passIds.end()) {
     passIds.erase(kOptionalId);
   }
-  return passIds.empty() && validIdCount >= 7;
+  return passIds.empty() && (validIdCount >= 7);
 }
 
 void solve(int part = 1) {
