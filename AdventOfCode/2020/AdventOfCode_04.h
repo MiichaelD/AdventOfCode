@@ -22,20 +22,20 @@
 namespace aoc2020_04 {
   using namespace std;
 
-  string optionalId = "cid:";
+  static constexpr char kOptionalId[] = "cid:";
 
-  unordered_set<string> ids = 
+  static const unordered_set<string> kIds = 
       {"byr:","iyr:","eyr:","hgt:","hcl:","ecl:","pid:","cid:"};
 
   vector<string> getLines() {
     string line;
-    vector<string> passports;
+    vector<string> lines;
     stringstream ss;
     while(!cin.eof()) {
       getline(cin, line);
       ss << line;
       if (line.empty()) {
-        passports.push_back(ss.str());
+        lines.push_back(ss.str());
         // cout << "Passport: " << ss.str() << endl;
         ss.str("");
         ss.clear();
@@ -43,17 +43,17 @@ namespace aoc2020_04 {
         ss << ' ';
       }
     }
-    passports.push_back(ss.str());
+    lines.push_back(ss.str());
     // cout << "Passport: " << ss.str() << endl;
-    return passports;
+    return lines;
   }
 
   bool hasValidPassportIds(const string &pass) {
-    // cout << "checking passport ids: " << pass << endl;
-    unordered_set<string> passIds = ids;
+    // cout << "checking passport IDs: " << pass << endl;
+    unordered_set<string> passIds = kIds;
     stringstream ss;
-    bool skipping = false;
     string id;
+    bool skipping = false;
     for (int i = 0; i < pass.size(); ++i) {
       if (skipping) {
         if (pass[i] == ' ') {
@@ -68,37 +68,37 @@ namespace aoc2020_04 {
           passIds.erase(id);
           // cout << "\tfound: " << id << ". Ids left: " << passIds.size() << endl;
         }
-        ss.str("");
-        ss.clear();
+        ss.str(""); ss.clear();
         skipping = true;
       }
     }
-    if (passIds.find(optionalId) != passIds.end()) {
-      passIds.erase(optionalId);
+    if (passIds.find(kOptionalId) != passIds.end()) {
+      passIds.erase(kOptionalId);
     }
     return passIds.empty();
+  }
+
+  inline bool isValueInRange(const string &value, int from, int to, int len=4) {
+    int val = atoi(value.c_str());
+    return (len == -1 || value.size() == len) && val >= from && val <= to;
   }
 
   bool isValidIdValue(const string &key, const string &value) {
     // cout << "\t\tChecking: '" << key << "'\t'" << value << "'";
     if (key == "byr:") {
-      int val = atoi(value.c_str());
-      return value.size() == 4 && val >= 1920 && val <= 2002;
+      return isValueInRange(value, 1920, 2002);
     }
     if (key == "iyr:") {
-      int val = atoi(value.c_str());
-      return value.size() == 4 && val >= 2010 && val <= 2020;
+      return isValueInRange(value, 2010, 2020);
     }
     if (key == "eyr:") {
-      int val = atoi(value.c_str());
-      return value.size() == 4 && val >= 2020 && val <= 2030;
+      return isValueInRange(value, 2020, 2030);
     }
     if (key == "hgt:") {
-      int val = atoi(value.c_str());
       if (value[value.size() - 2] == 'i') {
-        return  val >= 59 && val <= 76;
+        return isValueInRange(value, 59, 76, -1);
       }
-     return  val >= 150 && val <= 193;
+      return isValueInRange(value, 150, 193, -1);
     }
     if (key == "hcl:") {
       if (value[0] != '#' || value.size() != 7) {
@@ -112,9 +112,8 @@ namespace aoc2020_04 {
       return true;
     }
     if (key == "ecl:") {
-      static unordered_set<string> validEyeColors =
-         {"amb","blu","brn","gry","grn","hzl","oth"};
-      return validEyeColors.find(value) != validEyeColors.end();
+      static unordered_set<string> kValidEyeColors = {"amb","blu","brn","gry","grn","hzl","oth"};
+      return kValidEyeColors.find(value) != kValidEyeColors.end();
     }
     if (key == "pid:") {
       if (value.size() != 9) {
@@ -132,10 +131,10 @@ namespace aoc2020_04 {
 
   bool isValidPassport(const string &pass) {
     // cout << "checking passport validity: " << pass << endl;
-    unordered_set<string> passIds = ids;
+    unordered_set<string> passIds = kIds;
     stringstream ss;
-    bool skipping = false;
     string id;
+    bool skipping = false;
     size_t validIdCount = 0;
     for (int i = 0; i < pass.size(); ++i) {
       if (skipping) {
@@ -148,8 +147,7 @@ namespace aoc2020_04 {
             // cout << "\tINVALID - MOVING ON..." << endl;
             return false;
           }
-          ss.str("");
-          ss.clear();
+          ss.str(""); ss.clear();
         } else {
           ss << pass[i];
         }
@@ -161,22 +159,16 @@ namespace aoc2020_04 {
         if (passIds.find(id) != passIds.end()) {
           passIds.erase(id);
           // cout << "\tfound: " << id << ". Ids left: " << passIds.size() << endl;
-        } else {
-          return false;
         }
-        ss.str("");
-        ss.clear();
+        ss.str(""); ss.clear();
         skipping = true;
       }
     }
-    if (skipping) {
-      skipping = false;
-      if (isValidIdValue(id, ss.str())) ++validIdCount;
-      ss.str("");
-      ss.clear();
+    if (isValidIdValue(id, ss.str())) {
+      ++validIdCount;
     }
-    if (passIds.find(optionalId) != passIds.end()) {
-      passIds.erase(optionalId);
+    if (passIds.find(kOptionalId) != passIds.end()) {
+      passIds.erase(kOptionalId);
     }
     return passIds.empty() && validIdCount >= 7;
   }
