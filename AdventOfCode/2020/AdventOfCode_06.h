@@ -2,11 +2,11 @@
   Link:         http://adventofcode.com/2020/day/X
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/XX/2020
+  Date:         12/06/2020
 */
 
-#ifndef _2020_ADVENTOFCODE_XX_H_
-#define _2020_ADVENTOFCODE_XX_H_
+#ifndef _2020_ADVENTOFCODE_06_H_
+#define _2020_ADVENTOFCODE_06_H_
 
 #include <algorithm> // std::sort
 #include <iomanip>      // std::setprecision
@@ -24,7 +24,7 @@
 #include <vector>
 #include "../util/util.h"
 
-namespace aoc2020_XX {  
+namespace aoc2020_06 {  
   using namespace std;
 
   void solve1() {   
@@ -46,4 +46,4 @@ namespace aoc2020_XX {
   }
 };
 
-#endif /* _2020_ADVENTOFCODE_XX_H_ */
+#endif /* _2020_ADVENTOFCODE_06_H_ */
