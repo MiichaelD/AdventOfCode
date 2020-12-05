@@ -84,12 +84,17 @@ inline size_t getSeatId(const pair<int,int> &seat) {
   return seat.first * 8 + seat.second;
 }
 
-void printMissingSeat(const vector<bool> &seats, size_t maxSeatIndex) {
+size_t getMissingSeat(const vector<bool> &seats, size_t maxSeatIndex) {
   for (int i = 1; i <= maxSeatIndex; ++i) {
     if (!seats[i] && seats[i - 1] && seats[i + 1]) {
-      cout << "Seat missing: " << i << " @ [" << (i / 8) << ", " << (i % 8) << "]" << endl;
+      return i;
     }
   }
+  return 0;
+}
+
+inline void printSeatPosition(size_t seatId) {
+  cout << " @ [" << seatId / 8 << "," << seatId % 8 << "]" << endl;
 }
 
 void solve(int part = 1) {
@@ -109,11 +114,12 @@ void solve(int part = 1) {
     if (seatId > maxSeatId) {
       maxSeatId = seatId;
     }
-    // util::printPair(seat);
-    // cout << "Seat ID: " << seatId << endl;
+    // util::printPair(seat); cout << "Seat ID: " << seatId << endl;
   }
-  cout << "Part 1: Max Seat Id: " << maxSeatId << endl << "Part 2: ";
-  printMissingSeat(seats, maxSeatId);
+  cout << "Part 1 - Max seat ID: " << maxSeatId; printSeatPosition(maxSeatId);
+
+  size_t mySeatId = getMissingSeat(seats, maxSeatId);
+  cout << "Part 2 - My seat ID:  " << mySeatId; printSeatPosition(mySeatId);
 }
 
 };
