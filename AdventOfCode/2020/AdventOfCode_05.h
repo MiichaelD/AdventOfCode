@@ -5,8 +5,8 @@
   Date:         12/05/2019
 */
 
-#ifndef _2019_ADVENTOFCODE_05_H_
-#define _2019_ADVENTOFCODE_05_H_
+#ifndef _2020_ADVENTOFCODE_05_H_
+#define _2020_ADVENTOFCODE_05_H_
 
 #include <algorithm> // std::sort
 #include <iomanip>      // std::setprecision
@@ -24,26 +24,98 @@
 #include <vector>
 #include "../util/util.h"
 
-namespace aoc2019_05 {  
-  using namespace std;
+namespace aoc2020_05 {  
+using namespace std;
 
-  void solve1() {   
-    string input;
-    cin >> input;
-    
+
+class BiSearch {
+public:
+  BiSearch(size_t start, size_t end) {
+    reset(start, end);
   }
 
-  void solve2() {    
-    
-  }
-
-  void solve(int part = 1) {
-    if (part == 1) {
-      solve1();
+  void update(char c) {
+    // cout << "processing: "<< c<< endl;
+    size_t mid = (start + end) / 2;
+    if (c == 'F' || c == 'L') {
+      end = mid; 
+    } else if (c == 'B' || c == 'R') {
+      start = mid;
     } else {
-      solve2();
+      cout << "\tThis shouldn't happen" << endl;
     }
   }
+
+  void reset(size_t start, size_t end) {
+    this->start = start;
+    this->end = end;
+  }
+
+  size_t getResult() {
+    return start;
+  }
+
+  void print() {
+    cout << "Binary: " << start << " ==> " << end << endl;
+  }
+
+private:
+  // Start is inclusive, End is exclusive.
+  size_t start,end;  
 };
 
-#endif /* _2019_ADVENTOFCODE_05_H_ */
+pair<int,int> parseInput(const string &line) {
+  pair<int,int> result;
+  BiSearch seatSearch(0, 128);
+  for (int i = 0; i < 7; ++i) {
+    seatSearch.update(line[i]);
+
+  }
+  result.first = seatSearch.getResult();
+  seatSearch.reset(0, 8);
+  for (int i = 7; i < line.length(); ++i) {
+    seatSearch.update(line[i]);
+  }
+  result.second = seatSearch.getResult();
+  return result;
+}
+
+inline size_t getSeatId(const pair<int,int> &seat) {
+  return seat.first * 8 + seat.second;
+}
+
+void printMissingSeat(const vector<bool> &seats, size_t maxSeatIndex) {
+  for (int i = 1; i <= maxSeatIndex; ++i) {
+    if (!seats[i] && seats[i - 1] && seats[i + 1]) {
+      cout << "Seat missing: " << i << " @ [" << (i / 8) << ", " << (i % 8) << "]" << endl;
+    }
+  }
+}
+
+void solve(int part = 1) {
+  string line;
+  size_t maxSeatId = 0;
+  vector<bool> seats(128*8);
+  while (!cin.eof()) {
+    getline(cin, line);
+    if (line.empty()) {
+      break;
+    }
+
+    pair<int,int> seat = parseInput(line);
+    size_t seatId = getSeatId(seat);
+    seats[seatId] = true;
+
+    if (seatId > maxSeatId) {
+      maxSeatId = seatId;
+    }
+    // util::printPair(seat);
+    // cout << "Seat ID: " << seatId << endl;
+  }
+  cout << "Part 1: Max Seat Id: " << maxSeatId << endl << "Part 2: ";
+  printMissingSeat(seats, maxSeatId);
+}
+
+};
+
+#endif /* _2020_ADVENTOFCODE_05_H_ */
