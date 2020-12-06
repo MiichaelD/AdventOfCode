@@ -25,25 +25,26 @@
 #include "../util/util.h"
 
 namespace aoc2020_XX {  
-  using namespace std;
+using namespace std;
 
-  void solve1() {   
-    string input;
-    cin >> input;
-    
-  }
+void solve1() {   
+  string input;
+  cin >> input;
+  
+}
 
-  void solve2() {    
-    
-  }
+void solve2() {    
+  
+}
 
-  void solve(int part = 1) {
-    if (part == 1) {
-      solve1();
-    } else {
-      solve2();
-    }
+void solve(int part = 1) {
+  if (part == 1) {
+    solve1();
+  } else {
+    solve2();
   }
-};
+}
+
+};  // aoc2020_XX
 
 #endif /* _2020_ADVENTOFCODE_XX_H_ */

@@ -4,7 +4,7 @@
 #include "2020/AdventOfCode_03.h"
 #include "2020/AdventOfCode_04.h"
 #include "2020/AdventOfCode_05.h"
-// #include "2020/AdventOfCode_06.h"
+#include "2020/AdventOfCode_06.h"
 // #include "2020/AdventOfCode_07.h"
 // #include "2020/AdventOfCode_08.h"
 // #include "2020/AdventOfCode_09.h"
@@ -32,6 +32,6 @@ int main(int argc, char *argv[]) {
     part = atoi(argv[argc - 1]);
   }
   std::cout << "Solving part: " << part << std::endl;
-  aoc2020_05::solve(part);
+  aoc2020_06::solve(part);
   return EXIT_SUCCESS;
 }
