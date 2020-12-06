@@ -1,5 +1,5 @@
 /*
-  Link:         http://adventofcode.com/2020/day/X
+  Link:         http://adventofcode.com/2020/day/XX
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
   Date:         12/XX/2020
@@ -24,17 +24,17 @@
 #include <vector>
 #include "../util/util.h"
 
-namespace aoc2020_XX {  
+namespace aoc2020_XX {
 using namespace std;
 
-void solve1() {   
+void solve1() {
   string input;
-  cin >> input;
-  
+  cin >> input;  
 }
 
-void solve2() {    
-  
+void solve2() {
+  string input;
+  cin >> input;
 }
 
 void solve(int part = 1) {

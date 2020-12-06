@@ -25,13 +25,27 @@
 // #include "2020/AdventOfCode_24.h"
 // #include "2020/AdventOfCode_25.h"
 
-// Compiling:    g++ -std=c++11 main.cpp -o main; ./main [<part>]
+// Compiling:    g++ -std=c++11 main.cpp -o main; ./main [<part>|generate <day>]
+
+static constexpr char kGenerate[] = "generate";
+static constexpr char kTemplateFilename[] = "2020/AdventOfCode.txt";
+
 int main(int argc, char *argv[]) {
+  using namespace std;
   int part = 1;
   if (argc > 1) {
-    part = atoi(argv[argc - 1]);
+    const char *p1 = argv[1];
+    if (isdigit(p1[0])) {
+      part = atoi(p1);
+    } else if (strcmp(p1,kGenerate) == 0) {
+      if (argc != 3) {
+        cout << "Please specify day to generate (with leading 0)" << endl;
+        return EXIT_FAILURE;
+      }
+      return util::generateFileFromTemplate(kTemplateFilename, argv[2]);
+    }
   }
-  std::cout << "Solving part: " << part << std::endl;
+  cout << "Solving part: " << part << endl;
   aoc2020_06::solve(part);
   return EXIT_SUCCESS;
 }

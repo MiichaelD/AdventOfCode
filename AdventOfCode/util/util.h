@@ -2,11 +2,78 @@
 #ifndef _UTIL_UTIL_H_
 #define _UTIL_UTIL_H_
 
-#include<utility>
+#include <functional>
+#include <fstream>
+#include <sstream>
+#include <utility>
 
 namespace util {
 
 using namespace std;
+
+template<typename T>
+class FileWrapper {
+public:
+  FileWrapper(const string &filename) {
+    cout << "Opening file: " << filename << endl;
+    file.open(filename);
+  }
+
+  ~FileWrapper() {
+    if (file.is_open()) {
+      file.close();
+    }
+  }
+
+  bool processInputFile(
+      const function<bool(const string &)> &func, const string &day) {
+    if (!file.is_open()) {
+      cout << "File is not opened for reading" << endl;
+      return false;
+    }
+    string line;
+    while (getline(file, line)) {
+      size_t index = 0;
+      while(true) {
+        index = line.find("XX", index);
+        if (index == string::npos) break;
+        line.replace(index, 2, day);
+        index += 2;
+      }
+      if (!func(line)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool writeLine(const string &input) {
+    if (!file.is_open()) {
+      cout << "File is not open for writing" << endl;
+      return false;
+    }
+    file << input << endl;
+    return true;
+  }
+
+private:
+  T file;
+};
+
+int generateFileFromTemplate(const string &templateFilename, const string &day) {
+  stringstream newFilename;
+  for (int i = 0; i < templateFilename.size() - 4; ++i) {
+    newFilename << templateFilename[i];
+  }
+  newFilename <<  '_' << day;
+  
+  FileWrapper<ifstream> templateFile(templateFilename);
+  FileWrapper<ofstream> inFile(newFilename.str() + "_input.txt");
+  FileWrapper<ofstream> outFile(newFilename.str() + ".h");
+  return templateFile.processInputFile(
+    ([&outFile](const string &input){return outFile.writeLine(input);}),
+    day) ? EXIT_SUCCESS : EXIT_FAILURE;
+}
 
 template<class T>
 inline void printPair(const pair<T,T> &p, bool lineBreak=false) {
