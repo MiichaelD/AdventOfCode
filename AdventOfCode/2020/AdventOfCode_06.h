@@ -27,48 +27,17 @@
 namespace aoc2020_06 {  
 using namespace std;
 
-vector<string> getLines() {
-  string line;
-  vector<string> lines;
-  stringstream ss;
-  while (!cin.eof()) {
-    getline(cin, line);
-    ss << line;
-    if (line.empty()) {
-      lines.push_back(ss.str());
-      // cout << "Passport: " << ss.str() << endl;
-      ss.str("");
-      ss.clear();
-    }
-  }
-  if (!ss.str().empty())
-    lines.push_back(ss.str());
-  // cout << "Passport: " << ss.str() << endl;
-  return lines;
-}
-
-void solve1() {   
-  size_t diffAnswers = 0;
-  for (const auto &str : getLines()) {
-    unordered_set<char> answers;
-    for (char c : str) {
-      answers.insert(c);
-    }
-    diffAnswers += answers.size();
-  }
-  cout << "Total answers: " << diffAnswers << endl;
-}
-
-vector<vector<string>> getLines2() {
+vector<vector<string>> getLines() {
   string line;
   vector<vector<string>> lines;
   stringstream ss;
   lines.push_back({});
   while (!cin.eof()) {
     getline(cin, line);
-    lines.back().push_back(line);
     if (line.empty()) {
       lines.push_back({});
+    } else {
+      lines.back().push_back(line);
     }
   }
   if (lines.back().empty()) {
@@ -77,32 +46,24 @@ vector<vector<string>> getLines2() {
   return lines;
 }
 
-void solve2() {    
-  size_t diffAnswers = 0;
-  for (const vector<string> &groupAnswers : getLines2()) {
-    cout << "Group" << endl;
+void solve(int part = 1) {
+  size_t diffAnswers = 0, commonAnswersInGroup = 0;
+  for (const vector<string> &groupAnswers : getLines()) {
     unordered_map<char,int> answerReps;
     for (const string &answers : groupAnswers) {
-      cout << "\tanswers: " << answers << endl;
       for (char c : answers) {
         ++answerReps[c];
       }
     }
     for (const auto &entry : answerReps) {
-      if (entry.second == groupAnswers.size() - 1) {
-        ++diffAnswers;
+      ++diffAnswers;
+      if (entry.second == groupAnswers.size()) {
+        ++commonAnswersInGroup;
       }
     }
   }
-  cout << "Total answers: " << diffAnswers << endl;
-}
-
-void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
-  }
+  cout << "Part 1 - Total different answers: " << diffAnswers << endl;
+  cout << "Part 2 - Group's common answers:  " << commonAnswersInGroup << endl;
 }
 
 };
