@@ -11,6 +11,17 @@ namespace util {
 
 using namespace std;
 
+
+// Common utils for daily problems
+template<class T>
+inline void printPair(const pair<T,T> &p, bool lineBreak=false) {
+  cout << "[" << p.first << ", " << p.second << "] ";
+  if (lineBreak) {
+    cout << endl;
+  }
+}
+
+// Daily template file generator code
 template<typename T>
 class FileWrapper {
 public:
@@ -19,11 +30,7 @@ public:
     file.open(filename);
   }
 
-  ~FileWrapper() {
-    if (file.is_open()) {
-      file.close();
-    }
-  }
+  ~FileWrapper() { if (file.is_open()) { file.close(); } }
 
   bool processInputFile(
       const function<bool(const string &)> &func, const string &day) {
@@ -74,15 +81,6 @@ int generateFileFromTemplate(const string &templateFilename, const string &day) 
     ([&outFile](const string &input){return outFile.writeLine(input);}),
     day) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
-
-template<class T>
-inline void printPair(const pair<T,T> &p, bool lineBreak=false) {
-  cout << "[" << p.first << ", " << p.second << "] ";
-  if (lineBreak) {
-    cout << endl;
-  }
-}
-
 }
 
 #endif // _UTIL_UTIL_H_
