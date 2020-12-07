@@ -95,22 +95,38 @@ size_t findBagsContainingMyBag(const BagRules &bagRules) {
   return checked.size() - 1;
 }
 
-void solve1() {
-  BagRules bagRules = getInput();
-  cout << "Total bags: " << findBagsContainingMyBag(bagRules) << endl;
-  // printBagRules(bagRules);
-}
-
-void solve2() {
-  string input;
-  cin >> input;
+size_t findTotalBagsContainedInMyBag(
+    const BagRules &bagRules,
+    unordered_map<string,size_t> &seenBags,
+    const string &checkingBag) {
+  // cout << "Checking: " << checkingBag << endl;
+  size_t result = 0;
+  unordered_set<string> checked;
+  deque<string> toCheck({kMyBag});
+  for (const auto &entry : bagRules.at(checkingBag)) {
+    // cout << "\t" << entry.first  << " * " << entry.second << endl;
+    if (seenBags.find(entry.first) != seenBags.end()) {
+      result += entry.second + (entry.second * seenBags[entry.first]);
+    } else {
+      result += entry.second +
+          (entry.second * findTotalBagsContainedInMyBag(
+            bagRules, seenBags, entry.first));
+    }
+  }
+  seenBags[checkingBag] = result;
+  return result;
 }
 
 void solve(int part = 1) {
+  BagRules bagRules = getInput();
   if (part == 1) {
-    solve1();
+    cout << "Total bags that may contain mine: "
+        << findBagsContainingMyBag(bagRules) << endl;
   } else {
-    solve2();
+    unordered_map<string,size_t> seenBags;
+    cout << "My bag has: "
+        << findTotalBagsContainedInMyBag(bagRules, seenBags, kMyBag)
+        << " Other bags" << endl;
   }
 }
 
