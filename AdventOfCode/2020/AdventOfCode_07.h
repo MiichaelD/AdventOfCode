@@ -31,8 +31,28 @@ constexpr char kMyBag[] = "shiny_gold";
 
 typedef unordered_map<string,unordered_map<string,int>> BagRules;
 
+void printBagRules(const BagRules& bagRules) {
+  cout << "Printing bag rules: " << bagRules.size() << endl;
+  for (const auto &rule : bagRules) {
+    cout << "Contents: " << rule.first << ":" << endl; 
+    for (const auto &contents : rule.second) {
+      cout << "\t" << contents.first << ": " << contents.second << endl;
+    }
+  }
+}
+
 inline string composeId(const string &adj, const string &color) {
   return adj + "_" + color; 
+}
+
+inline bool getQuantityAndMaybeSkip(string &maybeQuantity) {
+  string skip;
+  cin >> maybeQuantity;
+  if (!isdigit(maybeQuantity[0])) {
+    cin >> skip >> skip;  // consume 2 spaces "other bags."
+    return false;
+  }
+  return true;
 }
 
 BagRules getInput() {
@@ -42,41 +62,23 @@ BagRules getInput() {
   stringstream idStream;
   BagRules bagRules;
   while(!cin.eof()) {
-    cin >> adjective;
-    if (adjective.empty()) break; 
-    cin >> color >> bag >> skip;
+    cin >> adjective >> color >> bag >> skip;
     id = composeId(adjective, color);
-    bagRules[id];
-    cin >> maybeQuantity;
-    if (!isdigit(maybeQuantity[0])) {
-      cin >> skip >> skip;  // consume
+    if (!getQuantityAndMaybeSkip(maybeQuantity)) {
+      bagRules[id];  // initialize bag with no more data.
       continue;
     }
-    cin >>adjective >> color >> bag;
-    int quantity = atoi(maybeQuantity.c_str());
-    bagRules[id][composeId(adjective, color)] = quantity;
+    cin >> adjective >> color >> bag;
+    bagRules[id][composeId(adjective, color)] = atoi(maybeQuantity.c_str());
     while (bag[bag.size()-1] != '.') {
-      cin >> maybeQuantity;
-      if (!isdigit(maybeQuantity[0])) {
-        cin >> skip >> skip;  // consume
+      if (!getQuantityAndMaybeSkip(maybeQuantity)) {
         continue;
       }
-      cin >>adjective >> color >> bag;
-      int quantity = atoi(maybeQuantity.c_str());
-      bagRules[id][composeId(adjective, color)] = quantity;
+      cin >> adjective >> color >> bag;
+      bagRules[id][composeId(adjective, color)] = atoi(maybeQuantity.c_str());
     }
   }
   return bagRules;
-}
-
-void printBagRules(const BagRules& bagRules) {
-  cout << "Printing bag rules: " << bagRules.size() << endl;
-  for (const auto &rule : bagRules) {
-    cout << "Contents: " << rule.first << ":" << endl; 
-    for (const auto &contents : rule.second) {
-      cout << "\t" << contents.first << ": " << contents.second << endl;
-    }
-  }
 }
 
 size_t findBagsContainingMyBag(const BagRules &bagRules) {
