@@ -35,7 +35,6 @@ long long accumulator = 0;
 
 class Command {
 public:
-  Command() = default;
   Command(size_t i, const string &in, const int &pa)
       : index{i}, ins{in}, param{pa} {}
 
@@ -71,45 +70,52 @@ vector<Command> getCommands() {
   return instructions;
 }
 
-long long getAccumulatorValueOnLoop(const vector<Command> &commands) {
+bool findLoop(const vector<Command> &commands) {
   unordered_set<Command, Command::cmd_hash> seenCommands;
   for (int index = 0; index < commands.size(); ++index) {
     const Command &cmd = commands[index];
-    cout << "Computing: "; cmd.print();
     if (seenCommands.find(cmd) != seenCommands.end()) {
       cout << "Repeated command found: " << index << endl;
-      return accumulator;
+      return true;
     }
     seenCommands.insert(cmd);
     if (strcmp(cmd.ins.c_str(), kAcc) == 0) {
       accumulator += cmd.param;
     } else if (strcmp(cmd.ins.c_str(), kJmp) == 0) {
       index += cmd.param - 1;
-    } else if (strcmp(cmd.ins.c_str(), kNop) == 0) {
-      // Nothing
-    } else {
-      cout << "THIS SHOULDN'T HAPPEN!!" << endl;
     }
   }
-  return -1;
+  return false;
 }
 
-void solve1() {
-  vector<Command> commands = getCommands(); 
-  cout << "Accumulator on loop: " << getAccumulatorValueOnLoop(commands) << endl;
-}
-
-void solve2() {
-  string input;
-  cin >> input;
+int findCorruptedCommand(vector<Command> commands) {
+  int index = commands.size() - 1;
+    bool foundLoop = true;
+    for (; index >=0 && foundLoop; --index) {
+      Command &cmd = commands[index];
+      accumulator = 0;
+      if (strcmp(cmd.ins.c_str(), kJmp) == 0) {
+        cmd.ins = kNop;
+        foundLoop = findLoop(commands);
+        cmd.ins = kJmp;
+      } else if (strcmp(cmd.ins.c_str(), kNop) == 0) {
+        cmd.ins = kJmp;
+        foundLoop = findLoop(commands);
+        cmd.ins = kNop;
+      }
+    }
+    cout << "Loop fixed @ command: "; commands[index + 1].print(); 
+    return index;
 }
 
 void solve(int part = 1) {
+  vector<Command> commands = getCommands(); 
   if (part == 1) {
-    solve1();
+    findLoop(commands);
   } else {
-    solve2();
+    findCorruptedCommand(commands);
   }
+  cout << "Accumulator: " << accumulator << endl;
 }
 
 };  // aoc2020_08
