@@ -40,15 +40,16 @@ vector<unsigned long long> getNumbers() {
   return numbers;
 }
 
-pair<int,int> findNumbersAddingUpTo(const vector<unsigned long long> numbers, int index) {
-  for (int i = index - preamble; i <= index; ++i) {
+pair<int,int> findNumbersAddingUpTo(
+    const vector<unsigned long long> numbers, int index) {
+  for (size_t i = index - preamble; i <= index; ++i) {
     int n = numbers[i];
     // cout << "\ti = " << n << endl;
-    for (int j = i + 1; j <= index; ++j) {
+    for (size_t j = i + 1; j <= index; ++j) {
       // cout << "\t\tj = " << numbers[j] << endl;
       if (n + numbers[j] == numbers[index]) {
-        cout << "Found pair adding up to " << numbers[index] << ". i:"
-            << numbers[i] << ", j: " << numbers[j] << endl; 
+        // cout << "Found pair adding up to " << numbers[index] << ". i:"
+        //     << numbers[i] << ", j: " << numbers[j] << endl; 
         return make_pair(n, numbers[j]);
       }
     }
@@ -56,34 +57,57 @@ pair<int,int> findNumbersAddingUpTo(const vector<unsigned long long> numbers, in
   return make_pair(-1, -1);
 }
 
-int findFirstNumberNotAddingUp(const vector<unsigned long long> numbers) {
-  for (int i = preamble; i < numbers.size(); ++i) {
+size_t findFirstNumberIndexNotAddingUp(
+    const vector<unsigned long long> numbers) {
+  for (size_t i = preamble; i < numbers.size(); ++i) {
     // cout << "Trying to find numbers adding to " << numbers[i] << endl;
     pair<int,int> p = findNumbersAddingUpTo(numbers, i);
     if (p.first == -1 || p.second == -1) {
-      return numbers[i];
+      return i;
     }
   }
   return -1;
 }
 
-void solve1() {
-  vector<unsigned long long> numbers = getNumbers();
-  cout << findFirstNumberNotAddingUp(numbers) << endl;
+pair<unsigned long long, unsigned long long> getMinAndMaxFromRange(
+    const vector<unsigned long long> numbers,
+    unsigned long long  i,
+    unsigned long long  j) {
+  unsigned long long minimum = SIZE_T_MAX, maximum = 0;
+  for (;i <= j; ++i) {
+    minimum = min(minimum, numbers[i]);
+    maximum = max(maximum, numbers[i]);
+  }
+  return make_pair(minimum, maximum);
 }
 
-void solve2() {
-  string input;
-  cin >> input;
+pair<unsigned long long, unsigned long long> setRangeToInvalidNumber(
+    const vector<unsigned long long> numbers, size_t invalidIndex) {
+  unsigned long long target = numbers[invalidIndex];
+  unsigned long long i = 0, j = 1, result = numbers[i] + numbers[j];
+  while (true) {
+    if (result == target) {
+      return getMinAndMaxFromRange(numbers, i, j);
+    }
+    if (result > target) {
+      result -= numbers[i];
+      ++i;
+    } else {
+      result += numbers[++j];
+    }
+  }
+  return make_pair(0, 0);
 }
 
 void solve(int part = 1) {
-  if (part == 1) {
-    preamble = 25;
-    solve1();
-  } else {
-    solve2();
-  }
+  preamble = 25;
+  vector<unsigned long long> numbers = getNumbers();
+  size_t invalidNumberIndex = findFirstNumberIndexNotAddingUp(numbers);
+  cout << "Part 1 - Invalid number: " << numbers[invalidNumberIndex]  << endl;
+  pair<unsigned long long, unsigned long long> minAndMaxInSet =
+      setRangeToInvalidNumber(numbers, invalidNumberIndex);
+  cout << "Part 2 - min & max: "; util::printPair(minAndMaxInSet);
+  cout << "Adds up: " << (minAndMaxInSet.first + minAndMaxInSet.second) << endl;
 }
 
 };  // aoc2020_09
