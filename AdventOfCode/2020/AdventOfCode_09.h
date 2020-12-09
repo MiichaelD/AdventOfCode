@@ -27,9 +27,49 @@
 namespace aoc2020_09 {
 using namespace std;
 
+size_t preamble = 5;
+
+vector<unsigned long long> getNumbers() {
+  unsigned long long n;
+  vector<unsigned long long> numbers;
+  stringstream ss;
+  while (!cin.eof()) {
+    cin >> n;
+    numbers.push_back(n);
+  }
+  return numbers;
+}
+
+pair<int,int> findNumbersAddingUpTo(const vector<unsigned long long> numbers, int index) {
+  for (int i = index - preamble; i <= index; ++i) {
+    int n = numbers[i];
+    // cout << "\ti = " << n << endl;
+    for (int j = i + 1; j <= index; ++j) {
+      // cout << "\t\tj = " << numbers[j] << endl;
+      if (n + numbers[j] == numbers[index]) {
+        cout << "Found pair adding up to " << numbers[index] << ". i:"
+            << numbers[i] << ", j: " << numbers[j] << endl; 
+        return make_pair(n, numbers[j]);
+      }
+    }
+  }
+  return make_pair(-1, -1);
+}
+
+int findFirstNumberNotAddingUp(const vector<unsigned long long> numbers) {
+  for (int i = preamble; i < numbers.size(); ++i) {
+    // cout << "Trying to find numbers adding to " << numbers[i] << endl;
+    pair<int,int> p = findNumbersAddingUpTo(numbers, i);
+    if (p.first == -1 || p.second == -1) {
+      return numbers[i];
+    }
+  }
+  return -1;
+}
+
 void solve1() {
-  string input;
-  cin >> input;  
+  vector<unsigned long long> numbers = getNumbers();
+  cout << findFirstNumberNotAddingUp(numbers) << endl;
 }
 
 void solve2() {
@@ -39,6 +79,7 @@ void solve2() {
 
 void solve(int part = 1) {
   if (part == 1) {
+    preamble = 25;
     solve1();
   } else {
     solve2();
