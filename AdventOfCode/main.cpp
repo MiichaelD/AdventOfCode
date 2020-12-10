@@ -9,7 +9,7 @@
 #include "2020/AdventOfCode_08.h"
 #include "2020/AdventOfCode_09.h"
 #include "2020/AdventOfCode_10.h"
-// #include "2020/AdventOfCode_11.h"
+#include "2020/AdventOfCode_11.h"
 // #include "2020/AdventOfCode_12.h"
 // #include "2020/AdventOfCode_13.h"
 // #include "2020/AdventOfCode_14.h"
@@ -46,6 +46,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2020_10::solve(part);
+  aoc2020_11::solve(part);
   return EXIT_SUCCESS;
 }
