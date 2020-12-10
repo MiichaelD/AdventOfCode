@@ -137,9 +137,9 @@ void getTotalPermutations(
     return;
   }
   permutation.push_back(adapters[start]);
-  size_t prevTotal = total;
-  for (size_t j = start + 1; (j - start) <= conn[start] + 1; ++j) {
-    getTotalPermutations(adapters, conn, permutation, memo, total, j);
+  for (size_t j = 0; j <= conn[start]; ++j) {
+    size_t nextStart = j + start + 1;
+    getTotalPermutations(adapters, conn, permutation, memo, total, nextStart);
   }
   permutation.pop_back();
   memo[start] = total;
