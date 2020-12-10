@@ -27,9 +27,53 @@
 namespace aoc2020_10 {
 using namespace std;
 
+
+vector<size_t> getNumbers() {
+  vector<size_t> numbers;
+  size_t number;
+  while(!cin.eof()){
+    cin >> number;
+    numbers.push_back(number);
+  }
+  sort(numbers.begin(), numbers.end());
+  return numbers;
+}
+
+bool doMagic(const vector<size_t> &numbers, vector<int> &deltaCount) {
+  size_t accum = 0;
+  size_t deviceJolt = numbers.back() + 3;
+  for (int n : numbers) {
+    int delta = n - accum;
+    cout << n << ", delta: " << delta << endl;
+    if (delta > 3) {
+      return false;
+    }
+    accum += delta;
+    ++deltaCount[delta];
+  }
+  ++deltaCount[deviceJolt - accum];
+  // accum += deviceJolt - accum;
+  return true;
+}
+
+void print(const vector<int> &deltaCount) {
+  for (int i = 0 ; i < deltaCount.size(); ++i) {
+    if (deltaCount[i]) {
+      cout << i << " :"  << deltaCount[i] << endl;
+    }
+  }
+}
+
 void solve1() {
-  string input;
-  cin >> input;  
+  vector<size_t> numbers = getNumbers();
+  vector<int> deltaCount = {0, 0, 0, 0};
+  bool magic = doMagic(numbers, deltaCount);
+  if (magic) {
+    print(deltaCount);
+  } else {
+    cout << "Not possible" << endl;
+  }
+  
 }
 
 void solve2() {
