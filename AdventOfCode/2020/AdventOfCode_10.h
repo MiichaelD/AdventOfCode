@@ -28,31 +28,33 @@ namespace aoc2020_10 {
 using namespace std;
 
 
-vector<size_t> getNumbers() {
+vector<size_t> getNumbers(bool initWithZero = false) {
   vector<size_t> numbers;
+  if (initWithZero) {
+    numbers.push_back(0);
+  }
   size_t number;
   while(!cin.eof()){
     cin >> number;
     numbers.push_back(number);
   }
   sort(numbers.begin(), numbers.end());
+  size_t deviceJolt = numbers.back() + 3;
+  numbers.push_back(deviceJolt);
   return numbers;
 }
 
-bool doMagic(const vector<size_t> &numbers, vector<int> &deltaCount) {
+bool populateJoltDeltas(const vector<size_t> &adapters, vector<int> &deltaCount) {
   size_t accum = 0;
-  size_t deviceJolt = numbers.back() + 3;
-  for (int n : numbers) {
-    int delta = n - accum;
-    cout << n << ", delta: " << delta << endl;
+  for (int i = 1 ; i < adapters.size(); ++i) {
+    int delta = adapters[i] - accum;
+    cout << adapters[i] << ", delta: " << delta << endl;
     if (delta > 3) {
       return false;
     }
     accum += delta;
     ++deltaCount[delta];
   }
-  ++deltaCount[deviceJolt - accum];
-  // accum += deviceJolt - accum;
   return true;
 }
 
@@ -64,28 +66,84 @@ void print(const vector<int> &deltaCount) {
   }
 }
 
-void solve1() {
-  vector<size_t> numbers = getNumbers();
-  vector<int> deltaCount = {0, 0, 0, 0};
-  bool magic = doMagic(numbers, deltaCount);
-  if (magic) {
-    print(deltaCount);
-  } else {
-    cout << "Not possible" << endl;
+vector<size_t> getPossibleConnectionsByAdapter(const vector<size_t> &adapters) {
+  vector<size_t> posConnections(adapters.size(), -1);
+  for (size_t start = 0; start < adapters.size(); ++start) {
+    for (size_t j = start + 1; j < posConnections.size(); ++j) {
+      if (adapters[j] - adapters[start] > 3) {
+        break;
+      }
+      ++posConnections[start];
+    }
   }
-  
+  ++posConnections[adapters.size() - 1];
+  return posConnections;
 }
 
-void solve2() {
-  string input;
-  cin >> input;
+size_t getAdapterCombinations(
+    const vector<size_t> &adapters,
+    int start = 0,
+    size_t accum = 0) {
+  vector<size_t> conn = getPossibleConnectionsByAdapter(adapters);
+  size_t last = conn[0], diffs = 0;
+  int64_t delta = 0;
+  for (size_t i = 0; i < conn.size(); ++i) {
+    size_t nextInt = 0;
+    cout << "conn: " << conn[i];
+    if (i + 1 < conn.size()) {
+      nextInt = conn[i + 1];
+      delta = nextInt - conn[i];
+      if (nextInt > 0 && delta == 0) {
+        ++delta;
+      }
+      if (delta > 0) {
+        diffs += delta;
+        cout << "\tDiffs: " << diffs << ". Delta added: " << delta;
+      }
+    }
+    cout << endl;
+  }
+  return 1 << diffs;
+}
+
+void printPermutations(
+    const vector<size_t> &adapters,
+    const vector<size_t> &conn,
+    vector<size_t> &permutation,
+    // vector<size_t> &memo,
+    size_t &total,
+    size_t start = 0) {
+  if (start == adapters.size() - 1) {
+    cout << "Permutation: [" << permutation[0];
+    for (int i = 1; i < permutation.size(); ++i) {
+      cout << ", " << permutation[i];
+    }
+    cout << ']' <<  endl;
+    ++total;
+    return;
+  }
+  permutation.push_back(adapters[start]);
+  for (size_t j = start + 1; (j - start) <= conn[start] + 1; ++j) {
+    // cout << adapters[start] << " -> " << adapters[j];
+    printPermutations(adapters, conn, permutation, total, j);
+  }
+  permutation.pop_back();
 }
 
 void solve(int part = 1) {
+  vector<size_t> adapters = getNumbers(true);
   if (part == 1) {
-    solve1();
+    vector<int> deltaCount = {0, 0, 0, 0};
+    populateJoltDeltas(adapters, deltaCount);
+    cout << "Part 1 - Finding Jolt Deltas count:" << endl;
+    print(deltaCount);
   } else {
-    solve2();
+    vector<size_t> permutation;
+    vector<size_t> conn = getPossibleConnectionsByAdapter(adapters);
+    size_t total = 0;
+    printPermutations(adapters, conn, permutation, total);
+    // auto magic = getAdapterCombinations(adapters);
+    cout << "Part 2 - permutations: " << total << endl;
   }
 }
 
