@@ -44,11 +44,12 @@ vector<size_t> getNumbers(bool initWithZero = false) {
   return numbers;
 }
 
-bool populateJoltDeltas(const vector<size_t> &adapters, vector<int> &deltaCount) {
+bool populateJoltDeltas(
+    const vector<size_t> &adapters, vector<int> &deltaCount) {
   size_t accum = 0;
   for (int i = 1 ; i < adapters.size(); ++i) {
     int delta = adapters[i] - accum;
-    cout << adapters[i] << ", delta: " << delta << endl;
+    // cout << adapters[i] << ", delta: " << delta << endl;
     if (delta > 3) {
       return false;
     }
@@ -58,12 +59,15 @@ bool populateJoltDeltas(const vector<size_t> &adapters, vector<int> &deltaCount)
   return true;
 }
 
-void print(const vector<int> &deltaCount) {
+size_t getDeltasMult(const vector<int> &deltaCount) {
+  size_t deltaMultiplication = 1;
   for (int i = 0 ; i < deltaCount.size(); ++i) {
     if (deltaCount[i]) {
       cout << i << " :"  << deltaCount[i] << endl;
+      deltaMultiplication *= deltaCount[i];
     }
   }
+  return deltaMultiplication;
 }
 
 vector<size_t> getPossibleConnectionsByAdapter(const vector<size_t> &adapters) {
@@ -89,7 +93,7 @@ size_t getAdapterCombinations(
   int64_t delta = 0;
   for (size_t i = 0; i < conn.size(); ++i) {
     size_t nextInt = 0;
-    cout << "conn: " << conn[i];
+    cout << adapters[i] << " has conn: " << conn[i];
     if (i + 1 < conn.size()) {
       nextInt = conn[i + 1];
       delta = nextInt - conn[i];
@@ -106,28 +110,40 @@ size_t getAdapterCombinations(
   return 1 << diffs;
 }
 
-void printPermutations(
+void printPermutation(const vector<size_t> &permutation) {
+  if (permutation.empty()) return;
+  cout << "Permutation: [" << permutation[0];
+  for (int i = 1; i < permutation.size(); ++i) {
+    cout << ", " << permutation[i];
+  }
+  cout << ']' <<  endl;
+}
+
+void getTotalPermutations(
     const vector<size_t> &adapters,
     const vector<size_t> &conn,
     vector<size_t> &permutation,
-    // vector<size_t> &memo,
+    vector<size_t> &memo,
     size_t &total,
     size_t start = 0) {
+  // printPermutation(permutation);
   if (start == adapters.size() - 1) {
-    cout << "Permutation: [" << permutation[0];
-    for (int i = 1; i < permutation.size(); ++i) {
-      cout << ", " << permutation[i];
-    }
-    cout << ']' <<  endl;
+    // printPermutation(permutation);
     ++total;
     return;
   }
+  if (memo[start]) {
+    total += memo[start];
+    return;
+  }
   permutation.push_back(adapters[start]);
+  size_t prevTotal = total;
   for (size_t j = start + 1; (j - start) <= conn[start] + 1; ++j) {
-    // cout << adapters[start] << " -> " << adapters[j];
-    printPermutations(adapters, conn, permutation, total, j);
+    getTotalPermutations(adapters, conn, permutation, memo, total, j);
   }
   permutation.pop_back();
+  memo[start] = total;
+  // cout << "Saving: " << adapters[start] << ": " << memo[start] << endl;
 }
 
 void solve(int part = 1) {
@@ -135,14 +151,15 @@ void solve(int part = 1) {
   if (part == 1) {
     vector<int> deltaCount = {0, 0, 0, 0};
     populateJoltDeltas(adapters, deltaCount);
-    cout << "Part 1 - Finding Jolt Deltas count:" << endl;
-    print(deltaCount);
+    size_t result = getDeltasMult(deltaCount);
+    cout << "Part 1 - Jolt Deltas mult: " << result << endl;
   } else {
     vector<size_t> permutation;
+    // getAdapterCombinations(adapters);  // Just for printing the # of pos.
     vector<size_t> conn = getPossibleConnectionsByAdapter(adapters);
+    vector<size_t> memo(adapters.size(), 0);
     size_t total = 0;
-    printPermutations(adapters, conn, permutation, total);
-    // auto magic = getAdapterCombinations(adapters);
+    getTotalPermutations(adapters, conn, permutation, memo, total);
     cout << "Part 2 - permutations: " << total << endl;
   }
 }

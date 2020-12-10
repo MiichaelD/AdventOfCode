@@ -23,99 +23,21 @@
 #include <unordered_set>
 #include <vector>
 #include "../util/util.h"
+#include "../util/robot_2020.h"
 
 namespace aoc2020_08 {
 using namespace std;
 
-constexpr char kAcc[] = "acc";
-constexpr char kJmp[] = "jmp";
-constexpr char kNop[] = "nop";
-
-long long accumulator = 0;
-
-class Command {
-public:
-  Command(size_t i, const string &in, const int &pa)
-      : index{i}, ins{in}, param{pa} {}
-
-  size_t index;
-  string ins;
-  int param;
-
-  void print() const {
-    cout << "Command [" << index << "] :" << ins << ": " << param << endl;
-  }
-
-  bool operator==(const Command &cmd) const {
-    return index == cmd.index;
-  }
-
-  struct cmd_hash {
-    size_t operator() (const Command& cmd) const {
-      return cmd.index;
-    }
-  };
-};
-
-vector<Command> getCommands() {
-  string ins, param;
-  vector<Command> instructions;
-
-  while(!cin.eof()) {
-    cin >> ins >> param;
-    if (ins.empty()) break;
-    instructions.emplace_back(instructions.size(), ins, atoi(param.c_str()));
-    instructions.back().print();
-  }
-  return instructions;
-}
-
-bool findLoop(const vector<Command> &commands) {
-  unordered_set<Command, Command::cmd_hash> seenCommands;
-  for (int index = 0; index < commands.size(); ++index) {
-    const Command &cmd = commands[index];
-    if (seenCommands.find(cmd) != seenCommands.end()) {
-      cout << "Repeated command found: " << index << endl;
-      return true;
-    }
-    seenCommands.insert(cmd);
-    if (strcmp(cmd.ins.c_str(), kAcc) == 0) {
-      accumulator += cmd.param;
-    } else if (strcmp(cmd.ins.c_str(), kJmp) == 0) {
-      index += cmd.param - 1;
-    }
-  }
-  return false;
-}
-
-int findCorruptedCommand(vector<Command> commands) {
-  int index = commands.size() - 1;
-    bool foundLoop = true;
-    for (; index >=0 && foundLoop; --index) {
-      Command &cmd = commands[index];
-      accumulator = 0;
-      if (strcmp(cmd.ins.c_str(), kJmp) == 0) {
-        cmd.ins = kNop;
-        foundLoop = findLoop(commands);
-        cmd.ins = kJmp;
-      } else if (strcmp(cmd.ins.c_str(), kNop) == 0) {
-        cmd.ins = kJmp;
-        foundLoop = findLoop(commands);
-        cmd.ins = kNop;
-      }
-    }
-    cout << "Loop fixed @ command: "; commands[index + 1].print(); 
-    return index;
-}
 
 void solve(int part = 1) {
-  vector<Command> commands = getCommands(); 
+  aoc2020::Robot robot;
+  robot.getCommands();
   if (part == 1) {
-    findLoop(commands);
+    robot.findLoop();
   } else {
-    findCorruptedCommand(commands);
+    robot.findCorruptedCommand();
   }
-  cout << "Accumulator: " << accumulator << endl;
+  cout << "Accumulator: " << robot.accumulator << endl;
 }
 
 };  // aoc2020_08
