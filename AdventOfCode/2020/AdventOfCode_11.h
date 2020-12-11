@@ -89,31 +89,77 @@ public:
     cout << "Grid size: " << maxX  << " x " << maxY << endl;
   }
 
-  bool hasPrevious(size_t x) const {
+  inline bool hasPrevious(size_t x) const {
     return x > 0;
   }
   
-  bool hasNextX(size_t x) const {
+  inline bool hasNextX(size_t x) const {
     return x < (maxX - 1);
   }
-  bool hasNextY(size_t y) const {
+  inline bool hasNextY(size_t y) const {
     return y < (maxY - 1);
   }
   
-  size_t getPreviousX(size_t x) const {
+  inline size_t getPreviousX(size_t x) const {
     return hasPrevious(x) ? x - 1 : maxX - 1;
   }
   
-  size_t getPreviousY(size_t y) const {
+  inline size_t getPreviousY(size_t y) const {
     return hasPrevious(y) ? y - 1 : maxY - 1;
   }
   
-  size_t getNextX(size_t x) const {
+  inline size_t getNextX(size_t x) const {
     return hasNextX(x) ?  x + 1 : 0;
   }
   
-  size_t getNextY(size_t y) const {
+  inline size_t getNextY(size_t y) const {
     return hasNextY(y) ? y + 1 : 0;
+  }
+  
+  pair<size_t,size_t> getLongNeighborsCount(size_t f, size_t c) const {
+    size_t availableNeighborsCount = 0;
+    size_t occupiedNeighborsCount = 0;
+    for (int i = f - 1; i >=0 ; --i) { // UP
+      availableNeighborsCount += grid[i][c].isAvailableNum(); 
+      occupiedNeighborsCount += grid[i][c].isOccupied() ? 1 : 0;
+      if (!grid[i][c].isFloorTile()) break;
+    }
+    for (int i = f + 1; i < maxY ; ++i) { // Down
+      availableNeighborsCount += grid[i][c].isAvailableNum(); 
+      occupiedNeighborsCount += grid[i][c].isOccupied() ? 1 : 0;
+      if (!grid[i][c].isFloorTile()) break;
+    }
+    for (int i = c - 1; i >=0 ; --i) { // Left
+      availableNeighborsCount += grid[f][i].isAvailableNum(); 
+      occupiedNeighborsCount += grid[f][i].isOccupied() ? 1 : 0;
+      if (!grid[f][i].isFloorTile()) break;
+    }
+    for (int i = c + 1; i < maxX ; ++i) { // Right
+      availableNeighborsCount += grid[f][i].isAvailableNum(); 
+      occupiedNeighborsCount += grid[f][i].isOccupied() ? 1 : 0;
+      if (!grid[f][i].isFloorTile()) break;
+    }
+    for (int i = f - 1, j = c - 1; i >=0  && j >= 0; --i, --j) { // UP LEFT
+      availableNeighborsCount += grid[i][j].isAvailableNum(); 
+      occupiedNeighborsCount += grid[i][j].isOccupied() ? 1 : 0;
+      if (!grid[i][j].isFloorTile()) break;
+    }
+    for (int i = f - 1, j = c + 1; i >=0  && j < maxX; --i, ++j) { // UP Right
+      availableNeighborsCount += grid[i][j].isAvailableNum(); 
+      occupiedNeighborsCount += grid[i][j].isOccupied() ? 1 : 0;
+      if (!grid[i][j].isFloorTile()) break;
+    }
+    for (int i = f + 1, j = c - 1; i < maxY && j >= 0; ++i, --j) { // Down LEFT
+      availableNeighborsCount += grid[i][j].isAvailableNum(); 
+      occupiedNeighborsCount += grid[i][j].isOccupied() ? 1 : 0;
+      if (!grid[i][j].isFloorTile()) break;
+    }
+    for (int i = f + 1, j = c + 1; i < maxY && j < maxX; ++i, ++j) { // Down Right
+      availableNeighborsCount += grid[i][j].isAvailableNum(); 
+      occupiedNeighborsCount += grid[i][j].isOccupied() ? 1 : 0;
+      if (!grid[i][j].isFloorTile()) break;
+    }
+    return make_pair(availableNeighborsCount, occupiedNeighborsCount);
   }
   
   pair<size_t,size_t> getNeighborsCount(size_t f, size_t c) const{
@@ -158,46 +204,60 @@ public:
     return make_pair(availableNeighborsCount, occupiedNeighborsCount);
   }
 
-size_t tick(){
-  cout << "\tTicking. ";
-  availableSeats = 0;
-  floorCount = 0;
-  occupiedSeats = 0;
-  for (size_t f = 0; f < maxY; ++f){
-    for (size_t c = 0; c < maxX; ++c){
-      pair<size_t, size_t> neighbors = getNeighborsCount(f, c);
-      Cell *currentCell = &grid[f][c];
-      /*
-      If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
-      If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
-      */
-      if (currentCell->isFloorTile()) {
-        ++floorCount;
-        continue;
+  size_t tick(bool longSight = false){
+    availableSeats = 0;
+    floorCount = 0;
+    occupiedSeats = 0;
+    for (size_t f = 0; f < maxY; ++f){
+      for (size_t c = 0; c < maxX; ++c){
+        pair<size_t, size_t> neighbors = 
+            longSight ? getLongNeighborsCount(f,c) : getNeighborsCount(f, c);
+        Cell *currentCell = &grid[f][c];
+        /*
+        If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
+        If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
+        */
+        if (currentCell->isFloorTile()) {
+          ++floorCount;
+          continue;
+        }
+        if (currentCell->isAvailable()) {
+          if (neighbors.second == 0) {
+            currentCell->setValue(kOccupied);
+            ++occupiedSeats;
+          } else {
+            ++availableSeats;
+          }
+        } else if (currentCell->isOccupied()) {
+          if (neighbors.second >= (longSight ? 5 : 4)) {
+            currentCell->setValue(kAvailable);
+            ++availableSeats;
+          } else {
+            ++occupiedSeats;
+          }
+        } 
+        // Otherwise, the seat's state does not change.
       }
-      if (currentCell->isAvailable()) {
-        if (neighbors.second == 0) {
-          currentCell->setValue(kOccupied);
-          ++occupiedSeats;
-        } else {
-          ++availableSeats;
-        }
-      } else if (currentCell->isOccupied()) {
-        if (neighbors.second >= 4) {
-          currentCell->setValue(kAvailable);
-          ++availableSeats;
-        } else {
-          ++occupiedSeats;
-        }
-      } 
-      // Otherwise, the seat's state does not change.
     }
+    return availableSeats;
   }
-  size_t total = availableSeats + occupiedSeats + floorCount;
-  cout << "Available: " << availableSeats << ", Occupied: " << occupiedSeats
-      << ", Floor tiles: " << floorCount << ". Total: " <<  total << endl;
-  return availableSeats;
-}
+
+  void printStatus() {
+    size_t total = availableSeats + occupiedSeats + floorCount;
+    cout << "Available: " << availableSeats << ", Occupied: " << occupiedSeats
+        << ", Floor tiles: " << floorCount << ". Total: " <<  total << endl;
+  }
+  
+  bool commit() {
+    size_t changes = 0;
+    for (size_t f = 0; f < maxY; ++f){
+      for (size_t c = 0; c < maxX; ++c){
+        Cell *currentCell = &grid[f][c];
+        changes += currentCell->commit() ? 1 : 0;
+      }
+    }
+    return changes != 0;
+  }
   
   bool print() {
     size_t changes = 0;
@@ -209,7 +269,8 @@ size_t tick(){
       }
       cout << endl;
     }
-    cout << "Changes: " << changes << endl << endl;
+    cout << "Changes: " << changes << "\t"; printStatus();
+    cout << endl;
     return changes != 0;
   }
 
@@ -224,26 +285,18 @@ private:
   size_t availableSeats, occupiedSeats, floorCount;
 };
 
-void solve1() {
-  GameOfLife game;
-  game.print();
-  cout << endl;
-  game.print();
-  cout << endl;
-  for (int i = 0; true; ++i) {
-    cout << i << ":\t";
-    game.tick();
-    if (!game.print()) {
-      cout << "Available seats at stabilization: " << game.getAvailableSeatCount() << endl;
-      break;
-    }
-  }
-}
 
 void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } 
+  GameOfLife game;
+    for (int i = 0; true; ++i) {
+      // cout << i << ":\t";
+      game.tick(part != 1);
+      // if (!game.print()) {
+      if (!game.commit()) {
+        cout << "Stabilization @ tick: " << i << "\t"; game.printStatus();
+        break;
+      }
+    }
 }
 
 };  // aoc2020_11
