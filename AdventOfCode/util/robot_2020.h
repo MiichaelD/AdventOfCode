@@ -50,6 +50,7 @@ public:
 
 class Robot {
 public:
+  Robot() : accumulator {0}, control {0} {};
   long long accumulator;
   vector<Command> commands;
   size_t control;
@@ -85,7 +86,7 @@ public:
 
   bool findLoop() {
     unordered_set<Command, Command::cmd_hash> seenCommands;
-    for (; control < commands.size(); ++control) {
+    for (control = 0; control < commands.size(); ++control) {
       const Command &cmd = commands[control];
       if (seenCommands.find(cmd) != seenCommands.end()) {
         cout << "Repeated command found: " << control << endl;
@@ -98,23 +99,24 @@ public:
   }
 
   int findCorruptedCommand() {
-    control = commands.size() - 1;
-      bool foundLoop = true;
-      for (; control >=0 && foundLoop; --control) {
-        Command &cmd = commands[control];
-        accumulator = 0;
-        if (strcmp(cmd.ins.c_str(), kJmp) == 0) {
-          cmd.ins = kNop;
-          foundLoop = findLoop();
-          cmd.ins = kJmp;
-        } else if (strcmp(cmd.ins.c_str(), kNop) == 0) {
-          cmd.ins = kJmp;
-          foundLoop = findLoop();
-          cmd.ins = kNop;
-        }
+    size_t innerControl = commands.size() - 1;
+    bool foundLoop = true;
+    for (; innerControl >=0 && foundLoop; --innerControl) {
+      Command &cmd = commands[innerControl];
+      accumulator = 0;
+      control = 0;
+      if (strcmp(cmd.ins.c_str(), kJmp) == 0) {
+        cmd.ins = kNop;
+        foundLoop = findLoop();
+        cmd.ins = kJmp;
+      } else if (strcmp(cmd.ins.c_str(), kNop) == 0) {
+        cmd.ins = kJmp;
+        foundLoop = findLoop();
+        cmd.ins = kNop;
       }
-      cout << "Loop fixed @ command: "; commands[control + 1].print(); 
-      return control;
+    }
+    cout << "Loop fixed @ command: "; commands[innerControl + 1].print(); 
+    return innerControl;
   }
 
 };
