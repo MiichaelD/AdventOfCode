@@ -27,6 +27,27 @@
 namespace aoc2020_12 {
 using namespace std;
 
+vector<string> getLinesWithLn() {
+  string line;
+  vector<string> lines;
+  stringstream ss;
+  while (!cin.eof()) {
+    getline(cin, line);
+    ss << line;
+    if (line.empty()) {
+      lines.push_back(ss.str());
+      // cout << "Passport: " << ss.str() << endl;
+      ss.str("");
+      ss.clear();
+    } else {
+      ss << ' ';
+    }
+  }
+  lines.push_back(ss.str());
+  // cout << "Passport: " << ss.str() << endl;
+  return lines;
+}
+
 void solve1() {
   string input;
   cin >> input;  

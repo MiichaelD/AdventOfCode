@@ -12,6 +12,7 @@
 #include <limits> // std::numeric_limits<T>::max
 #include <memory>
 #include <sstream>
+#include <string.h>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>

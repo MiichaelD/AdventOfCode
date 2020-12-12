@@ -13,11 +13,13 @@
 #include <iostream> // std::cin, std::cout, std::fixed
 #include <ctype.h>  // char related functions
 #include <climits>  // INT_MAX and such numeric limits
+#include <cstddef>
 #include <cmath>   // pow, floor, sqrt
 #include <deque>
 #include <limits> // std::numeric_limits<T>::max
 #include <memory>
 #include <sstream>
+
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
@@ -73,7 +75,7 @@ pair<unsigned long long, unsigned long long> getMinAndMaxFromRange(
     const vector<unsigned long long> numbers,
     unsigned long long  i,
     unsigned long long  j) {
-  unsigned long long minimum = SIZE_T_MAX, maximum = 0;
+  unsigned long long minimum =  std::numeric_limits<size_t>::max(), maximum = 0;
   for (;i <= j; ++i) {
     minimum = min(minimum, numbers[i]);
     maximum = max(maximum, numbers[i]);
