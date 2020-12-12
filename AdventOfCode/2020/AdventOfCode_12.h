@@ -172,9 +172,9 @@ public:
         cout << "ERROR" << endl; return false; 
       }
     }
-    cout << "Navigator's Manhattan Distance: ";
-    util::printPair(coordinates);
-    cout << ". Added: " << (abs(coordinates.first) + abs(coordinates.second)) << endl;
+    cout << "Navigator's Manhattan Distance: "; util::printPair(coordinates);
+    cout << "Added: " << (abs(coordinates.first) + abs(coordinates.second)) << endl;
+    return true;
   }
 
   pair<lli,lli> getManhattanDistance() const {
