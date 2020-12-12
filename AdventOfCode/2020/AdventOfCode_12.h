@@ -27,42 +27,169 @@
 namespace aoc2020_12 {
 using namespace std;
 
-vector<string> getLinesWithLn() {
-  string line;
-  vector<string> lines;
-  stringstream ss;
-  while (!cin.eof()) {
-    getline(cin, line);
-    ss << line;
-    if (line.empty()) {
-      lines.push_back(ss.str());
-      // cout << "Passport: " << ss.str() << endl;
-      ss.str("");
-      ss.clear();
-    } else {
-      ss << ' ';
+typedef long long int lli;
+
+constexpr char F = 'F';
+constexpr char N = 'N';
+constexpr char S = 'S';
+constexpr char E = 'E';
+constexpr char W = 'W';
+constexpr char L = 'L';
+constexpr char R = 'R';
+
+class Navigator {
+private:
+  bool rotateLeft(int val=90) {
+    size_t times = val / 90;
+    cout << "Rotating left " << times << " times, now facing: '";  
+    for (size_t i = 0 ; i < times; ++i) {
+      switch(direction) {
+        case E: direction = N; break;
+        case N: direction = L; break;
+        case L: direction = S; break;
+        case S: direction = E; break;
+        default: cout << "This shouldn't happen." << endl; return false;
+      }
     }
+    cout << direction << "'\t";
+    return true;
   }
-  lines.push_back(ss.str());
-  // cout << "Passport: " << ss.str() << endl;
-  return lines;
-}
+  
+  bool rotateRight(int val=90) {
+    size_t times = val / 90;
+    cout << "Rotating right " << times << " times, now facing: '";
+    for (size_t i = 0 ; i < times; ++i) {
+      switch(direction) {
+        case E: direction = S; break;
+        case S: direction = L; break;
+        case L: direction = N; break;
+        case N: direction = E; break;
+        default: cout << "This shouldn't happen." << endl; return false;
+      }
+    }
+    cout << direction << "'\t";
+    return true;
+  }
 
-void solve1() {
-  string input;
-  cin >> input;  
-}
+  bool forward(int val) {
+    switch(direction) {
+      case E: cout << "Moving E \t"; coordinates.first += val; break;
+      case N: cout << "Moving N \t"; coordinates.second -= val; break;
+      case L: cout << "Moving L \t"; coordinates.first -= val; break;
+      case S: cout << "Moving S \t"; coordinates.second += val; break;
+      default: cout << "This shouldn't happen." << endl; return false;
+    }
+    return true;
+  }
 
-void solve2() {
-  string input;
-  cin >> input;
-}
+  vector<string> getCommands() {
+    string line;
+    vector<string> lines;
+    while(!cin.eof()) {
+      cin >> line;
+      lines.push_back(line); 
+    }
+    return lines;
+  }
+
+  bool rotateWaypointLeft(int val=90) {
+    size_t times = val / 90;
+    cout << "Rotating left " << times << " times, now facing: '";  
+    for (size_t i = 0 ; i < times; ++i) {
+      lli aux = waypoint.first;
+      waypoint.first = waypoint.second;
+      waypoint.second = -aux;
+    }
+    cout << direction << "'\t";
+    return true;
+  }
+  
+  bool rotateWaypointRight(int val=90) {
+    size_t times = val / 90;
+    cout << "Rotating right " << times << " times, now facing: '";
+    for (size_t i = 0 ; i < times; ++i) {
+      lli aux = waypoint.first;
+      waypoint.first = -waypoint.second;
+      waypoint.second = aux;
+    }
+    cout << direction << "'\t";
+    return true;
+  }
+
+  bool forwardWaypoint(int val) {
+    coordinates.first += waypoint.first * val;
+    coordinates.second += waypoint.second * val;
+    return true;
+  }
+
+  pair<lli,lli> coordinates;
+  char direction;
+  pair<lli,lli> waypoint;
+  bool hasWaypoint;
+
+public:
+  Navigator() : coordinates{make_pair(0, 0)}, direction{E}, hasWaypoint{false} {}
+
+  void setWaypoint(const pair<lli,lli> *coords) {
+    if (coords == nullptr) {
+      hasWaypoint = false;
+      return;
+    }
+    waypoint = *coords;
+    hasWaypoint = true;
+  }
+
+  bool processInput(char cmd, int val) {
+    bool result = true;
+    cout << "Processing: '" << cmd << "'' x '" << val << "'\t";
+    pair<lli,lli> &coords = hasWaypoint ? waypoint : coordinates;
+    switch(cmd) {
+      case F: result = hasWaypoint ? forwardWaypoint(val) : forward(val); break;
+      case N: coords.second -= val; break;
+      case S: coords.second += val; break;
+      case E: coords.first += val; break;
+      case W: coords.first -= val; break;
+      case L: result = hasWaypoint ? rotateWaypointLeft(val) : rotateLeft(val); break;
+      case R: result = hasWaypoint ? rotateWaypointRight(val) : rotateRight(val); break;
+      default: cout << "This shouldn't happen." << endl;  return false;
+    }
+    if (hasWaypoint) {
+      util::printPair(coordinates);
+      cout << ". Waypoint: ";
+      util::printPair(waypoint, true);
+    } else {
+      util::printPair(coordinates, true); 
+    }
+    return result;
+  }
+
+  bool processInput() {
+    vector<string> lines = getCommands();
+    for (const string &str : lines) {
+      char cmd = str[0];
+      int val = atoi(&str.c_str()[1]);
+      if (!processInput(cmd, val)) {
+        cout << "ERROR" << endl; return false; 
+      }
+    }
+    cout << "Navigator's Manhattan Distance: ";
+    util::printPair(coordinates);
+    cout << ". Added: " << (abs(coordinates.first) + abs(coordinates.second)) << endl;
+  }
+
+  pair<lli,lli> getManhattanDistance() const {
+    return coordinates;
+  }
+};
 
 void solve(int part = 1) {
+  Navigator navigator;
   if (part == 1) {
-    solve1();
+    navigator.processInput();
   } else {
-    solve2();
+    pair<lli,lli> waypoint(10, -1);
+    navigator.setWaypoint(&waypoint);
+    navigator.processInput();
   }
 }
 

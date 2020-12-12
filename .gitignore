@@ -93,4 +93,7 @@ ipch/
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
+
+# Command line builds
 AdventOfCode/main
+main
