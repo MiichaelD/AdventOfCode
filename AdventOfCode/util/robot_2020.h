@@ -5,6 +5,7 @@
 #include <algorithm> // std::sort
 #include <iomanip>      // std::setprecision
 #include <iostream> // std::cin, std::cout, std::fixed
+#include <cstring>  // strcmp()
 #include <ctype.h>  // char related functions
 #include <climits>  // INT_MAX and such numeric limits
 #include <cmath>   // pow, floor, sqrt
@@ -12,7 +13,6 @@
 #include <limits> // std::numeric_limits<T>::max
 #include <memory>
 #include <sstream>
-#include <string.h>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
