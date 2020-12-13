@@ -28,9 +28,53 @@
 namespace aoc2020_13 {
 using namespace std;
 
+typedef long long int lli;
+
+bool fillBusses(vector<lli> *input) {
+  string line;
+  cin >> line;
+  lli accum = 0;
+  for (int index = 0; index < line.size(); ++index) {
+    if (isdigit(line[index])) {
+      accum *= 10;
+      accum += line[index] - '0';
+    } else if (line[index] == ',') {
+      if (accum != 0) {
+        input->push_back(accum);
+        accum = 0;
+      }
+      continue;
+    } else if (line[index] == 'x') {
+      continue;
+    }
+  }
+  if (accum != 0) {
+    input->push_back(accum);
+    accum = 0;
+  }
+  return true;
+}
+
 void solve1() {
-  string input;
-  cin >> input;  
+  lli earliest;
+  vector<lli> busses;
+  cin >> earliest;  
+  fillBusses(&busses);
+
+  lli earliestPickup = INT64_MAX;
+  int earliestBus = INT_MAX;
+  for (lli bus : busses) {
+    lli result = earliest / bus;
+    if ((result * bus) < earliest) {
+      ++result;
+    }
+    if (result * bus < earliestPickup) {
+      cout << "\t bus: " << bus <<  " @ " << result * bus << endl;
+      earliestPickup = result * bus;
+      earliestBus = bus;
+    }
+  }
+  cout << (earliestPickup - earliest) * earliestBus << endl;
 }
 
 void solve2() {
