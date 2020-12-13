@@ -101,11 +101,15 @@ lli getTimeT(const vector<lli> &busses) {
     }
   }
   lli maxBus = busses[mInd];
+  cout << "Max Bus: " << maxBus << " @ index: " << mInd << endl;
+
   for (int i = 0; i < busses.size(); ++i) {
     if (busses[i] == 0) continue;
-    cout << "For " << busses[i] << "\tGCD: " << gcd(busses[i], maxBus) << ", LCM: " << lcm(busses[i], maxBus) << endl;
+    lli b = busses[i];
+    cout << "\t" << b << " @ " << i << "\tGCD: " << gcd(b, maxBus) << ", LCM: ";
+    cout << lcm(b, maxBus) << endl;
   }
-  cout << "Max Bus: " << maxBus << endl;
+
   bool found;
   for (lli i = maxBus; true; i += maxBus) {
     found = true;
@@ -119,6 +123,7 @@ lli getTimeT(const vector<lli> &busses) {
       }
     }
     if (found) {
+      cout << "After " << i / maxBus << " iterations... Done" << endl;
       return i - mInd;
     }
   }
