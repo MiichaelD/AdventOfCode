@@ -30,7 +30,21 @@ using namespace std;
 
 typedef long long int lli;
 
-bool fillBusses(vector<lli> *input) {
+lli gcd(lli a, lli b) {
+  while(a != b)  {
+    if(a > b)
+        a -= b;
+    else
+        b -= a;
+  }
+  return a;
+}
+
+double lcm(lli a, lli b) {
+  return ((double) a) * b / gcd(a, b);
+}
+
+bool fillBusses(vector<lli> *input, bool includeX=false) {
   string line;
   cin >> line;
   lli accum = 0;
@@ -45,6 +59,9 @@ bool fillBusses(vector<lli> *input) {
       }
       continue;
     } else if (line[index] == 'x') {
+      if (includeX) {
+        input->push_back(0ll);
+      }
       continue;
     }
   }
@@ -55,39 +72,70 @@ bool fillBusses(vector<lli> *input) {
   return true;
 }
 
-void solve1() {
-  lli earliest;
-  vector<lli> busses;
-  cin >> earliest;  
-  fillBusses(&busses);
+lli getEarliestPickup(lli earliestPickup, lli bus) {
+  return 0ll;
+}
 
-  lli earliestPickup = INT64_MAX;
+lli getEarliestShuttlePickup(const vector<lli> &busses, lli earliestPickup) {
+  lli nextPickup = INT64_MAX;
   int earliestBus = INT_MAX;
   for (lli bus : busses) {
-    lli result = earliest / bus;
-    if ((result * bus) < earliest) {
+    lli result = earliestPickup / bus;
+    if ((result * bus) < earliestPickup) {
       ++result;
     }
-    if (result * bus < earliestPickup) {
-      cout << "\t bus: " << bus <<  " @ " << result * bus << endl;
-      earliestPickup = result * bus;
+    if (result * bus < nextPickup) {
+      // cout << "\t bus: " << bus <<  " @ " << result * bus << endl;
+      nextPickup = result * bus;
       earliestBus = bus;
     }
   }
-  cout << (earliestPickup - earliest) * earliestBus << endl;
+  return (nextPickup - earliestPickup) * earliestBus;
 }
 
-void solve2() {
-  string input;
-  cin >> input;
+lli getTimeT(const vector<lli> &busses) {
+  lli mInd = 0;
+  for (int i = 1; i < busses.size(); ++i) {
+    if (busses[i] > busses[mInd]) { 
+      mInd = i;
+    }
+  }
+  lli maxBus = busses[mInd];
+  for (int i = 0; i < busses.size(); ++i) {
+    if (busses[i] == 0) continue;
+    cout << "For " << busses[i] << "\tGCD: " << gcd(busses[i], maxBus) << ", LCM: " << lcm(busses[i], maxBus) << endl;
+  }
+  cout << "Max Bus: " << maxBus << endl;
+  bool found;
+  for (lli i = maxBus; true; i += maxBus) {
+    found = true;
+    for (size_t j = 0; j < busses.size(); ++j) {
+      if (busses[j] == 0) continue;
+      lli target = i - mInd + j;
+      // cout << "Target: " << target << " @ " << busses[j] << endl;;
+      if ((target % busses[j]) > 0) {
+        found = false;
+        break;
+      }
+    }
+    if (found) {
+      return i - mInd;
+    }
+  }
+  return 0ll;
 }
 
 void solve(int part = 1) {
+  lli earliest, result = 0ll;
+  cin >> earliest;  
+  vector<lli> busses;
+  fillBusses(&busses, part != 1);
   if (part == 1) {
-    solve1();
+    result = getEarliestShuttlePickup(busses, earliest);
   } else {
-    solve2();
+    result = getTimeT(busses);
   }
+  cout << "Result: " << result << endl;
 }
 
 };  // aoc2020_13
