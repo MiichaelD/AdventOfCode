@@ -28,9 +28,76 @@
 namespace aoc2020_14 {
 using namespace std;
 
+typedef unordered_map<size_t, uint64_t> Memory;
+
+
+Memory memory;
+string mask;
+
+vector<string>  getInput() {
+  vector<string> input;
+  string line;
+  while(cin && !cin.eof()) {
+    getline(cin, line);
+    input.push_back(line);
+  }
+  return input;
+}
+
+uint64_t getMaskedValue(uint64_t value) {
+  size_t len = mask.size() - 1;
+  for (int i = len; i >= 0; --i) {
+    switch(mask[i]) {
+      case '0': value &= ~(1ull << (len - i)); break;
+      case '1': value |= (1ull << (len - i)); break;
+      case 'X':
+      default: break;
+    }
+  }
+  return value;
+}
+
+bool processInput(const string &input) {
+  if (input.empty()) return false;
+  if (input[1] == 'a') {
+    mask = input.substr(6);;
+    cout << "Mask = " << mask << endl;
+    return true;
+  } else if (input[1] == 'e') {
+    size_t index = atoi(&input.c_str()[4]);
+    size_t digits = log10(index) + 1;
+    uint64_t value = atoi(&input.c_str()[7 + digits]);
+    uint64_t maskedValue = getMaskedValue(value);
+    memory[index] = maskedValue;
+    cout << "Memory @ " << index << " = " << value << " Masked = " << maskedValue << endl;
+    return true;
+  }
+  return false;
+}
+
+bool processInput(const vector<string> &input) {
+  for (const string &in : input) {
+    if (!processInput(in)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+uint64_t getMemoryValuesSum() {
+  uint64_t result = 0;
+  for (const auto &entry : memory) {
+    cout << "\tMemory @ " << entry.first << " = " << entry.second << endl;
+    result += entry.second;
+  }
+  return result;
+}
+
 void solve1() {
-  string input;
-  cin >> input;  
+  vector<string> input = getInput();
+  processInput(input);
+  uint64_t result = getMemoryValuesSum();
+  cout << "Result: " << result << ". After adding " << memory.size() << " values" << endl;
 }
 
 void solve2() {
