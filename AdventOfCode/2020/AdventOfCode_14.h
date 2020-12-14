@@ -33,6 +33,7 @@ typedef unordered_map<size_t, uint64_t> Memory;
 
 Memory memory;
 string mask;
+size_t floatingIndexes;
 
 vector<string>  getInput() {
   vector<string> input;
@@ -57,16 +58,51 @@ uint64_t getMaskedValue(uint64_t value) {
   return value;
 }
 
+vector<uint64_t> getMaskedIndexes(uint64_t index) {
+  vector<uint64_t> result(pow(2, floatingIndexes), index);
+  size_t len = mask.size() - 1;
+  size_t floating = 0;
+  for (int i = len; i >= 0; --i) {
+    switch(mask[i]) {
+      case '0': break;
+      case '1': 
+      for (size_t in = 0; in < result.size(); ++in) {
+        // cout << "\t\t 1 in position " << len - i << endl;
+        result[in] |= (1ull << (len - i));
+      }
+      break;
+      case 'X':
+        ++floating;
+        for (size_t in = 0; in < result.size(); ++in) {
+          uint64_t bitValue = floating & in;
+          size_t bitPos = len - i;
+          if (((bitValue >> (floating - 1)) & 1) == 1) {
+            cout << "\t\t 1 in position " << len - i << endl;
+            result[in] |= (1ull << (len - i));
+          } else {
+            cout << "\t\t 0 in position " << len - i << endl;
+            result[in] &= ~(1ull << (len - i));
+          }
+        }
+        break;
+      default:
+       break;
+    }
+  
+  } 
+  return result;
+}
+
 bool processInput(const string &input) {
   if (input.empty()) return false;
   if (input[1] == 'a') {
-    mask = input.substr(6);;
+    mask = input.substr(6);
     cout << "Mask = " << mask << endl;
     return true;
   } else if (input[1] == 'e') {
-    size_t index = atoi(&input.c_str()[4]);
+    size_t index = atol(&input.c_str()[4]);
     size_t digits = log10(index) + 1;
-    uint64_t value = atoi(&input.c_str()[7 + digits]);
+    uint64_t value = atol(&input.c_str()[7 + digits]);
     uint64_t maskedValue = getMaskedValue(value);
     memory[index] = maskedValue;
     cout << "Memory @ " << index << " = " << value << " Masked = " << maskedValue << endl;
@@ -75,9 +111,31 @@ bool processInput(const string &input) {
   return false;
 }
 
-bool processInput(const vector<string> &input) {
+bool processInput2(const string &input) {
+  if (input.empty()) return false;
+  if (input[1] == 'a') {
+    mask = input.substr(6);
+    floatingIndexes = 0;
+    for (char c : mask) { if (c == 'X') ++floatingIndexes; }
+    cout << "Mask = " << mask << endl;
+    return true;
+  } else if (input[1] == 'e') {
+    size_t index = atol(&input.c_str()[4]);
+    size_t digits = log10(index) + 1;
+    uint64_t value = atol(&input.c_str()[7 + digits]);
+    vector<uint64_t> indexes = getMaskedIndexes(index);
+    for (uint64_t i : indexes) {
+      memory[i] = value;
+      cout << "Memory @ " << i << " = " << value<< endl;
+    }
+    return true;
+  }
+  return false;
+}
+
+bool processInput(const vector<string> &input, bool part1 = true) {
   for (const string &in : input) {
-    if (!processInput(in)) {
+    if (part1 ? !processInput(in) : !processInput2(in)) {
       return false;
     }
   }
@@ -93,24 +151,11 @@ uint64_t getMemoryValuesSum() {
   return result;
 }
 
-void solve1() {
+void solve(int part = 1) {
   vector<string> input = getInput();
-  processInput(input);
+  processInput(input, part == 1);
   uint64_t result = getMemoryValuesSum();
   cout << "Result: " << result << ". After adding " << memory.size() << " values" << endl;
-}
-
-void solve2() {
-  string input;
-  cin >> input;
-}
-
-void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
-  }
 }
 
 };  // aoc2020_14
