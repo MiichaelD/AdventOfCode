@@ -35,7 +35,7 @@ Memory memory;
 string mask;
 size_t floatingIndexes;
 
-vector<string>  getInput() {
+vector<string> getInput() {
   vector<string> input;
   string line;
   while(cin && !cin.eof()) {
@@ -72,18 +72,18 @@ vector<uint64_t> getMaskedIndexes(uint64_t index) {
       }
       break;
       case 'X':
-        ++floating;
         for (size_t in = 0; in < result.size(); ++in) {
-          uint64_t bitValue = floating & in;
+          uint64_t bitValue = (in & 1ull << floating);
           size_t bitPos = len - i;
-          if (((bitValue >> (floating - 1)) & 1) == 1) {
-            cout << "\t\t 1 in position " << len - i << endl;
+          if ((bitValue >> floating) & 1) {
+            // cout << "\t\t 1 in position " << len - i << endl;
             result[in] |= (1ull << (len - i));
           } else {
-            cout << "\t\t 0 in position " << len - i << endl;
+            // cout << "\t\t 0 in position " << len - i << endl;
             result[in] &= ~(1ull << (len - i));
           }
         }
+        ++floating;
         break;
       default:
        break;
@@ -93,49 +93,37 @@ vector<uint64_t> getMaskedIndexes(uint64_t index) {
   return result;
 }
 
-bool processInput(const string &input) {
-  if (input.empty()) return false;
-  if (input[1] == 'a') {
-    mask = input.substr(6);
-    cout << "Mask = " << mask << endl;
-    return true;
-  } else if (input[1] == 'e') {
-    size_t index = atol(&input.c_str()[4]);
-    size_t digits = log10(index) + 1;
-    uint64_t value = atol(&input.c_str()[7 + digits]);
-    uint64_t maskedValue = getMaskedValue(value);
-    memory[index] = maskedValue;
-    cout << "Memory @ " << index << " = " << value << " Masked = " << maskedValue << endl;
-    return true;
-  }
-  return false;
-}
-
-bool processInput2(const string &input) {
+bool processInput(const string &input, bool version2) {
   if (input.empty()) return false;
   if (input[1] == 'a') {
     mask = input.substr(6);
     floatingIndexes = 0;
     for (char c : mask) { if (c == 'X') ++floatingIndexes; }
-    cout << "Mask = " << mask << endl;
+    // cout << "Mask = " << mask << endl;
     return true;
   } else if (input[1] == 'e') {
     size_t index = atol(&input.c_str()[4]);
     size_t digits = log10(index) + 1;
     uint64_t value = atol(&input.c_str()[7 + digits]);
-    vector<uint64_t> indexes = getMaskedIndexes(index);
-    for (uint64_t i : indexes) {
-      memory[i] = value;
-      cout << "Memory @ " << i << " = " << value<< endl;
+    if (version2) {
+      vector<uint64_t> indexes = getMaskedIndexes(index);
+      for (uint64_t i : indexes) {
+        memory[i] = value;
+        // cout << "Memory @ " << i << " = " << value<< endl;
+      }
+    } else {
+      uint64_t maskedValue = getMaskedValue(value);
+      memory[index] = maskedValue;
+      // cout << "Memory @ " << index << " = " << value << " Masked = " << maskedValue << endl;
     }
     return true;
   }
   return false;
 }
 
-bool processInput(const vector<string> &input, bool part1 = true) {
+bool processInput(const vector<string> &input, bool version2=false) {
   for (const string &in : input) {
-    if (part1 ? !processInput(in) : !processInput2(in)) {
+    if (!processInput(in, version2)) {
       return false;
     }
   }
@@ -145,7 +133,7 @@ bool processInput(const vector<string> &input, bool part1 = true) {
 uint64_t getMemoryValuesSum() {
   uint64_t result = 0;
   for (const auto &entry : memory) {
-    cout << "\tMemory @ " << entry.first << " = " << entry.second << endl;
+    // cout << "\tMemory @ " << entry.first << " = " << entry.second << endl;
     result += entry.second;
   }
   return result;
@@ -153,7 +141,7 @@ uint64_t getMemoryValuesSum() {
 
 void solve(int part = 1) {
   vector<string> input = getInput();
-  processInput(input, part == 1);
+  processInput(input, part != 1);
   uint64_t result = getMemoryValuesSum();
   cout << "Result: " << result << ". After adding " << memory.size() << " values" << endl;
 }
