@@ -50,24 +50,10 @@ vector<uint64_t> getInput() {
   return input;
 }
 
-void speakNumber(
-  uint64_t number, unordered_map<uint64_t,vector<size_t>> &seen, vector<uint64_t> &input) {
-    seen[number].push_back(input.size());
-    input.push_back(number);
-}
-
-void solve1(vector<uint64_t> &input) {
-}
-
-void solve2() {
-  string input;
-  cin >> input;
-}
-
 void solve(int part = 1) {
   size_t kTotalTurns = part == 1 ? 2020 : 30000000;
   vector<uint64_t> input = getInput();
-  unordered_map<uint64_t,vector<size_t>> seen;
+  unordered_map<uint64_t,deque<size_t>> seen;
   uint64_t last;
   for (size_t index = 0; index < input.size(); ++index) {
     last = input[index];
@@ -76,16 +62,21 @@ void solve(int part = 1) {
   }
   while (input.size() < kTotalTurns) {
     const auto &it = seen.find(last);
-    vector<size_t> &reps = it->second;
+    deque<size_t> &reps = it->second;
     // for (int i = 0 ; i < reps.size(); ++i ){
     //   cout << "\tNumber " << last << " has been seen @ " << (reps[i] + 1) << endl;
     // }
     uint64_t number = it->second.size() < 2 ? 0 : (reps.back() - reps.at(reps.size() - 2));
-    cout << "Turn " << (input.size() + 1) << ": " << number << endl;
-    speakNumber(number, seen, input);
+    // cout << "Turn " << (input.size() + 1) << ": " << number << endl;
+    // while(seen[number].size() > 1) {
+    //   seen[number].pop_front();  // We only need 2 items at a time.
+    // }
+    seen[number].push_back(input.size());
+    input.push_back(number);
     last = number;
   }
   cout << "Turn " << input.size() << ": " << last << endl;
+  cout << "Total elements seen: " << seen.size() << endl;
 }
 
 };  // aoc2020_15
