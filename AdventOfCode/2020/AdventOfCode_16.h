@@ -53,13 +53,13 @@ struct Range {
     for (const auto &r : rules) {
       cout << "\t\t"; util::printPair(r, true);
     }
+    if (fieldIndex != -1)
+      cout << "\t\tField Index Match: " << fieldIndex << endl;
     cout << "\t\tPossible ticket indexes:";
     for (size_t index : possibleFieldIndexes) {
       cout << " " << index;
     }
-    if (fieldIndex != -1)
-      cout << "\tField Index Match: " << fieldIndex << endl;
-    cout << endl;
+    cout << endl << endl;
   }
 
   int getTicketValue(const Ticket &ticket) const {
@@ -123,10 +123,8 @@ Ticket getTicketData() {
       accum = 0;
     }
   }
-  if (accum != 0) {
-    input.values.push_back(accum);
-    accum = 0;
-  }
+  input.values.push_back(accum);
+  accum = 0;
   return input;
 }
 
@@ -209,22 +207,18 @@ bool matchTicketFields(vector<Range> &ranges, size_t &map, size_t index=0) {
     return true;
   }
   Range &r = ranges[index];
-  if (r.possibleFieldIndexes.empty()) {
-    // There is a range which didn't match any column.
-    return matchTicketFields(ranges, map, index + 1);
-  }
   for (size_t j = 0 ; j < r.possibleFieldIndexes.size(); ++j) {
     size_t trialIndex = r.possibleFieldIndexes[j];
     int shiftedBit = (1l << trialIndex);
     for (int i = 0; i < index; ++i) { cout << "  ";}
-    cout << "Trying " << r.name << " [" << index << "] w/ field #" << trialIndex;
+    cout << r.name << " [" << index << "] w/ field #" << trialIndex;
     if (map & shiftedBit) {
       cout << ". VISITED" << endl;
       continue; // Already visited
     }
     map |= (shiftedBit);
     r.fieldIndex = trialIndex;
-    cout << " Pending posibilities:" << (r.possibleFieldIndexes.size() - j) << endl;
+    cout << ". (Remaining:" << (r.possibleFieldIndexes.size() - j - 1) << ')'<< endl;
     if (matchTicketFields(ranges, map, index + 1)) {
       return true; // We found a Range - Field match
     }
