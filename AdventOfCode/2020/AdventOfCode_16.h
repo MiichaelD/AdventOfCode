@@ -28,9 +28,16 @@
 namespace aoc2020_16 {
 using namespace std;
 
+struct Ticket {
+  vector<size_t> values;
+  bool discarded = false;
+};
+
 struct Range {
   string name;
   vector<pair<int,int>> rules;
+  vector<size_t> possibleFieldIndexes;
+  int fieldIndex = -1;
 
   bool isInRange(int val) const {
     for (const auto &p : rules) {
@@ -46,13 +53,19 @@ struct Range {
     for (const auto &r : rules) {
       cout << "\t\t"; util::printPair(r, true);
     }
+    cout << "\t\tPossible ticket indexes:";
+    for (size_t index : possibleFieldIndexes) {
+      cout << " " << index;
+    }
+    if (fieldIndex != -1)
+      cout << "\tField Index Match: " << fieldIndex << endl;
+    cout << endl;
+  }
+
+  int getTicketValue(const Ticket &ticket) const {
+    return fieldIndex == -1 ? -1 : ticket.values[fieldIndex];
   }
 };
-
-struct Ticket {
-  vector<size_t> values;
-  bool discarded = false;
-}
 
 struct Data{
   vector<Range> ranges;
@@ -95,8 +108,8 @@ pair<int,int> getRangeRule(const string &line, size_t &index) {
   return result;
 }
 
-vector<size_t> getTicketData() {
-  vector<size_t> input;
+Ticket getTicketData() {
+  Ticket input;
   string line;
   cin >> line;
   uint64_t accum = 0;
@@ -106,12 +119,12 @@ vector<size_t> getTicketData() {
       accum *= 10;
       accum += line[index] - '0';
     } else if (line[index] == ',') {
-      input.push_back(accum);
+      input.values.push_back(accum);
       accum = 0;
     }
   }
   if (accum != 0) {
-    input.push_back(accum);
+    input.values.push_back(accum);
     accum = 0;
   }
   return input;
@@ -151,10 +164,7 @@ Data getInput() {
   return result;
 }
 
-void solve1() {
-  Data input = getInput();
-  input.print();
-
+uint64_t discardInvalidTickets(Data &input) {
   uint64_t result = 0;
   for (auto &ticket : input.tickets) {
     for (auto &t : ticket.values) {
@@ -166,25 +176,89 @@ void solve1() {
         }
       }
       if (!isValid) {
-        cout << "Ticket value " << t << " not in any valid range" << endl;
+        // cout << "Ticket value " << t << " not in any valid range" << endl;
         ticket.discarded = true;
-        result += t.val;
+        result += t;
       }
     }
   }
-  cout << "Ticket staning error rate: " << result << endl;
+  cout << "Ticket scanning error rate: " << result << endl;
+  return result;
 }
 
-void solve2() {
-  string input;
-  cin >> input;
+void findPossibleMatches(Data &input) {
+  for (auto &r: input.ranges) {
+    for (int index = 0; index < input.tickets[0].values.size(); ++index) {
+      bool valid = true;
+      for (auto &ticket : input.tickets) {
+        if (ticket.discarded) continue;
+        if (!r.isInRange(ticket.values[index])) {
+          valid = false;
+          break;
+        }
+      }
+      if (valid) {
+        r.possibleFieldIndexes.push_back(index);
+      }
+    }
+  }
+}
+
+bool matchTicketFields(vector<Range> &ranges, size_t &map, size_t index=0) {
+  if (index >= ranges.size()) {
+    return true;
+  }
+  Range &r = ranges[index];
+  if (r.possibleFieldIndexes.empty()) {
+    // There is a range which didn't match any column.
+    return matchTicketFields(ranges, map, index + 1);
+  }
+  for (size_t j = 0 ; j < r.possibleFieldIndexes.size(); ++j) {
+    size_t trialIndex = r.possibleFieldIndexes[j];
+    int shiftedBit = (1l << trialIndex);
+    for (int i = 0; i < index; ++i) { cout << "  ";}
+    cout << "Trying " << r.name << " [" << index << "] w/ field #" << trialIndex;
+    if (map & shiftedBit) {
+      cout << ". VISITED" << endl;
+      continue; // Already visited
+    }
+    map |= (shiftedBit);
+    r.fieldIndex = trialIndex;
+    cout << " Pending posibilities:" << (r.possibleFieldIndexes.size() - j) << endl;
+    if (matchTicketFields(ranges, map, index + 1)) {
+      return true; // We found a Range - Field match
+    }
+    // This didn't work, try next field index
+    map &= ~(shiftedBit);
+    r.fieldIndex = -1;
+  }
+  return false;
 }
 
 void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
+  Data input = getInput();
+  discardInvalidTickets(input);
+  if (part != 1) {
+    const string fieldPrefix = "departure";
+    findPossibleMatches(input);
+    sort(input.ranges.begin(), input.ranges.end(),
+         [](const Range &a, const Range &b){
+           return a.possibleFieldIndexes.size() < b.possibleFieldIndexes.size();
+         });
+    size_t map = 0;
+    matchTicketFields(input.ranges, map);
+    size_t result = 1;
+    for (const auto &r: input.ranges) {
+      // r.print();
+      int ticketValue = r.getTicketValue(input.tickets.front());
+      if (ticketValue > 0) {
+        cout << "Ticket's " << r.name << ": " << ticketValue << endl;
+        if (!r.name.compare(0, fieldPrefix.size(), fieldPrefix)) {
+          result *= ticketValue;
+        }
+      }
+    }
+    cout << "Multiplication of ticket's departure field values: " << result << endl; 
   }
 }
 
