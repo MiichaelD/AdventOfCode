@@ -14,7 +14,7 @@
 #include "2020/AdventOfCode_13.h"
 #include "2020/AdventOfCode_14.h"
 #include "2020/AdventOfCode_15.h"
-// #include "2020/AdventOfCode_16.h"
+#include "2020/AdventOfCode_16.h"
 // #include "2020/AdventOfCode_17.h"
 // #include "2020/AdventOfCode_18.h"
 // #include "2020/AdventOfCode_19.h"
@@ -47,6 +47,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2020_15::solve(part);
+  aoc2020_16::solve(part);
   return EXIT_SUCCESS;
 }
