@@ -32,7 +32,7 @@ uint64_t doMath(const string &, size_t &, bool);
 
 uint64_t getNumber(const string &line, size_t &index, bool isAdvanced) {
   uint64_t accum = 0;
-  cout << "\tgetNumber: " << line[index] << endl;
+  // cout << "\tgetNumber: " << line[index] << endl;
   for (; index < line.size(); ++index) {
     if (isdigit(line[index])) {
       accum *= 10;
@@ -51,41 +51,41 @@ uint64_t getNumber(const string &line, size_t &index, bool isAdvanced) {
       break;
     } 
   }
-  cout << "\tAccum: " << accum << endl;
+  // cout << "\tAccum: " << accum << endl;
   return accum;
 }
 
 uint64_t doMath(const string &line, size_t &index, bool isAdvanced) {
   uint64_t result = 0;
   for (; index < line.size(); ++index) {
-    cout << "Evaluating: " << line[index] << endl;
+    // cout << "Evaluating: " << line[index] << endl;
     if (isdigit(line[index])) {
       result += getNumber(line, index, isAdvanced);
-      cout << "Result: " << result << endl;
+      // cout << "Result: " << result << endl;
     } else if (line[index] == '+') {
       index += 2;
       result += getNumber(line, index, isAdvanced);
-      cout << "Result: " << result << endl;
+      // cout << "Result: " << result << endl;
     } else if (line[index] == '*') {
       if (!isAdvanced) {
         index += 2;
       }
       result *= getNumber(line, index, isAdvanced);
-      cout << "Result: " << result << endl;
+      // cout << "Result: " << result << endl;
       if (isAdvanced) {
         break;
       }
     } else if (line[index] == '(') {
       // ++index;
       result += getNumber(line, index, isAdvanced);
-      cout << "Result: " << result << endl;
+      // cout << "Result: " << result << endl;
     } else if (line[index] == ')') {
       break;
     } else if (line[index] == ' ') {
       break;
     }
   }
-  cout << "Result: " << result << endl;
+  // cout << "Result: " << result << endl;
   return result;
 }
 
@@ -98,9 +98,9 @@ void solve(int part = 1) {
     size_t index = 0;
     aux = doMath(line, index, part != 1);
     res += aux;
-    cout << ++cases << ") Result: " << aux << endl << endl;
+    cout << "Result " << ++cases << ": " << aux << endl;// << endl;
   }
-  cout << "Results added: " << res << endl;
+  cout << "Total Result: " << res << endl;
 }
 
 };  // aoc2020_18
