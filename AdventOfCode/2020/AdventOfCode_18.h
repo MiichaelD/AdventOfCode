@@ -28,21 +28,67 @@
 namespace aoc2020_18 {
 using namespace std;
 
-void solve1() {
-  string input;
-  cin >> input;  
+uint64_t doMath(const string &, size_t &);
+
+uint64_t getNumber(const string &line, size_t &index) {
+  uint64_t accum = 0;
+  cout << "\tgetNumber: " << line[index] << endl;
+  for (; index < line.size(); ++index) {
+    if (isdigit(line[index])) {
+      accum *= 10;
+      accum += line[index] - '0';
+    } else if (line[index] == ' ') {
+      break;
+    } else if (line[index] == '(') {
+      ++index;
+      accum = doMath(line, index);
+      break;
+    } else if (line[index] == ')') {
+      break;
+    } 
+  }
+  cout << "\tAccum: " << accum << endl;
+  return accum;
 }
 
-void solve2() {
-  string input;
-  cin >> input;
+uint64_t doMath(const string &line, size_t &index) {
+  uint64_t result = 0;
+  for (; index < line.size(); ++index) {
+    cout << "Evaluating: " << line[index] << endl;
+    if (isdigit(line[index])) {
+      result += getNumber(line, index);
+      cout << "Result: " << result << endl;
+    } else if (line[index] == '+') {
+      index += 2;
+      result += getNumber(line, index);
+      cout << "Result: " << result << endl;
+    } else if (line[index] == '*') {
+      index += 2;
+      result *= getNumber(line, index);
+      cout << "Result: " << result << endl;
+    } else if (line[index] == '(') {
+      // ++index;
+      result += getNumber(line, index);
+      cout << "Result: " << result << endl;
+    } else if (line[index] == ')') {
+      break;
+    } else if (line[index] == ' ') {
+      break;
+    }
+  }
+  return result;
 }
 
 void solve(int part = 1) {
   if (part == 1) {
-    solve1();
-  } else {
-    solve2();
+    uint64_t res = 0;
+    string line;
+    while(!cin.eof()) {
+      getline(cin, line);
+      size_t index = 0;
+      res += doMath(line, index);
+    }
+    cout << "Results added: " << res << endl;
   }
 }
 
