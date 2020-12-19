@@ -32,7 +32,7 @@ using namespace std;
 
 constexpr char kActive = '#';
 constexpr char kInactive = '.';
-const int kMaxIt = 6;
+const int kMaxIt = 1;
 
 int kMax = 8;
 
@@ -198,65 +198,9 @@ size_t getActiveCells(unordered_map<string,Cell> &cells) {
   return active;
 }
 
- void update(unordered_map<string,Cell> &cells, const string &cellId) {
-   Cell *cell = getCell(cells, cellId);
-   if (cell == nullptr) return;
-   const auto neighbors = cell->getNeighbors();
-  size_t activeNeighbors = 0; 
-    cout << "Updating cell: " << cell->toString() << ", n: " << neighbors.size() << endl;
-  for (const auto &n : neighbors) {
-    int nX = get<0>(n), nY = get<1>(n), nZ =get<2>(n); 
-    const string nId = Cell::computeId(nX, nY, nZ);
-    // cout << "\tn: " << nId;
-    Cell *neighbor = getCell(cells, nId);
-    // cout << ", exists ? " << (neighbor == nullptr ? "False\t" : "True\t");
-    if (neighbor) {
-      if (neighbor->isActive()) {
-        ++activeNeighbors;
-        // cout << "and Active" << endl;
-      } else {
-        // cout << "but Inactive" << endl;
-      }
-    } else {
-      neighbor = insertCell(cells, kInactive, nX, nY, nZ);
-    }
-  }
-  cout << "With " << activeNeighbors << " neighbor(s). From: '" << cell->getValue() << "' to '";
-  if (cell->isActive()) {
-    if (activeNeighbors < 2 || activeNeighbors > 3) {
-      cell->setValue(kInactive);
-      cout << kInactive << "'" << endl;
-    }  else {
-      cout << kActive << "'" << endl;
-    }
-  } else if (activeNeighbors == 3) {
-    cell->setValue(kActive);
-    cout << kActive << "'" << endl;
-  } else {
-    cout << kInactive << "'" << endl;
-    }
- }
-
- size_t tick(unordered_map<string, Cell> &cells, size_t iteration) {
-  size_t active = 0;
-  vector<const string *> cellIds(cells.size(), nullptr);
-  int i = -1;
-  for (const auto &entry : cells) {
-    cellIds[++i] = &entry.first;
-  }
-  cout << endl;
-  for (auto cellId : cellIds) {
-    update(cells, *cellId);
-  }
-  active = getActiveCells(cells);
-  printCells(cells, iteration);
-  cout << "Cells created: " << cells.size() << ", Active: " << active << endl;
-  return active;
- }
-
  void updateIteratively(unordered_map<string, Cell> &cells, size_t iteration) {
   int kStart = 0, kEnd = 0;
-  int xyStart = 0, xyEnd = kMax;
+  int xyStart = 0, xyEnd = kMax ;
   for (int i = 0 ; i < iteration; ++i) {
     --kStart; ++kEnd;
     --xyStart; ++xyEnd;
@@ -276,7 +220,7 @@ size_t getActiveCells(unordered_map<string,Cell> &cells) {
         size_t activeNeighbors = 0; 
           // cout << "Updating cell: " << cell->toString() << ", n: " << neighbors.size();
         for (const auto &n : neighbors) {
-          int nX = get<0>(n), nY = get<1>(n), nZ =get<2>(n); 
+          const int nX = get<0>(n), nY = get<1>(n), nZ =get<2>(n); 
           const string nId = Cell::computeId(nX, nY, nZ);
           // cout << "\tn: " << nId;
           Cell *neighbor = getCell(cells, nId);
@@ -289,7 +233,7 @@ size_t getActiveCells(unordered_map<string,Cell> &cells) {
               // cout << "but Inactive" << endl;
             }
           } else {
-            neighbor = insertCell(cells, kInactive, nX, nY, nZ);
+            // neighbor = insertCell(cells, kInactive, nX, nY, nZ);
           }
         }
         // cout << "\tWith " << activeNeighbors << " neighbor(s). From: '" << cell->getValue() << "' to '";
@@ -312,9 +256,8 @@ size_t getActiveCells(unordered_map<string,Cell> &cells) {
 }
 
  size_t tickIt(unordered_map<string, Cell> &cells, size_t iteration) {
-  size_t active = 0;
   updateIteratively(cells, iteration);
-  active = getActiveCells(cells);
+  size_t active = getActiveCells(cells);
   printCells(cells, iteration);
   cout << "Cells created: " << cells.size() << ", Active: " << active << endl;
   return active;
@@ -329,9 +272,9 @@ void solve1() {
     for (int i = 0; i < input.size(); ++i) {
       insertCell(cells, input[i], i, y, 0);
     }
-    kMax = input.size();
     ++y;
   }
+  kMax = input.size();
   printCells(cells);
   size_t active = getActiveCells(cells);
   cout << "Cells created: " << cells.size() << ", Active: " << active << endl;
