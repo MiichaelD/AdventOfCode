@@ -28,24 +28,25 @@
 namespace aoc2020_19 {
 using namespace std;
 
+typedef vector<vector<size_t>> Subrule;
+
 struct Rule {
   size_t index;
   char letter = 0;
-  vector<vector<size_t>> subrules;
+  Subrule subrules;
 };
 
 struct Data {
-  vector<Rule>rules;
+  vector<Rule> rules;
   vector<string> messages;
 
   void print() const {
-    cout << "Rules:" <<endl;
+    cout << "Rules: " << rules.size() << endl;
     for (const Rule &r : rules) {
       cout << "\t" << r.index << ": ";
       if (r.letter) {
-        cout << "'" << r.letter << "'" << endl;
+        cout << "'" << r.letter << "'";
       } else if (r.subrules.size()) {
-        // for (const auto &rr : r.rules) {
         for (int rI = 0; rI < r.subrules.size(); ++rI) {
           const auto &rr = r.subrules[rI];
           for (size_t val : rr) {
@@ -55,10 +56,10 @@ struct Data {
             cout << " |"; 
           }
         }
-        cout << endl;
       }
+      cout << endl;
     }
-    cout << endl << "Messages: "<< endl;
+    cout << endl << "Messages: " << messages.size() << endl;
     for (const string &m : messages) {
       cout << "\t" << m << endl;
     }
@@ -106,6 +107,22 @@ Rule parseRule(const string &input) {
   return result;
 }
 
+void fillGaps(vector<Rule> &rules) {
+  vector<size_t> missing;
+  for (int i = 0 ; i < rules.size(); ++i) {
+    if (i == rules[i].index) { continue; }
+    for (int j = rules[i - 1].index + 1; j < rules[i].index; ++j) {
+      missing.push_back(j);
+    }
+  }
+  for (size_t &m : missing) {
+    rules.emplace_back();
+    rules.back().index = m;
+  }
+  sort(rules.begin(), rules.end(),
+       [](const Rule &a, const Rule &b) { return a.index < b.index; });
+}
+
 Data getInput() {
   Data result;
   string line;
@@ -123,70 +140,78 @@ Data getInput() {
       result.messages.push_back(line);
     }
   }
+  sort(result.rules.begin(), result.rules.end(),
+        [](const Rule &a, const Rule &b) { return a.index < b.index; });
+  fillGaps(result.rules);
   return result;
 }
 
 bool isValid(
     const string &msg,const vector<Rule> &rules,
-    size_t &msgInd, size_t rInd = 0, size_t srInd = 0) {
+    size_t &msgInd, size_t rInd = 0) {
   for (int i = 0; i < msgInd; ++i) cout << "  ";
-  cout << "Validating rule " << rInd << endl;
+  cout << "Validating rule " << rInd;
   const Rule &rule = rules[rInd];
-  if (msgInd >= msg.size()) {
+  if (msgInd > msg.size()) {
+    cout << "\t Overflow, false" << endl;
+    return false;
+  }
+  if (msgInd == msg.size()) {
+    cout << "\t It fits, true" << endl;
     return true;
   }
+  cout << " @ '" << msg[msgInd] << "' [" << msgInd << "]" << endl;
   if (rule.letter) {
     return msg[msgInd++] == rule.letter;
   }
-  for (; srInd < rule.subrules.size(); ++srInd) {
+  // Try all subrules until a valid one is found
+  size_t tempInd = msgInd;
+  for (size_t srInd = 0; srInd < rule.subrules.size(); ++srInd) {
     const auto &sr = rule.subrules[srInd];
     bool valid = true;
-    size_t tempInd = msgInd;
-    for (size_t val : sr) {
-      if (!isValid(msg, rules, msgInd, val, 0)) {
+    // Try rules
+    for (size_t valInd = 0 ; valInd < sr.size(); ++valInd) {
+      if (!isValid(msg, rules, msgInd, sr[valInd])) {
+          // || (msgInd >= msg.size() && valInd < (sr.size() - 1))) {
         valid = false;
         break;
       }
     }
     if (valid) {
       return true;
-    } else {
-      msgInd = tempInd;
     }
+    msgInd = tempInd;
+    for (int i = 0; i < msgInd; ++i) cout << "  ";
+    cout << "Not valid, returning msgInd to " << tempInd << endl;
   }
   return false;
 }
 
-void solve1() {
+void solve(int part = 1) {
   Data data = getInput();
-  sort(data.rules.begin(), data.rules.end(), [](const Rule &a, const Rule &b) {
-    return a.index < b.index;
-  });
+  if (part == 2 && data.rules.size() > 11) {
+    data.rules[8].subrules.push_back({42, 8});
+    data.rules[11].subrules.push_back({42, 11, 31});
+    // for (size_t val : {8, 11}) {
+    //   sort(data.rules[val].subrules.begin(),
+    //       data.rules[val].subrules.end(),
+    //       [](const vector<size_t> &a, const vector<size_t> &b) {
+    //         return a.size() > b.size();
+    //         });
+    // }
+  }
   data.print(); cout << endl;
   size_t validMessages = 0;
   for (const string &msg : data.messages) {
-    size_t msgInd = 0, rInd = 0, srInd = 0;
-    if (isValid(msg, data.rules, msgInd, rInd, srInd)
-        && msgInd == msg.size()) {
+    size_t msgInd = 0, rInd = 0;
+    if (isValid(msg, data.rules, msgInd, rInd)) {
+        // && msgInd == msg.size()) {
       cout << "Message: " << msg << " is valid" << endl;
       ++validMessages;
     }
-
+    cout << endl;
   }
   cout << "Valid messages: " << validMessages << endl;
-}
-
-void solve2() {
-  string input;
-  cin >> input;
-}
-
-void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
-  }
 }
 
 };  // aoc2020_19
