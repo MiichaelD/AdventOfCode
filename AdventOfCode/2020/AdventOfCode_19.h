@@ -28,12 +28,30 @@
 namespace aoc2020_19 {
 using namespace std;
 
-typedef vector<vector<size_t>> Subrule;
+typedef vector<vector<int>> Subrule;
 
 struct Rule {
   size_t index;
   char letter = 0;
   Subrule subrules;
+
+  void print() const {
+    cout << "\t" << index << ": ";
+    if (letter) {
+      cout << "'" << letter << "'";
+    } else if (subrules.size()) {
+      for (int rI = 0; rI < subrules.size(); ++rI) {
+        const auto &rr = subrules[rI];
+        for (size_t val : rr) {
+          cout << " " << val;
+        }
+        if (rI < subrules.size() - 1) {
+          cout << " |"; 
+        }
+      }
+    }
+    cout << endl;
+  }
 };
 
 struct Data {
@@ -43,30 +61,24 @@ struct Data {
   void print() const {
     cout << "Rules: " << rules.size() << endl;
     for (const Rule &r : rules) {
-      cout << "\t" << r.index << ": ";
-      if (r.letter) {
-        cout << "'" << r.letter << "'";
-      } else if (r.subrules.size()) {
-        for (int rI = 0; rI < r.subrules.size(); ++rI) {
-          const auto &rr = r.subrules[rI];
-          for (size_t val : rr) {
-            cout << " " << val;
-          }
-          if (rI < r.subrules.size() - 1) {
-            cout << " |"; 
-          }
-        }
-      }
-      cout << endl;
+      r.print();
     }
     cout << endl << "Messages: " << messages.size() << endl;
-    for (const string &m : messages) {
-      cout << "\t" << m << endl;
-    }
+    // for (const string &m : messages) {
+    //   cout << "\t'" << m << "'" << endl;
+    // }
   }
 };
 
-int getNumber(const string &line, size_t &index) {
+void printSubrule(const vector<int> &subrule) {
+  cout << '[';
+  for (int s : subrule) {
+    cout << ", " << s;
+  }
+  cout << ']';
+}
+
+int getNumber(const string &line, int &index) {
   int accum = 0;
   for (; index < line.size(); ++index) {
     if (isdigit(line[index])) {
@@ -85,10 +97,10 @@ int getNumber(const string &line, size_t &index) {
 }
 
 Rule parseRule(const string &input) {
-  size_t index = 0, orTerms = 0;
+  int index = 0;
   Rule result;
   result.index = getNumber(input, index);
-  result.subrules.emplace_back(vector<size_t>{});
+  result.subrules.emplace_back(vector<int>{});
   while (index < input.size()) {
     if (isdigit(input[index])) {
       int number = getNumber(input, index);
@@ -98,7 +110,7 @@ Rule parseRule(const string &input) {
       break;
     } else if (input[index] == '|') {
       index += 2;
-      result.subrules.emplace_back(vector<size_t>{});
+      result.subrules.emplace_back(vector<int>{});
     }
   }
   if (result.subrules.back().empty()) {
@@ -129,7 +141,6 @@ Data getInput() {
   bool loadRules = true;
   while(!cin.eof()) {
     getline(cin, line);
-    // cout << "Processing: " << line << endl;
     if (line.empty()) {
       loadRules = false;
       continue;
@@ -146,33 +157,44 @@ Data getInput() {
   return result;
 }
 
+inline ostream& printPadded(int depth) {
+  for (int i = 0; i < (depth + 1); ++i) cout << "  ";
+  return cout;
+}
+
 bool isValid(
     const string &msg,const vector<Rule> &rules,
-    size_t &msgInd, size_t rInd = 0) {
-  for (int i = 0; i < msgInd; ++i) cout << "  ";
-  cout << "Validating rule " << rInd;
+    int &msgInd, int rInd = 0, int depth = 0) {
   const Rule &rule = rules[rInd];
-  if (msgInd > msg.size()) {
-    cout << "\t Overflow, false" << endl;
+  printPadded(depth) << "["<<depth<<"] Validating rule " << rInd;
+  if (msgInd >= msg.size()) {
+    cout << "\t It exceeds, false" << endl;
     return false;
   }
-  if (msgInd == msg.size()) {
-    cout << "\t It fits, true" << endl;
-    return true;
-  }
-  cout << " @ '" << msg[msgInd] << "' [" << msgInd << "]" << endl;
+  cout << " @ '" << msg[msgInd] << "' [" << msgInd << "]";
   if (rule.letter) {
-    return msg[msgInd++] == rule.letter;
+    bool result = msg[msgInd++] == rule.letter;
+    cout << (result ? " - Matches!" : " - Fails") << endl;
+    return result;
   }
-  // Try all subrules until a valid one is found
-  size_t tempInd = msgInd;
-  for (size_t srInd = 0; srInd < rule.subrules.size(); ++srInd) {
+  cout << endl;
+  // Try each subrules until a valid one is found
+  int tempInd = msgInd;
+  for (int srInd = 0; srInd < rule.subrules.size(); ++srInd) {
     const auto &sr = rule.subrules[srInd];
+    printPadded(depth) <<  "Subrule " << (srInd + 1) << ": ";
+    printSubrule(sr); cout << endl;
+
     bool valid = true;
-    // Try rules
-    for (size_t valInd = 0 ; valInd < sr.size(); ++valInd) {
-      if (!isValid(msg, rules, msgInd, sr[valInd])) {
-          // || (msgInd >= msg.size() && valInd < (sr.size() - 1))) {
+    // Try each term in the subrule 
+    for (int valInd = 0; valInd < sr.size(); ++valInd) {
+      if (!isValid(msg, rules, msgInd, sr[valInd], depth + 1)) {
+        printPadded(depth) << "["<<depth<<"] Not valid, ";
+        valid = false;
+        break;
+      }
+      if (msgInd > msg.size() && valInd < (sr.size() - 1)) {
+        printPadded(depth) << "["<<depth<<"] Exceeded, ";
         valid = false;
         break;
       }
@@ -180,9 +202,8 @@ bool isValid(
     if (valid) {
       return true;
     }
+    cout << "returning msgInd from " << msgInd << " to " << tempInd << endl;
     msgInd = tempInd;
-    for (int i = 0; i < msgInd; ++i) cout << "  ";
-    cout << "Not valid, returning msgInd to " << tempInd << endl;
   }
   return false;
 }
@@ -190,6 +211,17 @@ bool isValid(
 void solve(int part = 1) {
   Data data = getInput();
   if (part == 2 && data.rules.size() > 11) {
+    // for (int i = 2; i < 40; ++i) {
+    //   vector<int> toAdd(i, 42);
+    //   data.rules[8].subrules.push_back(toAdd);
+    // }
+    // for (int i = 2; i < 40; ++i) {
+    //   vector<int> toAdd(2 * i, 42);
+    //   for (int j = toAdd.size() / 2; j < toAdd.size(); ++j) {
+    //     toAdd[j] = 31;
+    //   }
+    //   data.rules[11].subrules.push_back(toAdd);
+    // }
     data.rules[8].subrules.push_back({42, 8});
     data.rules[11].subrules.push_back({42, 11, 31});
     // for (size_t val : {8, 11}) {
@@ -203,15 +235,18 @@ void solve(int part = 1) {
   data.print(); cout << endl;
   size_t validMessages = 0;
   for (const string &msg : data.messages) {
-    size_t msgInd = 0, rInd = 0;
-    if (isValid(msg, data.rules, msgInd, rInd)) {
-        // && msgInd == msg.size()) {
-      cout << "Message: " << msg << " is valid" << endl;
+    int msgInd = 0, rInd = 0;
+    cout << "Validating message: " << msg << endl;
+    if (isValid(msg, data.rules, msgInd, rInd) && msgInd == msg.size()) {
+      cout << "Message: " << msg << " is valid and fully consumed" << endl;
+      cout << "Len: " << msg.size() << " msgInd: " << msgInd << ". Delta: ";
+      cout << (msg.size() - msgInd) << endl;
       ++validMessages;
     }
     cout << endl;
   }
   cout << "Valid messages: " << validMessages << endl;
+  data.print();
 }
 
 };  // aoc2020_19
