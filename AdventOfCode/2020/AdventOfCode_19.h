@@ -164,7 +164,7 @@ inline ostream& printPadded(int depth) {
 
 bool isValid(
     const string &msg,const vector<Rule> &rules,
-    int &msgInd, int rInd = 0, int srInd = 0, int valInd = 0, int depth = 0) {
+    int &msgInd, int rInd = 0, int srInd = 0, int depth = 0) {
   const Rule &rule = rules[rInd];
   printPadded(depth) << "["<<depth<<"] Validating rule " << rInd;
   if (msgInd >= msg.size()) {
@@ -181,17 +181,17 @@ bool isValid(
   // Try each subrules until a valid one is found
   int tempInd = msgInd;
   vector<pair<int,int>> valids;
-  int retries = 0;
   for (; srInd < rule.subrules.size(); ++srInd) {
     const auto &sr = rule.subrules[srInd];
     printPadded(depth) <<  "Subrule " << (srInd + 1) << ": ";
     printSubrule(sr); cout << endl;
 
     bool valid = true;
+    int retries = 0;
     // Try each term in the subrule
     for (int valInd = 0; valInd < sr.size(); ++valInd) {
       int prevMsgInd = msgInd;
-      bool wasValid = isValid(msg, rules, msgInd, sr[valInd], retries, 0, depth + 1);
+      bool wasValid = isValid(msg, rules, msgInd, sr[valInd], retries, depth + 1);
       if (!wasValid) {
         printPadded(depth) << "["<<depth<<"] Not valid, ";
         int prevRule = sr[valInd - 1];
@@ -202,7 +202,6 @@ bool isValid(
           valids.pop_back();
           ++retries;
           cout << "RETRYINGGGGGGGGGGG" << endl;
-          valid = true;
         } else {
           valid = false;
           break;
