@@ -164,7 +164,7 @@ inline ostream& printPadded(int depth) {
 
 bool isValid(
     const string &msg,const vector<Rule> &rules,
-    int &msgInd, int rInd = 0, int depth = 0) {
+    int &msgInd, int rInd = 0, int srInd = 0, int valInd = 0, int depth = 0) {
   const Rule &rule = rules[rInd];
   printPadded(depth) << "["<<depth<<"] Validating rule " << rInd;
   if (msgInd >= msg.size()) {
@@ -180,23 +180,36 @@ bool isValid(
   cout << endl;
   // Try each subrules until a valid one is found
   int tempInd = msgInd;
-  for (int srInd = 0; srInd < rule.subrules.size(); ++srInd) {
+  vector<pair<int,int>> valids;
+  int retries = 0;
+  for (; srInd < rule.subrules.size(); ++srInd) {
     const auto &sr = rule.subrules[srInd];
     printPadded(depth) <<  "Subrule " << (srInd + 1) << ": ";
     printSubrule(sr); cout << endl;
 
     bool valid = true;
-    // Try each term in the subrule 
+    // Try each term in the subrule
     for (int valInd = 0; valInd < sr.size(); ++valInd) {
-      if (!isValid(msg, rules, msgInd, sr[valInd], depth + 1)) {
+      int prevMsgInd = msgInd;
+      bool wasValid = isValid(msg, rules, msgInd, sr[valInd], retries, 0, depth + 1);
+      if (!wasValid) {
         printPadded(depth) << "["<<depth<<"] Not valid, ";
-        valid = false;
-        break;
-      }
-      if (msgInd > msg.size() && valInd < (sr.size() - 1)) {
-        printPadded(depth) << "["<<depth<<"] Exceeded, ";
-        valid = false;
-        break;
+        int prevRule = sr[valInd - 1];
+        if (valids.size()) {
+          // Try previous partial solution but expand it.
+          valInd = valids.back().first;
+          msgInd = valids.back().second;
+          valids.pop_back();
+          ++retries;
+          cout << "RETRYINGGGGGGGGGGG" << endl;
+          valid = true;
+        } else {
+          valid = false;
+          break;
+        }
+      } else if (sr[valInd] == 8 || sr[valInd] == 11) {
+        // Save current partial solution, it might be the case that it could wrap even more chars
+        valids.emplace_back(valInd - 1, prevMsgInd);
       }
     }
     if (valid) {
