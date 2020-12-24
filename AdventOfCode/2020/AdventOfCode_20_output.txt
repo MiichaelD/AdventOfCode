@@ -1,0 +1,962 @@
+Solving part: 1
+Tile: 1249	Tile: 1693	Tile: 1481	Tile: 3169	Tile: 1229	Tile: 1489	Tile: 2477	Tile: 2897	Tile: 2083	Tile: 1069	Tile: 1427	Tile: 1429	
+...#......	..#..####.	....#####.	####...#.#	##..###..#	#......#..	#####.##.#	##.##..#.#	..#...##.#	..#.#.#..#	...####.##	.##.#.#.#.	
+#..#..#.##	#.........	#....#..##	#.#.....#.	#.......#.	....#.....	.###...###	#.......##	###.#.##..	..#....#.#	.###......	#..##....#	
+##........	##..#....#	##..#....#	.#......##	..#..##..#	#.....#..#	#....#..##	#.#..#.#..	....##....	.........#	.#..#.#..#	..#......#	
+#.#.......	#.....#..#	##..#...#.	..#.#....#	##..#.....	#.......#.	.#.#..#..#	..#...#..#	#...#..#..	##..#.....	..#.###.##	...#....##	
+..........	......#.##	#..#.#...#	...###..#.	#.#..#..#.	#.#..#..#.	###.##...#	...##.#..#	...##....#	#.....#...	.#..#.....	...#.##..#	
+#...###...	#........#	..........	#....###.#	.#..#.#.##	#.........	#........#	..#.......	#..#......	..##......	..##.#....	..#.#.....	
+#..#......	.....##...	...#..#...	.......#..	....#....#	#........#	#..#..#...	#.#..##..#	.#.##.....	#..#......	.#......#.	#....#..##	
+#...##....	.#..##.#.#	.#...#...#	##.##.....	#..#..#.##	#..#.#....	.......#.#	..#....#.#	..##..####	.##..#####	#....#...#	#..#.....#	
+..........	##........	#...#.....	.#.#......	....#....#	#.........	#......###	#....#.#.#	....###..#	#.#....#..	.......#..	.##....#..	
+.....#...#	###..#....	..#..##.##	.#....#...	..##..####	....####.#	##.##.##.#	#......###	.#...#.#..	.....#..#.	#.#..###..	##.#.#...#	
+
+Tile: 2357	Tile: 3181	Tile: 2887	Tile: 2837	Tile: 2539	Tile: 2399	Tile: 2383	Tile: 2521	Tile: 1823	Tile: 1301	Tile: 1289	Tile: 3823	
+#.##..#.##	...#..####	.#..#.###.	##.##..###	.###....#.	##.#..##..	#..##.###.	.#..#.##.#	#.#...##..	####.#.###	#.###....#	#.##.##..#	
+.........#	........#.	#.........	.......#.#	.......##.	#...#.#..#	.#.......#	#........#	#..#.....#	#.##...##.	#.#.....#.	.........#	
+#..#.#..##	#...#...##	.#....#...	....#.#..#	##.##...#.	.##......#	#.#..#....	#.#...#.##	.##......#	..#...####	#.....##.#	#...##.#.#	
+#....#.#..	#.#.....##	#........#	.......##.	.###.....#	###..##...	#..#.#...#	#........#	#...###.#.	..........	#........#	.#.##.....	
+#........#	#.........	..#.##...#	.....#....	###..##...	.#....#...	#.#.#.....	##.#.#..##	......#...	#....#..##	.##.#...#.	##.....#..	
+#...##....	##...#....	.......##.	#.#.##..#.	.##....#.#	....#.#...	......#...	#..######.	.....##...	....#..#..	.###..#...	.#..#....#	
+#....#....	#.##.....#	....#.#..#	#.#..#...#	........#.	.....###.#	#....#..#.	.##..##..#	#....##.#.	#..#.#.#..	..#.......	#...#...##	
+....##...#	#....#...#	#...###..#	....#.##..	..........	#.......##	..#.#.#..#	.#.....##.	#.........	...#...#..	.##...#...	#.........	
+#.#..##...	..#.#...##	.#...#..##	..#......#	.#........	#......#..	#..#.##..#	.#.#......	#..#.....#	###..###.#	...#....##	#........#	
+.###.#.#..	#..###.##.	###...#..#	...######.	#.....#...	.##.##....	.#.##...##	..#..#####	#.#.##.#..	.##..#.#.#	.###....#.	.#.##.####	
+
+Tile: 2411	Tile: 1039	Tile: 1609	Tile: 2017	Tile: 3301	Tile: 3733	Tile: 2309	Tile: 2879	Tile: 3583	Tile: 2153	Tile: 3581	Tile: 2927	
+#.####.###	.......#.#	.##..#..##	##..#..#..	.#####...#	#####.##.#	#..##.##..	#.##.##...	.#.##...#.	##...####.	#...##.###	##.#.#..##	
+#....#.###	..#.......	##.###.###	....###...	...##.....	#.##..#..#	...#.#.#.#	...#.....#	..##...##.	..#.#...#.	..####..##	..........	
+..##.....#	........#.	.#.....#..	..##......	#..###...#	#....#..##	#..##.#..#	...##.####	#.#....##.	##..##..#.	...##....#	..........	
+#.#...#..#	.##...####	#........#	#...#.###.	#....#...#	#....#....	....##....	...#.#.#.#	#.##...#.#	.#..#.#...	.#..#.....	.....#....	
+##...#.#.#	##...#..##	...#...#..	#....#....	...#.#...#	.....##...	##....#..#	#.###.##.#	.....#..##	..........	.##......#	#..#..#..#	
+##.##...##	.#.......#	#.......##	#.#.......	#......#.#	#......#..	##..##.#.#	.....#...#	#####.....	..#...#...	#.#......#	....#.#...	
+#.......#.	..#.#.....	...#..###.	#..#.#....	#........#	#....##.##	.###....#.	#.....#.#.	..###..#..	#....#.###	...###.#.#	.#...#...#	
+#...##...#	...#.....#	#.##.##.##	###..##..#	...#......	.........#	###...#.##	#..#.#..##	..##..#.#.	...##....#	###.#.....	.#...##..#	
+.........#	.........#	#.......#.	###.#....#	.......#.#	.#..#....#	....#.....	.....###..	.##....##.	#.##.....#	#.##.##...	......#...	
+###.##.##.	..#...#...	...#.#....	#.#.#.#.##	..#####...	.....##...	.#.#.###.#	.##..#.###	##.##...#.	#...#....#	#.#.....#.	###.#.##.#	
+
+Tile: 2861	Tile: 2851	Tile: 3319	Tile: 2143	Tile: 1093	Tile: 3391	Tile: 3917	Tile: 1847	Tile: 1667	Tile: 1217	Tile: 3467	Tile: 1297	
+.#..#.###.	#.#....#..	...##....#	...#......	#.#...#.#.	#....#..#.	...##.#...	#.##.#..#.	.##..#..#.	...#####..	###.##....	..###..##.	
+#..#....##	#........#	#.......##	##.#...#.#	##..#.....	#...#..#..	#..#.....#	.#.##.....	###....##.	....#..#.#	.......#.#	#....#.#.#	
+#.#.#..#..	.#........	##.#..#...	##.......#	.........#	##....##..	#..##.###.	#.#..#..#.	#.####.#.#	..#...####	.....#..##	.........#	
+........#.	#..##.#...	.##....###	#.##..#..#	##..#...##	..#.#..#.#	#.#..#..#.	#....#.#..	...#.....#	#........#	##..#....#	###.#....#	
+..#.#.#...	..##....##	#...#...##	..#...#..#	##..#..#..	#####...##	.####..#.#	.#.......#	.#.#..##.#	#........#	....#..#..	#......#.#	
+...##....#	.#.......#	..#.......	.#.#...#..	##..##....	..#..#...#	..##.#.###	..#..#.#.#	.#..#....#	###..#...#	....#..###	##....##..	
+#..###.#.#	#.........	.###..#..#	..#....#..	##.##....#	#.#......#	#.#..##.#.	..##....##	#.##.#...#	.##.##...#	#......###	#.#.##..##	
+#..#..##..	......#..#	#...#.....	......#...	#.#....#..	.#...#....	#....##..#	#.#.##....	#.#.#.....	.#.......#	#.##...#..	.##.....#.	
+..#.#....#	..........	.........#	#.#.......	.#.#..#..#	.....##.##	..###.#..#	##.#..#...	...###...#	.....##...	..#.....##	.....#...#	
+.#..####.#	###.##..##	.#..##.#..	#..#..#.##	..#.##.###	.#.#.#....	..##.####.	.##.##.###	#.#..####.	.##.#.###.	...#.#..#.	.#.##.....	
+
+Tile: 3877	Tile: 2389	Tile: 3361	Tile: 2207	Tile: 1997	Tile: 1063	Tile: 3109	Tile: 1097	Tile: 1117	Tile: 2551	Tile: 2677	Tile: 1367	
+..###.#...	##...#####	.....#.#..	###.##..#.	..#.#..###	#.#...##..	...###.###	#####.##..	#..##.#.##	.#..#.####	.#.####..#	.#.##...##	
+##..#....#	##..#.#..#	.........#	#..###....	......#...	.##..#....	.......#..	.#...#.##.	#.#.....#.	#...#.....	#.#.....##	#.#..#....	
+###.##..##	#..#.....#	...#....#.	......#..#	...#...#..	#.#..##...	......##.#	..#..#....	...#.#...#	##....##.#	...#.#....	....##.#..	
+.#..######	......#..#	##.##.....	#........#	..#......#	..#...####	.#......##	#..#....#.	#.#..##.#.	#....#....	.#...#...#	.........#	
+....#.#..#	.#........	#....##...	##....##.#	.........#	......##..	#..##..#..	#.#....#.#	#.###..#..	.##.....#.	.##...#..#	.#....##.#	
+.#.......#	#....##.#.	##...#...#	........#.	#....#...#	#...#.#...	##..#..#.#	.#...#.#.#	#....#...#	.#...#....	##....#...	....#.##..	
+#...##.#..	.##....#..	#...####.#	...#..#...	....#..#..	####......	.....##.##	#....#..##	....#.....	#....#.#..	...##.#..#	....##...#	
+..#..#....	#.....#.#.	..##.....#	#....#..##	.....#....	.#.....#..	#....#.#.#	#....#...#	.#...#...#	......#...	##...#..##	#.#..#...#	
+#.##.##..#	#........#	...#...#.#	...####...	#........#	.#.......#	.....###..	...#...#..	..##..#..#	##.#.#....	##...#...#	#.#.#..##.	
+#..##.#.#.	...##.#...	###.####..	##........	#....#####	#...####..	####....#.	...#.#..#.	.#.#.....#	.#....#..#	##...###.#	....#.##.#	
+
+Tile: 1913	Tile: 1709	Tile: 1459	Tile: 2137	Tile: 2659	Tile: 2657	Tile: 2099	Tile: 3209	Tile: 1879	Tile: 1621	Tile: 3931	Tile: 2777	
+.##..#..##	.#....##..	.##..#.#..	##..#....#	#.##..#...	####...##.	#.###.##.#	##.###....	#.##.#.##.	###....#.#	.####.###.	##....####	
+.#...##.##	..#...#.##	...##.....	#.#####.#.	#...##....	........#.	#..#...###	...#....#.	.#.##.#...	.........#	#.##.....#	.#.#......	
+..#.....#.	.#......#.	.#.#...###	......#..#	#...#...#.	..####..#.	..#......#	#..##..##.	#..#.#....	.#....##..	#..#.#...#	##......#.	
+......#...	...#....##	...#.....#	#.#......#	#........#	..#.......	.#...#.#..	##.##.#...	#.....###.	.....#.#..	..#......#	#.......##	
+...#...##.	.#.##...#.	##..#..#.#	#...#..#.#	#....#....	....#.#..#	...##.....	.#..#....#	#..##.....	.#...#.#..	###..#.##.	.#..#.#..#	
+...####...	.#.#.#.###	.........#	#..#..#.##	.......##.	#.#.#.#...	###.##...#	#..#.#...#	....##....	##...####.	....##....	##.#...#.#	
+..#..#....	.........#	.........#	###..####.	..#.....#.	...#....#.	..##..#...	.#...#...#	#..#..#...	.....#...#	#..#......	##.#.....#	
+....#.#...	#.......#.	....#...#.	.##..#...#	#.#..##..#	###...####	...#......	#..#......	#.........	#.........	..........	...##....#	
+#.........	##....#...	#..#......	#.#.......	#......#..	........##	..#.#.#.#.	...#......	..#.##....	....#.#..#	.#.....#.#	#..#.#....	
+.####.####	..#.##.###	...#.#...#	.##.##....	..###.#..#	##.#.#.#..	..#.##....	..#.#.###.	...####.##	.####...##	#.##.#..##	#.#..#....	
+
+Tile: 2909	Tile: 1777	Tile: 3251	Tile: 1601	Tile: 1283	Tile: 3079	Tile: 3793	Tile: 3037	Tile: 1669	Tile: 1087	Tile: 2617	Tile: 3943	
+#......##.	.##...####	...#.###..	#....#....	#####.#..#	..#.##....	##..#####.	.##.#..##.	##.#......	.###.#.#.#	.##..#.#..	.#.####..#	
+#........#	.##.....#.	#....##..#	.##.##...#	..#....##.	.......#.#	##...#....	#..#.###..	.#......#.	###.......	.....#...#	.........#	
+..#.#.###.	#..#.#..#.	#....#..#.	.........#	#..#......	..#...##.#	##....#...	.#....#...	##.#...#.#	.....#...#	..#.#.....	#.........	
+.......#.#	.#......##	#....#..##	#.........	.#....##..	..###...#.	..........	...####..#	#.#.#.#..#	##.....#..	....#...##	.#........	
+........##	.#....#..#	.....#...#	.#.....###	.#.#.....#	#..#.....#	#.........	..#.###..#	##........	.#.#......	####...##.	###..#....	
+....#.....	#.###.#...	#.......##	#..##.#.#.	##......##	..##.....#	.#....#..#	#.#..#....	##....#...	...#......	..##......	...#....#.	
+......#...	.#.#......	.......#.#	#......#.#	#.....##..	..#..#.#..	#....#..#.	.##......#	#.#.....#.	#...#..#.#	...#...#..	#...#.#...	
+#........#	###..#...#	#....#..#.	.#..#.#..#	##..#....#	.##.#.#..#	#....#....	#.....#..#	..........	#........#	..#.#.##.#	.#......#.	
+#.......#.	.#.......#	#...##...#	.#...#....	#........#	#..#......	###..##...	#...#.#...	.........#	#..#....##	#.#.......	...##.#...	
+......#.#.	..#...#.##	.#.#.....#	.#.#.#..##	.#.###..##	.#.##..#..	#.###.##..	##.######.	####...###	.#...#####	###.##....	..##....#.	
+
+Tile: 2273	Tile: 3803	Tile: 1697	Tile: 3343	Tile: 1549	Tile: 1619	Tile: 2971	Tile: 3617	Tile: 1543	Tile: 2111	Tile: 1499	Tile: 3461	
+##.#.#...#	##....#..#	....####.#	######.#..	#.##.###.#	..###.###.	..##.###..	####...#..	......#.##	####..#...	#.####.#..	.#####.#.#	
+...##.#..#	##...#.#.#	#....#.#.#	#....##...	.....###..	##.###...#	#.....#..#	.......#.#	#......#.#	#..#...#.#	..##.#...#	#.........	
+..##......	..##....#.	#.....#.##	#.#.##...#	...#.###..	#...##...#	#..#.....#	.#.#......	##.....###	#.#.#.##..	#..#......	..#..#....	
+..#.....#.	#...#..###	#......#..	#...####..	##...##..#	....##...#	#..#...#.#	#..##..###	#...#...##	##........	....#.....	..#......#	
+#......#..	....#.....	#.#...#...	#......#..	#.#.......	..##..#.#.	...#......	.##.......	#.#....#..	#...#..#..	.#..##...#	###...####	
+...#....#.	....#.####	#....#.#..	##.#..##.#	#.........	#...#.#..#	#......###	.#....#..#	.#........	#.##..#...	#.#...##.#	...#.##..#	
+.##....#.#	#.....##..	.##....#..	#.....##.#	....#....#	#.......##	#....####.	.....#.###	#....#....	#.........	...#.##.##	.#........	
+...#.#.#..	##....###.	##...#.#.#	..##.##..#	..#.....##	#..#.....#	.#....#...	....##.#..	......##..	##.#..#...	###..#.###	#..#....##	
+#..###.#.#	#....#..##	#.#..#..#.	..#......#	.....##...	....##...#	...#.....#	#....#...#	##...#..#.	.##.#.###.	.....#....	#...#...##	
+###.#..##.	#####.##..	.......#..	###..##...	#.#.##.##.	.#...#.#..	#...###..#	.#.##.####	#...#.##.#	#.##.####.	...##.##.#	####.....#	
+
+Tile: 1483	Tile: 2467	Tile: 3631	Tile: 3767	Tile: 2381	Tile: 2687	Tile: 3719	Tile: 3259	Tile: 3643	Tile: 2767	Tile: 2333	Tile: 2857	
+.....#.##.	###.#.#...	###.#...##	#...#.#..#	.#.#.##...	###...####	..####.#..	######.#.#	###..#..##	####....##	###..#.##.	..#..##..#	
+##........	#.#.....#.	.........#	..........	#.##.#....	.....#.###	.#......##	#..#......	#.#.#.#...	..........	..##.....#	#.....#...	
+#.#.....#.	#...#....#	#.##..#...	#......#.#	...##.#.##	..#.#.#.#.	#......###	.........#	..##....#.	.........#	..#.#..##.	##....#..#	
+##......#.	#....#...#	...##..#..	#...#.#..#	#.....#.#.	##..#...##	##....###.	#.......#.	##....##..	..#....#.#	#.....#..#	#...##....	
+#.....#...	...#..#..#	##..#.#..#	##.......#	#......#..	#.###...#.	.#...##.##	..##...#..	..##......	#......###	....#.#...	....#.#..#	
+..#.......	##...#....	#..#.#....	..#......#	...#....#.	..#.##..##	.#.....#.#	##...##.##	#..#..#.##	#.##..#..#	##...#....	#.#.##....	
+##....#..#	#.#.###...	......#.#.	........#.	......####	##.....#..	..##..#.#.	#......#.#	......##..	#.#..#.#..	#.#......#	#...##..#.	
+##........	#..##..#.#	..........	##...##.##	#.#.#.....	##..#..#.#	#......###	##.......#	#.......#.	...#.#...#	###.......	.#...##..#	
+..#...####	#.........	#......##.	#........#	##...##..#	#...#..#.#	...#...#..	#.......#.	#...##..##	#..####..#	#...#....#	#...#.#...	
+......###.	..######.#	..##.#....	....#....#	...#...#.#	#.#..###.#	......###.	#..##.#.##	#.#..#.###	##..#####.	..#..#..##	.#.###.#.#	
+
+Tile: 1193	Tile: 2351	Tile: 1129	Tile: 3433	Tile: 1091	Tile: 3407	Tile: 2591	Tile: 3613	Tile: 3967	Tile: 1999	Tile: 2689	Tile: 3533	
+#.#..#.#.#	.##..#####	..##..####	.##..#....	###.####..	.####.#...	.##..##...	###.######	#.#..#.#..	#.#.#..##.	.#..#####.	.####.#...	
+##..####..	#.........	.....##..#	...###.###	.#..#.....	.#..#.#..#	..#...##.#	.#...##..#	#..#.....#	####.##.##	.#........	#........#	
+###..##.#.	.#..#.....	##........	.......##.	##.......#	..#..#....	...#..####	#.##.....#	...##...#.	..##...#.#	..#....#.#	#......#..	
+#.......##	#.##.#...#	.........#	#..#.#.#.#	#.#...#...	......#..#	.#....#.##	#.........	.#.##...#.	....#....#	#......#.#	.........#	
+###....##.	..#.#..#..	#...#.....	........#.	...##.....	.........#	#...##.#..	#...#.....	#####..#.#	.##.#.#...	.#.#..#.##	#..#.##..#	
+...#...#..	#.###....#	....#...##	...###...#	#..###...#	#...##...#	#...#....#	###.....##	..##.#..#.	..........	###...#..#	###....#.#	
+#...#....#	###..#....	..#....##.	...#......	..##...#.#	...#.###.#	#..#.....#	.#.##.#..#	..........	.......##.	...#...#.#	...##..#..	
+##.......#	##.......#	..#.....#.	.##...###.	#...#..###	#....#...#	#..#.....#	##..#...##	#.#.#..#.#	#.#......#	##......##	..#.....#.	
+#####.##.#	#...#..#..	..#.......	.#.#..#..#	.....#...#	#.....###.	..........	####......	#.#.....##	##...#.#.#	......##.#	#...#..###	
+..#####.##	.....#...#	.##.###...	##..##..#.	###.#....#	.#.#.#.#..	.#.###.#.#	..#...#...	#..#####.#	.#.#.#.#..	.##.#..##.	..###.##.#	
+
+Tile: 2267	Tile: 2297	Tile: 2711	Tile: 1931	Tile: 1787	Tile: 2549	Tile: 2789	Tile: 2707	Tile: 3313	Tile: 1607	Tile: 3889	Tile: 3821	
+#.##...#.#	###..##...	##..##...#	.###...###	#...##..##	##.#...###	#.#.#.#.##	#..#.#...#	###.#..#..	..#...###.	###.#...##	..###.##..	
+#....#....	#..##..##.	...##....#	......#.##	..#.......	.....#...#	#...#.##..	#.#.#.#...	.#....#..#	#.....#...	##.......#	........##	
+.#.#.##...	..#....#.#	...#..#.#.	....##..##	#..#.#.#..	#......###	.##...#.##	...#..#..#	...#.....#	#.......##	....#..#..	#..##..#.#	
+.#....#.##	#.#.##...#	#........#	#...#...#.	...#..#..#	##.###....	#.##.#....	##.#.....#	....#..###	#.....#...	#.#......#	.##.#..#.#	
+..#.#.....	..#.##..#.	...#.....#	..#..##.#.	.##.#..###	#..#....#.	...#......	#....#.##.	....#..#..	###.#.#..#	.##......#	#....##.##	
+.##.......	...##...#.	........##	#.....#..#	#.#.#.....	##.......#	###.......	.....#...#	#..#.#....	#.#.....#.	#...##....	#.....##.#	
+##.....#..	#...#.....	##....##..	#...#....#	..........	.#........	#.......##	#.....#...	##.#..##..	#..#...###	#....##..#	#.....#..#	
+####....#.	.....#.#.#	#.##.....#	#........#	....##...#	..###...##	#.#...#..#	....#.#...	..#...#.##	.........#	.......#..	##........	
+......#..#	#..#....#.	#.###.....	...#..#.#.	..........	##..##...#	..#.#....#	#..###...#	##..##....	..#.......	#...#...#.	#.#..#....	
+#..##..#.#	.###..##..	###...#..#	#.##..###.	.#.#...#..	#.##...#.#	.##.#..#..	##..##.###	.##.###.#.	##.#.#####	##.#####.#	##.#.###..	
+
+Tile: 3347	Tile: 1907	Tile: 2903	Tile: 1399	Tile: 1993	Tile: 3671	Tile: 3167	Tile: 1109	Tile: 3089	Tile: 1051	Tile: 2113	Tile: 2131	
+.##..#...#	.#.##...#.	##.....#.#	#....###.#	###.##..#.	...##.#..#	###..##..#	..#...#..#	.###.#####	.....##..#	#...###.##	#....#####	
+#.#...#...	#......#..	....#.##..	..#..#####	##........	##....##.#	.....##...	#..#.#.#..	#..#..#.#.	#...##.#..	.#.....##.	#.#.......	
+#..#..###.	...#......	...#.....#	.#....##.#	##..#..##.	#..#....##	.......#..	.#........	#......#.#	..........	...#....##	.###.#..##	
+.#......#.	##.......#	.#..#####.	...#...#..	.........#	#..#...#.#	#...#.#..#	.......#.#	...#.....#	..........	...##..#..	###.##.#..	
+#..###.##.	.#.....#..	.....##.#.	#..##.#..#	.........#	.#.#.#...#	.#.##.#..#	#..#..#...	.........#	#.#.##..#.	#....#...#	#...#.....	
+......#...	.#.....###	.#......#.	.....#....	#..##.#.#.	........##	###....##.	.........#	.#.#...#..	...##...##	..##.#....	.#.#.....#	
+##..##.#..	........##	..........	..#......#	.##.......	..........	##........	##.#......	.#..#.#.##	.##.#####.	##....#.#.	###....#..	
+.#.###.#..	.##.#..#.#	#..#.....#	........##	#..#.....#	##.......#	#.........	........##	.......###	.#...##..#	..#...###.	..#.....##	
+........#.	##.....#..	....#...##	#..###....	#.##.#..##	#.##....##	..#..#....	#.#.##..#.	.#.#..#.##	..#.#...#.	.....#.#.#	.#...##.##	
+#.###..##.	#.########	.#..##..##	#..###.###	##.#.#..#.	.#..#..##.	.....##.#.	..#..#.#..	..#..###..	#.......##	.##......#	#..###....	
+
+Tile : 1249
+	Matching Tile : 2143 @ side 0
+	Matching Tile : 1619 @ side 0
+	Matching Tile : 2351 @ side 2
+	Found 3 Matches.
+Tile : 1693
+	Matching Tile : 2099 @ side 1
+	Matching Tile : 3343 @ side 1
+	Matching Tile : 2971 @ side 1
+	Matching Tile : 3719 @ side 0
+	Found 4 Matches.
+Tile : 1481
+	Matching Tile : 1229 @ side 3
+	Matching Tile : 2521 @ side 3
+	Matching Tile : 3361 @ side 1
+	Matching Tile : 2131 @ side 1
+	Found 4 Matches.
+Tile : 3169
+	Matching Tile : 1063 @ side 1
+	Matching Tile : 1367 @ side 2
+	Matching Tile : 1087 @ side 1
+	Found 3 Matches.
+Tile : 1229
+	Matching Tile : 1481 @ side 2
+	Matching Tile : 1997 @ side 1
+	Matching Tile : 1129 @ side 0
+	Found 3 Matches.
+Tile : 1489
+	Matching Tile : 1697 @ side 0
+	Matching Tile : 2903 @ side 3
+	Matching Tile : 1109 @ side 0
+	Found 3 Matches.
+Tile : 2477
+	Matching Tile : 3733 @ side 0
+	Matching Tile : 2777 @ side 3
+	Matching Tile : 3613 @ side 0
+	Matching Tile : 2711 @ side 1
+	Found 4 Matches.
+Tile : 2897
+	Matching Tile : 2207 @ side 3
+	Matching Tile : 2677 @ side 1
+	Matching Tile : 2549 @ side 0
+	Found 3 Matches.
+Tile : 2083
+	Matching Tile : 1427 @ side 1
+	Matching Tile : 3391 @ side 2
+	Matching Tile : 1619 @ side 2
+	Matching Tile : 3347 @ side 0
+	Found 4 Matches.
+Tile : 1069
+	Matching Tile : 1697 @ side 1
+	Matching Tile : 2381 @ side 0
+	Matching Tile : 1109 @ side 1
+	Found 3 Matches.
+Tile : 1427
+	Matching Tile : 2083 @ side 0
+	Matching Tile : 1039 @ side 0
+	Matching Tile : 1879 @ side 2
+	Matching Tile : 2467 @ side 1
+	Found 4 Matches.
+Tile : 1429
+	Matching Tile : 1289 @ side 1
+	Matching Tile : 1609 @ side 3
+	Matching Tile : 2273 @ side 0
+	Matching Tile : 2111 @ side 2
+	Found 4 Matches.
+Tile : 2357
+	Matching Tile : 3301 @ side 1
+	Matching Tile : 3209 @ side 2
+	Matching Tile : 3313 @ side 0
+	Found 3 Matches.
+Tile : 3181
+	Matching Tile : 1039 @ side 1
+	Matching Tile : 2111 @ side 0
+	Matching Tile : 2467 @ side 2
+	Matching Tile : 1931 @ side 2
+	Found 4 Matches.
+Tile : 2887
+	Matching Tile : 3733 @ side 3
+	Matching Tile : 2861 @ side 0
+	Matching Tile : 1093 @ side 0
+	Matching Tile : 2711 @ side 2
+	Found 4 Matches.
+Tile : 2837
+	Matching Tile : 2383 @ side 1
+	Matching Tile : 3823 @ side 1
+	Matching Tile : 3319 @ side 0
+	Matching Tile : 3821 @ side 1
+	Found 4 Matches.
+Tile : 2539
+	Matching Tile : 1289 @ side 2
+	Matching Tile : 1609 @ side 2
+	Matching Tile : 1621 @ side 3
+	Matching Tile : 3433 @ side 3
+	Found 4 Matches.
+Tile : 2399
+	Matching Tile : 2861 @ side 3
+	Matching Tile : 1093 @ side 1
+	Matching Tile : 3877 @ side 3
+	Matching Tile : 2137 @ side 2
+	Found 4 Matches.
+Tile : 2383
+	Matching Tile : 2837 @ side 1
+	Matching Tile : 2309 @ side 2
+	Matching Tile : 1367 @ side 0
+	Matching Tile : 2971 @ side 3
+	Found 4 Matches.
+Tile : 2521
+	Matching Tile : 1481 @ side 0
+	Matching Tile : 1847 @ side 0
+	Matching Tile : 1283 @ side 0
+	Matching Tile : 1091 @ side 1
+	Found 4 Matches.
+Tile : 1823
+	Matching Tile : 2309 @ side 3
+	Matching Tile : 1063 @ side 0
+	Matching Tile : 1367 @ side 3
+	Matching Tile : 3803 @ side 3
+	Found 4 Matches.
+Tile : 1301
+	Matching Tile : 1601 @ side 2
+	Matching Tile : 3793 @ side 3
+	Matching Tile : 1999 @ side 0
+	Matching Tile : 2113 @ side 1
+	Found 4 Matches.
+Tile : 1289
+	Matching Tile : 1429 @ side 3
+	Matching Tile : 2539 @ side 0
+	Matching Tile : 2153 @ side 1
+	Matching Tile : 1399 @ side 0
+	Found 4 Matches.
+Tile : 3823
+	Matching Tile : 2837 @ side 0
+	Matching Tile : 1367 @ side 1
+	Matching Tile : 1087 @ side 0
+	Matching Tile : 3617 @ side 2
+	Found 4 Matches.
+Tile : 2411
+	Matching Tile : 1847 @ side 2
+	Matching Tile : 3767 @ side 1
+	Matching Tile : 3889 @ side 2
+	Matching Tile : 3671 @ side 1
+	Found 4 Matches.
+Tile : 1039
+	Matching Tile : 1427 @ side 3
+	Matching Tile : 3181 @ side 2
+	Matching Tile : 3793 @ side 1
+	Matching Tile : 3613 @ side 2
+	Found 4 Matches.
+Tile : 1609
+	Matching Tile : 1429 @ side 0
+	Matching Tile : 2539 @ side 1
+	Matching Tile : 1913 @ side 0
+	Matching Tile : 2657 @ side 2
+	Found 4 Matches.
+Tile : 2017
+	Matching Tile : 3343 @ side 3
+	Matching Tile : 2333 @ side 2
+	Matching Tile : 2789 @ side 0
+	Found 3 Matches.
+Tile : 3301
+	Matching Tile : 2357 @ side 3
+	Matching Tile : 1217 @ side 0
+	Matching Tile : 3037 @ side 1
+	Found 3 Matches.
+Tile : 3733
+	Matching Tile : 2477 @ side 0
+	Matching Tile : 2887 @ side 1
+	Matching Tile : 3583 @ side 1
+	Matching Tile : 1931 @ side 0
+	Found 4 Matches.
+Tile : 2309
+	Matching Tile : 2383 @ side 3
+	Matching Tile : 1823 @ side 2
+	Matching Tile : 1097 @ side 3
+	Matching Tile : 1549 @ side 2
+	Found 4 Matches.
+Tile : 2879
+	Matching Tile : 3583 @ side 3
+	Matching Tile : 2273 @ side 2
+	Matching Tile : 1499 @ side 2
+	Matching Tile : 3461 @ side 0
+	Found 4 Matches.
+Tile : 3583
+	Matching Tile : 3733 @ side 2
+	Matching Tile : 2879 @ side 3
+	Matching Tile : 2861 @ side 1
+	Matching Tile : 1907 @ side 0
+	Found 4 Matches.
+Tile : 2153
+	Matching Tile : 1289 @ side 3
+	Matching Tile : 2927 @ side 3
+	Matching Tile : 1621 @ side 2
+	Found 3 Matches.
+Tile : 3581
+	Matching Tile : 3109 @ side 0
+	Matching Tile : 1283 @ side 1
+	Matching Tile : 1091 @ side 2
+	Found 3 Matches.
+Tile : 2927
+	Matching Tile : 2153 @ side 2
+	Matching Tile : 1543 @ side 2
+	Matching Tile : 1399 @ side 1
+	Found 3 Matches.
+Tile : 2861
+	Matching Tile : 2887 @ side 0
+	Matching Tile : 2399 @ side 1
+	Matching Tile : 3583 @ side 2
+	Matching Tile : 1499 @ side 1
+	Found 4 Matches.
+Tile : 2851
+	Matching Tile : 2143 @ side 2
+	Matching Tile : 3631 @ side 3
+	Matching Tile : 2707 @ side 2
+	Found 3 Matches.
+Tile : 3319
+	Matching Tile : 2837 @ side 3
+	Matching Tile : 3617 @ side 1
+	Matching Tile : 2789 @ side 2
+	Found 3 Matches.
+Tile : 2143
+	Matching Tile : 1249 @ side 0
+	Matching Tile : 2851 @ side 3
+	Matching Tile : 3931 @ side 1
+	Found 3 Matches.
+Tile : 1093
+	Matching Tile : 2887 @ side 3
+	Matching Tile : 2399 @ side 0
+	Matching Tile : 1709 @ side 2
+	Matching Tile : 1193 @ side 2
+	Found 4 Matches.
+Tile : 3391
+	Matching Tile : 2083 @ side 3
+	Matching Tile : 1297 @ side 3
+	Matching Tile : 2467 @ side 0
+	Matching Tile : 1051 @ side 3
+	Found 4 Matches.
+Tile : 3917
+	Matching Tile : 2389 @ side 2
+	Matching Tile : 1483 @ side 3
+	Matching Tile : 3533 @ side 3
+	Matching Tile : 2297 @ side 2
+	Found 4 Matches.
+Tile : 1847
+	Matching Tile : 2521 @ side 0
+	Matching Tile : 2411 @ side 2
+	Matching Tile : 1667 @ side 3
+	Matching Tile : 2131 @ side 2
+	Found 4 Matches.
+Tile : 1667
+	Matching Tile : 1847 @ side 3
+	Matching Tile : 1283 @ side 3
+	Matching Tile : 3407 @ side 1
+	Matching Tile : 3671 @ side 2
+	Found 4 Matches.
+Tile : 1217
+	Matching Tile : 3301 @ side 2
+	Matching Tile : 3209 @ side 1
+	Matching Tile : 3251 @ side 3
+	Matching Tile : 2689 @ side 1
+	Found 4 Matches.
+Tile : 3467
+	Matching Tile : 1097 @ side 2
+	Matching Tile : 2617 @ side 2
+	Matching Tile : 1549 @ side 1
+	Matching Tile : 2857 @ side 3
+	Found 4 Matches.
+Tile : 1297
+	Matching Tile : 3391 @ side 1
+	Matching Tile : 1619 @ side 3
+	Matching Tile : 2351 @ side 3
+	Matching Tile : 3167 @ side 2
+	Found 4 Matches.
+Tile : 3877
+	Matching Tile : 2399 @ side 3
+	Matching Tile : 1709 @ side 1
+	Matching Tile : 3251 @ side 0
+	Matching Tile : 2689 @ side 0
+	Found 4 Matches.
+Tile : 2389
+	Matching Tile : 3917 @ side 0
+	Matching Tile : 3109 @ side 2
+	Matching Tile : 2333 @ side 0
+	Found 3 Matches.
+Tile : 3361
+	Matching Tile : 1481 @ side 3
+	Matching Tile : 1129 @ side 3
+	Matching Tile : 1091 @ side 0
+	Found 3 Matches.
+Tile : 2207
+	Matching Tile : 2897 @ side 0
+	Matching Tile : 3943 @ side 1
+	Matching Tile : 1993 @ side 0
+	Matching Tile : 3089 @ side 2
+	Found 4 Matches.
+Tile : 1997
+	Matching Tile : 1229 @ side 0
+	Matching Tile : 3631 @ side 1
+	Matching Tile : 2131 @ side 0
+	Found 3 Matches.
+Tile : 1063
+	Matching Tile : 3169 @ side 2
+	Matching Tile : 1823 @ side 0
+	Matching Tile : 2267 @ side 2
+	Found 3 Matches.
+Tile : 3109
+	Matching Tile : 3581 @ side 1
+	Matching Tile : 2389 @ side 1
+	Matching Tile : 3533 @ side 2
+	Found 3 Matches.
+Tile : 1097
+	Matching Tile : 2309 @ side 0
+	Matching Tile : 3467 @ side 2
+	Matching Tile : 3803 @ side 2
+	Matching Tile : 2591 @ side 3
+	Found 4 Matches.
+Tile : 1117
+	Matching Tile : 3209 @ side 0
+	Matching Tile : 3251 @ side 2
+	Matching Tile : 3259 @ side 2
+	Matching Tile : 3643 @ side 2
+	Found 4 Matches.
+Tile : 2551
+	Matching Tile : 1087 @ side 3
+	Matching Tile : 3617 @ side 3
+	Found 2 Matches.
+Tile : 2677
+	Matching Tile : 2897 @ side 1
+	Matching Tile : 3037 @ side 3
+	Matching Tile : 3943 @ side 0
+	Found 3 Matches.
+Tile : 1367
+	Matching Tile : 3169 @ side 1
+	Matching Tile : 2383 @ side 2
+	Matching Tile : 1823 @ side 1
+	Matching Tile : 3823 @ side 0
+	Found 4 Matches.
+Tile : 1913
+	Matching Tile : 1609 @ side 0
+	Matching Tile : 2111 @ side 1
+	Matching Tile : 2467 @ side 3
+	Matching Tile : 1051 @ side 2
+	Found 4 Matches.
+Tile : 1709
+	Matching Tile : 1093 @ side 2
+	Matching Tile : 3877 @ side 2
+	Matching Tile : 3943 @ side 2
+	Matching Tile : 3089 @ side 3
+	Found 4 Matches.
+Tile : 1459
+	Matching Tile : 2777 @ side 1
+	Matching Tile : 3079 @ side 3
+	Matching Tile : 2617 @ side 0
+	Matching Tile : 2113 @ side 3
+	Found 4 Matches.
+Tile : 2137
+	Matching Tile : 2399 @ side 2
+	Matching Tile : 3251 @ side 1
+	Matching Tile : 1499 @ side 0
+	Matching Tile : 3643 @ side 1
+	Found 4 Matches.
+Tile : 2659
+	Matching Tile : 2381 @ side 2
+	Matching Tile : 2351 @ side 0
+	Matching Tile : 3167 @ side 3
+	Found 3 Matches.
+Tile : 2657
+	Matching Tile : 1609 @ side 1
+	Matching Tile : 1777 @ side 0
+	Matching Tile : 3433 @ side 0
+	Matching Tile : 1051 @ side 1
+	Found 4 Matches.
+Tile : 2099
+	Matching Tile : 1693 @ side 2
+	Matching Tile : 3079 @ side 0
+	Matching Tile : 2617 @ side 3
+	Matching Tile : 1549 @ side 0
+	Found 4 Matches.
+Tile : 3209
+	Matching Tile : 2357 @ side 2
+	Matching Tile : 1217 @ side 3
+	Matching Tile : 1117 @ side 3
+	Matching Tile : 1607 @ side 1
+	Found 4 Matches.
+Tile : 1879
+	Matching Tile : 1427 @ side 0
+	Matching Tile : 1601 @ side 1
+	Matching Tile : 3793 @ side 2
+	Matching Tile : 3347 @ side 1
+	Found 4 Matches.
+Tile : 1621
+	Matching Tile : 2539 @ side 3
+	Matching Tile : 2153 @ side 0
+	Matching Tile : 2903 @ side 1
+	Found 3 Matches.
+Tile : 3931
+	Matching Tile : 2143 @ side 3
+	Matching Tile : 1619 @ side 1
+	Matching Tile : 2707 @ side 1
+	Matching Tile : 3347 @ side 3
+	Found 4 Matches.
+Tile : 2777
+	Matching Tile : 2477 @ side 2
+	Matching Tile : 1459 @ side 1
+	Matching Tile : 2767 @ side 0
+	Matching Tile : 1787 @ side 3
+	Found 4 Matches.
+Tile : 2909
+	Matching Tile : 3079 @ side 2
+	Matching Tile : 1483 @ side 1
+	Matching Tile : 1999 @ side 3
+	Matching Tile : 2113 @ side 2
+	Found 4 Matches.
+Tile : 1777
+	Matching Tile : 2657 @ side 0
+	Matching Tile : 2381 @ side 1
+	Matching Tile : 3167 @ side 0
+	Matching Tile : 1109 @ side 2
+	Found 4 Matches.
+Tile : 3251
+	Matching Tile : 1217 @ side 2
+	Matching Tile : 3877 @ side 0
+	Matching Tile : 1117 @ side 2
+	Matching Tile : 2137 @ side 3
+	Found 4 Matches.
+Tile : 1601
+	Matching Tile : 1301 @ side 3
+	Matching Tile : 1879 @ side 0
+	Matching Tile : 3767 @ side 2
+	Matching Tile : 3671 @ side 0
+	Found 4 Matches.
+Tile : 1283
+	Matching Tile : 2521 @ side 1
+	Matching Tile : 3581 @ side 0
+	Matching Tile : 1667 @ side 2
+	Matching Tile : 3533 @ side 1
+	Found 4 Matches.
+Tile : 3079
+	Matching Tile : 1459 @ side 3
+	Matching Tile : 2099 @ side 2
+	Matching Tile : 2909 @ side 1
+	Matching Tile : 3719 @ side 1
+	Found 4 Matches.
+Tile : 3793
+	Matching Tile : 1301 @ side 0
+	Matching Tile : 1039 @ side 3
+	Matching Tile : 1879 @ side 3
+	Matching Tile : 2767 @ side 2
+	Found 4 Matches.
+Tile : 3037
+	Matching Tile : 3301 @ side 3
+	Matching Tile : 2677 @ side 3
+	Matching Tile : 2689 @ side 2
+	Found 3 Matches.
+Tile : 1669
+	Matching Tile : 1543 @ side 0
+	Matching Tile : 2687 @ side 0
+	Matching Tile : 3967 @ side 2
+	Found 3 Matches.
+Tile : 1087
+	Matching Tile : 3169 @ side 0
+	Matching Tile : 3823 @ side 3
+	Matching Tile : 2551 @ side 3
+	Found 3 Matches.
+Tile : 2617
+	Matching Tile : 3467 @ side 0
+	Matching Tile : 1459 @ side 0
+	Matching Tile : 2099 @ side 3
+	Matching Tile : 1787 @ side 2
+	Found 4 Matches.
+Tile : 3943
+	Matching Tile : 2207 @ side 2
+	Matching Tile : 2677 @ side 0
+	Matching Tile : 1709 @ side 0
+	Matching Tile : 2689 @ side 3
+	Found 4 Matches.
+Tile : 2273
+	Matching Tile : 1429 @ side 2
+	Matching Tile : 2879 @ side 2
+	Matching Tile : 1907 @ side 3
+	Matching Tile : 1399 @ side 3
+	Found 4 Matches.
+Tile : 3803
+	Matching Tile : 1823 @ side 3
+	Matching Tile : 1097 @ side 0
+	Matching Tile : 2267 @ side 1
+	Matching Tile : 1993 @ side 2
+	Found 4 Matches.
+Tile : 1697
+	Matching Tile : 1489 @ side 2
+	Matching Tile : 1069 @ side 1
+	Found 2 Matches.
+Tile : 3343
+	Matching Tile : 1693 @ side 0
+	Matching Tile : 2017 @ side 3
+	Matching Tile : 2297 @ side 0
+	Matching Tile : 3821 @ side 3
+	Found 4 Matches.
+Tile : 1549
+	Matching Tile : 2309 @ side 1
+	Matching Tile : 3467 @ side 3
+	Matching Tile : 2099 @ side 0
+	Matching Tile : 2971 @ side 2
+	Found 4 Matches.
+Tile : 1619
+	Matching Tile : 1249 @ side 3
+	Matching Tile : 2083 @ side 2
+	Matching Tile : 1297 @ side 0
+	Matching Tile : 3931 @ side 0
+	Found 4 Matches.
+Tile : 2971
+	Matching Tile : 1693 @ side 3
+	Matching Tile : 2383 @ side 0
+	Matching Tile : 1549 @ side 3
+	Matching Tile : 3821 @ side 0
+	Found 4 Matches.
+Tile : 3617
+	Matching Tile : 3823 @ side 2
+	Matching Tile : 3319 @ side 1
+	Matching Tile : 2551 @ side 2
+	Found 3 Matches.
+Tile : 1543
+	Matching Tile : 2927 @ side 1
+	Matching Tile : 1669 @ side 0
+	Matching Tile : 3461 @ side 2
+	Found 3 Matches.
+Tile : 2111
+	Matching Tile : 1429 @ side 1
+	Matching Tile : 3181 @ side 0
+	Matching Tile : 1913 @ side 3
+	Matching Tile : 1907 @ side 2
+	Found 4 Matches.
+Tile : 1499
+	Matching Tile : 2879 @ side 0
+	Matching Tile : 2861 @ side 2
+	Matching Tile : 2137 @ side 1
+	Matching Tile : 3967 @ side 0
+	Found 4 Matches.
+Tile : 3461
+	Matching Tile : 2879 @ side 1
+	Matching Tile : 1543 @ side 1
+	Matching Tile : 3967 @ side 1
+	Matching Tile : 1399 @ side 2
+	Found 4 Matches.
+Tile : 1483
+	Matching Tile : 3917 @ side 2
+	Matching Tile : 2909 @ side 2
+	Matching Tile : 3719 @ side 2
+	Matching Tile : 3407 @ side 3
+	Found 4 Matches.
+Tile : 2467
+	Matching Tile : 1427 @ side 2
+	Matching Tile : 3181 @ side 3
+	Matching Tile : 3391 @ side 3
+	Matching Tile : 1913 @ side 2
+	Found 4 Matches.
+Tile : 3631
+	Matching Tile : 2851 @ side 1
+	Matching Tile : 1997 @ side 3
+	Matching Tile : 3889 @ side 0
+	Found 3 Matches.
+Tile : 3767
+	Matching Tile : 2411 @ side 0
+	Matching Tile : 1601 @ side 0
+	Matching Tile : 2707 @ side 0
+	Matching Tile : 3347 @ side 2
+	Found 4 Matches.
+Tile : 2381
+	Matching Tile : 1069 @ side 3
+	Matching Tile : 2659 @ side 1
+	Matching Tile : 1777 @ side 2
+	Found 3 Matches.
+Tile : 2687
+	Matching Tile : 1669 @ side 2
+	Matching Tile : 3259 @ side 1
+	Matching Tile : 3643 @ side 3
+	Found 3 Matches.
+Tile : 3719
+	Matching Tile : 1693 @ side 1
+	Matching Tile : 3079 @ side 1
+	Matching Tile : 1483 @ side 2
+	Matching Tile : 2297 @ side 1
+	Found 4 Matches.
+Tile : 3259
+	Matching Tile : 1117 @ side 0
+	Matching Tile : 2687 @ side 2
+	Matching Tile : 1607 @ side 2
+	Found 3 Matches.
+Tile : 3643
+	Matching Tile : 1117 @ side 1
+	Matching Tile : 2137 @ side 0
+	Matching Tile : 2687 @ side 1
+	Matching Tile : 3967 @ side 3
+	Found 4 Matches.
+Tile : 2767
+	Matching Tile : 2777 @ side 0
+	Matching Tile : 3793 @ side 0
+	Matching Tile : 3613 @ side 3
+	Matching Tile : 2113 @ side 0
+	Found 4 Matches.
+Tile : 2333
+	Matching Tile : 2017 @ side 0
+	Matching Tile : 2389 @ side 3
+	Matching Tile : 2297 @ side 3
+	Found 3 Matches.
+Tile : 2857
+	Matching Tile : 3467 @ side 1
+	Matching Tile : 1193 @ side 0
+	Matching Tile : 2591 @ side 2
+	Matching Tile : 1787 @ side 1
+	Found 4 Matches.
+Tile : 1193
+	Matching Tile : 1093 @ side 3
+	Matching Tile : 2857 @ side 1
+	Matching Tile : 2711 @ side 3
+	Matching Tile : 3089 @ side 0
+	Found 4 Matches.
+Tile : 2351
+	Matching Tile : 1249 @ side 2
+	Matching Tile : 1297 @ side 1
+	Matching Tile : 2659 @ side 3
+	Found 3 Matches.
+Tile : 1129
+	Matching Tile : 1229 @ side 2
+	Matching Tile : 3361 @ side 0
+	Found 2 Matches.
+Tile : 3433
+	Matching Tile : 2539 @ side 2
+	Matching Tile : 2657 @ side 1
+	Matching Tile : 2903 @ side 2
+	Matching Tile : 1109 @ side 3
+	Found 4 Matches.
+Tile : 1091
+	Matching Tile : 2521 @ side 2
+	Matching Tile : 3581 @ side 3
+	Matching Tile : 3361 @ side 2
+	Found 3 Matches.
+Tile : 3407
+	Matching Tile : 1667 @ side 1
+	Matching Tile : 1483 @ side 0
+	Matching Tile : 1999 @ side 2
+	Matching Tile : 3533 @ side 0
+	Found 4 Matches.
+Tile : 2591
+	Matching Tile : 1097 @ side 1
+	Matching Tile : 2857 @ side 2
+	Matching Tile : 1993 @ side 1
+	Matching Tile : 3089 @ side 1
+	Found 4 Matches.
+Tile : 3613
+	Matching Tile : 2477 @ side 1
+	Matching Tile : 1039 @ side 2
+	Matching Tile : 2767 @ side 1
+	Matching Tile : 1931 @ side 1
+	Found 4 Matches.
+Tile : 3967
+	Matching Tile : 1669 @ side 3
+	Matching Tile : 1499 @ side 3
+	Matching Tile : 3461 @ side 3
+	Matching Tile : 3643 @ side 0
+	Found 4 Matches.
+Tile : 1999
+	Matching Tile : 1301 @ side 2
+	Matching Tile : 2909 @ side 3
+	Matching Tile : 3407 @ side 2
+	Matching Tile : 3671 @ side 3
+	Found 4 Matches.
+Tile : 2689
+	Matching Tile : 1217 @ side 1
+	Matching Tile : 3877 @ side 1
+	Matching Tile : 3037 @ side 0
+	Matching Tile : 3943 @ side 3
+	Found 4 Matches.
+Tile : 3533
+	Matching Tile : 3917 @ side 1
+	Matching Tile : 3109 @ side 1
+	Matching Tile : 1283 @ side 2
+	Matching Tile : 3407 @ side 0
+	Found 4 Matches.
+Tile : 2267
+	Matching Tile : 1063 @ side 3
+	Matching Tile : 3803 @ side 0
+	Matching Tile : 2549 @ side 2
+	Found 3 Matches.
+Tile : 2297
+	Matching Tile : 3917 @ side 3
+	Matching Tile : 3343 @ side 2
+	Matching Tile : 3719 @ side 3
+	Matching Tile : 2333 @ side 1
+	Found 4 Matches.
+Tile : 2711
+	Matching Tile : 2477 @ side 3
+	Matching Tile : 2887 @ side 2
+	Matching Tile : 1193 @ side 1
+	Matching Tile : 1787 @ side 0
+	Found 4 Matches.
+Tile : 1931
+	Matching Tile : 3181 @ side 1
+	Matching Tile : 3733 @ side 1
+	Matching Tile : 3613 @ side 1
+	Matching Tile : 1907 @ side 1
+	Found 4 Matches.
+Tile : 1787
+	Matching Tile : 2777 @ side 2
+	Matching Tile : 2617 @ side 1
+	Matching Tile : 2857 @ side 0
+	Matching Tile : 2711 @ side 0
+	Found 4 Matches.
+Tile : 2549
+	Matching Tile : 2897 @ side 3
+	Matching Tile : 2267 @ side 0
+	Matching Tile : 1993 @ side 3
+	Found 3 Matches.
+Tile : 2789
+	Matching Tile : 2017 @ side 2
+	Matching Tile : 3319 @ side 3
+	Matching Tile : 3821 @ side 2
+	Found 3 Matches.
+Tile : 2707
+	Matching Tile : 2851 @ side 2
+	Matching Tile : 3931 @ side 2
+	Matching Tile : 3767 @ side 0
+	Matching Tile : 3889 @ side 3
+	Found 4 Matches.
+Tile : 3313
+	Matching Tile : 2357 @ side 1
+	Matching Tile : 1607 @ side 0
+	Found 2 Matches.
+Tile : 1607
+	Matching Tile : 3209 @ side 3
+	Matching Tile : 3259 @ side 3
+	Matching Tile : 3313 @ side 1
+	Found 3 Matches.
+Tile : 3889
+	Matching Tile : 2411 @ side 3
+	Matching Tile : 3631 @ side 0
+	Matching Tile : 2707 @ side 3
+	Matching Tile : 2131 @ side 3
+	Found 4 Matches.
+Tile : 3821
+	Matching Tile : 2837 @ side 2
+	Matching Tile : 3343 @ side 0
+	Matching Tile : 2971 @ side 0
+	Matching Tile : 2789 @ side 3
+	Found 4 Matches.
+Tile : 3347
+	Matching Tile : 2083 @ side 1
+	Matching Tile : 1879 @ side 1
+	Matching Tile : 3931 @ side 3
+	Matching Tile : 3767 @ side 3
+	Found 4 Matches.
+Tile : 1907
+	Matching Tile : 3583 @ side 0
+	Matching Tile : 2273 @ side 1
+	Matching Tile : 2111 @ side 3
+	Matching Tile : 1931 @ side 3
+	Found 4 Matches.
+Tile : 2903
+	Matching Tile : 1489 @ side 0
+	Matching Tile : 1621 @ side 0
+	Matching Tile : 3433 @ side 2
+	Found 3 Matches.
+Tile : 1399
+	Matching Tile : 1289 @ side 0
+	Matching Tile : 2927 @ side 2
+	Matching Tile : 2273 @ side 3
+	Matching Tile : 3461 @ side 1
+	Found 4 Matches.
+Tile : 1993
+	Matching Tile : 2207 @ side 0
+	Matching Tile : 3803 @ side 1
+	Matching Tile : 2591 @ side 0
+	Matching Tile : 2549 @ side 1
+	Found 4 Matches.
+Tile : 3671
+	Matching Tile : 2411 @ side 1
+	Matching Tile : 1667 @ side 0
+	Matching Tile : 1601 @ side 3
+	Matching Tile : 1999 @ side 1
+	Found 4 Matches.
+Tile : 3167
+	Matching Tile : 1297 @ side 2
+	Matching Tile : 2659 @ side 2
+	Matching Tile : 1777 @ side 1
+	Matching Tile : 1051 @ side 0
+	Found 4 Matches.
+Tile : 1109
+	Matching Tile : 1489 @ side 1
+	Matching Tile : 1069 @ side 0
+	Matching Tile : 1777 @ side 3
+	Matching Tile : 3433 @ side 1
+	Found 4 Matches.
+Tile : 3089
+	Matching Tile : 2207 @ side 1
+	Matching Tile : 1709 @ side 3
+	Matching Tile : 1193 @ side 3
+	Matching Tile : 2591 @ side 1
+	Found 4 Matches.
+Tile : 1051
+	Matching Tile : 3391 @ side 0
+	Matching Tile : 1913 @ side 1
+	Matching Tile : 2657 @ side 3
+	Matching Tile : 3167 @ side 1
+	Found 4 Matches.
+Tile : 2113
+	Matching Tile : 1301 @ side 1
+	Matching Tile : 1459 @ side 2
+	Matching Tile : 2909 @ side 0
+	Matching Tile : 2767 @ side 3
+	Found 4 Matches.
+Tile : 2131
+	Matching Tile : 1481 @ side 1
+	Matching Tile : 1847 @ side 1
+	Matching Tile : 1997 @ side 2
+	Matching Tile : 3889 @ side 1
+	Found 4 Matches.
+2551 * 1697 * 1129 * 3313 = 16192267830719
