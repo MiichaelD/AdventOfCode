@@ -120,12 +120,12 @@ public:
   }
 
   unordered_set<string> getEdgesSet(bool flipped=false) const {
-    unordered_set<string> rotatedEdges;
+    unordered_set<string> result;
     for (int i = 0; i < kSides; ++i) {
-      rotatedEdges.insert(
-        flipped ? flipString(edges[edgeMapping[i]]) : edges[edgeMapping[i]]);
+      result.insert(edges[edgeMapping[i]]);
+      result.insert(flipString(edges[edgeMapping[i]]));
     }
-    return rotatedEdges;
+    return result;
   }
 
   static Tile fromInput() {
@@ -205,8 +205,6 @@ uint64_t getCornerTilesMultiplication(const Tiles &tiles) {
 
 unordered_map<int,int> getMatchesForTile(Tiles &tiles, Tile &tile) {
   unordered_set<string> edges = tile.getEdgesSet();
-  unordered_set<string> flipped = tile.getEdgesSet(true);
-  edges.insert(flipped.begin(), flipped.end());
 
   unordered_map<int,int> matches;
   for (int j = 0; j < tiles.size(); ++j) {
