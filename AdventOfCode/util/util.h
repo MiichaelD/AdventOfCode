@@ -21,6 +21,34 @@ inline void printPair(const pair<T,T> &p, bool lineBreak=false) {
   }
 }
 
+// Gets the number from the string starting at the given index (or 0).
+int getNumber(const string &line, int index=0) {
+  int accum = 0;
+  for (; index < line.size(); ++index) {
+    if (isdigit(line[index])) {
+      accum *= 10;
+      accum += line[index] - '0';
+    } else {
+      break;
+    }
+  }
+  return accum;
+}
+
+// Gets number and advances the index reference.
+int getNumberAdvancing(const string &line, int &index) {
+  int accum = 0;
+  for (; index < line.size(); ++index) {
+    if (isdigit(line[index])) {
+      accum *= 10;
+      accum += line[index] - '0';
+    } else {
+      break;
+    }
+  }
+  return accum;
+}
+
 // Daily template file generator code
 template<typename T>
 class FileWrapper {
