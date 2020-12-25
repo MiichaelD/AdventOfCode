@@ -174,10 +174,10 @@ void solve(int part = 1) {
   } else {
     gameResult = playRecursive(data);
   }
+  Player *winner = gameResult.second;
   cout << "After " << gameResult.first << " rounds the winner is player ";
-  cout << gameResult.second->id << endl;
-  gameResult.second->print();
-  // data.print(); 
+  cout << winner->id << ". Final Score: " << winner->getScore() << endl;
+  // winner->print();
 }
 
 };  // aoc2020_22
