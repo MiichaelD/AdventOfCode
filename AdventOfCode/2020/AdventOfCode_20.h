@@ -205,7 +205,6 @@ uint64_t getCornerTilesMultiplication(const Tiles &tiles) {
 
 unordered_map<int,int> getMatchesForTile(Tiles &tiles, Tile &tile) {
   unordered_set<string> edges = tile.getEdgesSet();
-
   unordered_map<int,int> matches;
   for (int j = 0; j < tiles.size(); ++j) {
     Tile &t2 = tiles[j];
