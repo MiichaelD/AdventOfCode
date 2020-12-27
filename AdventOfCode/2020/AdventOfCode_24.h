@@ -28,7 +28,7 @@
 namespace aoc2020_24 {
 using namespace std;
 
-typedef pair<int,int> Tile;
+const int kDays = 100;
 
 struct pair_hash {
   template <class T1, class T2>
@@ -38,6 +38,9 @@ struct pair_hash {
     return h1 ^ h2;
   }
 };
+
+typedef pair<int,int> Tile;
+typedef unordered_set<Tile,pair_hash> TileSet;
 
 bool move(Tile &t, const string &dir, int index = 0) {
   if (dir[index] == 'e') {
@@ -75,13 +78,11 @@ Tile processInputLine(const string &input) {
       ++i;
     }
   }
-  util::printPair(result); cout << "\tfrom '" << input << "'" << endl;
+  // util::printPair(result); cout << "\tfrom '" << input << "'" << endl;
   return result;
 }
 
-void solve1() {
-  Tile startTile{0,0};
-  unordered_set<Tile, pair_hash> tiles;
+void processInput(TileSet &tiles) {
   string input;
   while(!cin.eof()) {
     getline(cin,input);
@@ -92,19 +93,78 @@ void solve1() {
       tiles.insert(t);
     }
   }
-  cout << "Black tiles: " << tiles.size() << endl;
 }
 
-void solve2() {
-  string input;
-  cin >> input;
+pair<pair<int,int>,pair<int,int>> findEdges(const TileSet &ts) {
+  int maxX = INT_MIN, minX = INT_MAX, maxY = INT_MIN, minY = INT_MAX;
+  for (const auto &entry : ts) {
+    if (entry.first > maxY) {
+      maxY = entry.first;
+    }
+    if (entry.first < minY) {
+      minY = entry.first;
+    }
+    if (entry.second > maxX) {
+      maxX = entry.second;
+    }
+    if (entry.second < minX) {
+      minX = entry.second;
+    }
+  }
+  return make_pair(make_pair(minY, maxY), make_pair(minX, maxX));
+}
+
+inline vector<Tile> getNeighbors(int f, int c) {
+  vector<Tile> result{
+      {f, c + 1}, // East
+      {f, c - 1}, // West
+      {f + 1, c + 1}, // SEast
+      {f + 1, c}, // SWest
+      {f - 1, c}, // NEast
+      {f - 1, c - 1}, // NWest
+  };
+  return result;
+}
+
+int getFoundNeighborsCount(const TileSet &ts, int f, int c) {
+  vector<Tile> neighbors = getNeighbors(f, c);
+  int found = 0;
+  for (const Tile &t : neighbors) {
+    if (ts.find(t) != ts.end()) { ++found; }
+  }
+  return found;
+}
+
+void makeInteractive(TileSet &ts) {
+  TileSet temp = ts;
+  for (int i = 1; i <= kDays; ++i) {
+    auto edges = findEdges(ts);
+    for (int f = edges.first.first - 1; f < edges.first.second + 2; ++f) {
+      for (int c = edges.second.first - 1; c < edges.second.second + 2; ++c) {
+        int neighborFoundCount = getFoundNeighborsCount(ts, f, c);
+        Tile tempTile{f, c};
+        if (ts.find(tempTile) != ts.end()) {  // if black; 0 or more than 2
+          if (neighborFoundCount == 0 || neighborFoundCount > 2) {
+            temp.erase(tempTile);
+          }
+        } else {  // if white && 2 neighbors
+          if (neighborFoundCount == 2) {
+            temp.insert(tempTile);
+          }
+        }
+      }
+    }
+    ts = temp;
+  }
 }
 
 void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
+  TileSet tiles;
+  processInput(tiles);
+  cout << "Black tiles: " << tiles.size() << endl;
+  if (part != 1) {
+    makeInteractive(tiles);
+    cout << "Day " << kDays << ": " << tiles.size() << endl;
   }
 }
 
