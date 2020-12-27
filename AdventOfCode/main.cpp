@@ -22,7 +22,7 @@
 #include "2020/AdventOfCode_21.h"
 #include "2020/AdventOfCode_22.h"
 #include "2020/AdventOfCode_23.h"
-// #include "2020/AdventOfCode_24.h"
+#include "2020/AdventOfCode_24.h"
 // #include "2020/AdventOfCode_25.h"
 
 // Compiling:    g++ -std=c++11 main.cpp -o main; ./main [<part>|<generate <day>>]
@@ -47,6 +47,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2020_23::solve(part);
+  aoc2020_24::solve(part);
   return EXIT_SUCCESS;
 }
