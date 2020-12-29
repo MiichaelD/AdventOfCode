@@ -47,6 +47,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2020_24::solve(part);
+  aoc2020_21::solve(part);
   return EXIT_SUCCESS;
 }
