@@ -172,11 +172,10 @@ bool matchIngredientToAllergen(
     const vector<Matches*> &matches,
     unordered_map<string,string> &inToAll,
     int index = 0) {
-
   if (inToAll.size() == matches.size()) {
     return true;
   }
-  const auto &m1 = matches[index];
+  const auto *m1 = matches[index];
   for (int i = 0; i < m1->iToReps.size(); ++i) {
     const auto &ingredient = m1->iToReps[i].first;
     if (inToAll.find(ingredient) != inToAll.end()
@@ -203,7 +202,7 @@ size_t getSafeIngredientsRepetitions(
   return result;
 }
 
-string dangerousIngredientsList(unordered_map<string,string> &inToAll) {
+string dangerousIngredientsList(const unordered_map<string,string> &inToAll) {
   typedef pair<string,string> Entry;
   vector<Entry> vInToAll;
   vInToAll.reserve(inToAll.size());
@@ -211,7 +210,7 @@ string dangerousIngredientsList(unordered_map<string,string> &inToAll) {
     vInToAll.push_back(p);
   }
   sort(vInToAll.begin(), vInToAll.end(), [] (const Entry &a, const Entry &b) {
-    return a.second <= b.second;
+    return a.second < b.second;
   });
   for (const auto &p : vInToAll) {
     cout << "\t" << p.first << " -> " << p.second << endl;
@@ -234,8 +233,8 @@ void solve(int part = 1) {
   matchIngredientToAllergen(data, matches, inToAll);
 
   size_t part1 = getSafeIngredientsRepetitions(data, inToAll);
-  string part2 = dangerousIngredientsList(inToAll);
   cout << "Safe ingredients reps: " << part1 << endl;
+  string part2 = dangerousIngredientsList(inToAll);
   cout << "Canonical dangerous ingredient: '" << part2 << '\'' << endl;
   //wrong: 'dtb,zgk,pxr,xkclg,jpnv,xtzh,cqnl,lsvlx'
   //wrong2:'dtb,zgk,pxr,cqnl,xtzh,xkclg,jpnv,lsvlx' <- added isValidCandidate
