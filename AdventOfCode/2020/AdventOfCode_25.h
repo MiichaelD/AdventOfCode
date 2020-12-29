@@ -28,24 +28,52 @@
 namespace aoc2020_25 {
 using namespace std;
 
-void solve1() {
-  string input;
-  cin >> input;  
+const uint32_t kRemainder= 20201227;
+const int kInitialSubject = 7;
+
+uint64_t transform(uint64_t subject = kInitialSubject, int loopSize = 1) {
+  uint64_t result = 1l;
+  for (int i = 1; i <= loopSize; ++i) {
+    result *= subject;
+    result %= kRemainder;
+    // cout << "Result " << i << ": " << result << endl;
+  }
+  return result;
 }
 
-void solve2() {
-  string input;
-  cin >> input;
+pair<uint64_t,int> transformUntilFound(uint64_t target) {
+  pair<uint64_t,int> result{1l,0};
+  for (int i = 1; true; ++i) {
+    result.first *= kInitialSubject;
+    result.first %= kRemainder;
+    if (result.first == target) {
+      result.second = i;
+      return result;
+    }
+    // cout << "Result " << i << ": " << result << endl;
+  }
+  cout << "Not found" << endl;
+  return result;
 }
+
 
 void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
+  uint64_t cardPK, doorPK;
+  cin >> cardPK >> doorPK; 
+
+  auto cardLS = transformUntilFound(cardPK);
+  auto doorLS = transformUntilFound(doorPK);
+  cout << "Card LS: " << cardLS.second << ", Door LS: " << doorLS.second << endl;
+
+  uint64_t res = 0;
+  if (cardLS.second < doorLS.second) {
+    res = transform(doorPK, cardLS.second);
   } else {
-    solve2();
+    res = transform(cardPK, doorLS.second);
   }
+  cout << "Encryption Key = " << res << endl;
 }
 
-};  // aoc2020_25
+};  // aoc2020_25 - 16457981
 
 #endif /* _2020_ADVENTOFCODE_25_H_ */
