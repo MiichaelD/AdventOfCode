@@ -100,8 +100,27 @@ struct Data {
   }
 };
 
-void fillMatches(
-  unordered_map<string,Matches> &matches, vector<Food> &foods) {
+vector<Matches*> mapToSortedVector(unordered_map<string,Matches> &matches) {
+  vector<Matches*> result;
+  for (auto &entry : matches) {
+    auto &ingredients = entry.second.iToReps;
+    sort(ingredients.begin(), ingredients.end(),
+         [](const pair<string,int> &p1, const pair<string,int> &p2){
+           return p1.second > p2.second;  // replacing '>' with '>=' infinite loops
+         });
+  }
+  for (auto &entry : matches) {
+    result.push_back(&entry.second);
+  }
+  sort(result.begin(), result.end(),
+       [](const Matches *a, const Matches *b){
+         return a->iToReps.size() >= b->iToReps.size();  // >= solved pt 2 (shrug)
+       });
+  return result;
+}
+
+vector<Matches*> fillMatches(
+    unordered_map<string,Matches> &matches, vector<Food> &foods) {
   for (const Food &f : foods) {
     // cout << "Processing: "; f.print();
     for (const auto &a : f.allergens) {
@@ -122,47 +141,19 @@ void fillMatches(
       }
     }
   }
+  return mapToSortedVector(matches);
 }
 
-void printMatches(const unordered_map<string,Matches> &matches) {
-  for (const auto &entry : matches) {
-    cout <<  entry.first << " possibly matches:" << endl;
-    const auto &match = entry.second;
-    for (const auto &p : match.iToReps) {
+void printMatchesVector(const vector<Matches*> &matches) {
+  for (const auto *match : matches) {
+    cout <<  match->aName << " possibly matches:" << endl;
+    for (const auto &p : match->iToReps) {
       cout << "\t" << p.first << ": " << p.second << endl;
     }
   }
   cout << endl;
 }
 
-void printMatchesVector(const vector<Matches> &matches) {
-  for (const auto &match : matches) {
-    cout <<  match.aName << " possibly matches:" << endl;
-    for (const auto &p : match.iToReps) {
-      cout << "\t" << p.first << ": " << p.second << endl;
-    }
-  }
-  cout << endl;
-}
-
-vector<Matches> matchesToSortedVector(unordered_map<string,Matches> &matches) {
-  vector<Matches> result;
-  for (auto &entry : matches) {
-    auto &ingredients = entry.second.iToReps;
-    sort(ingredients.begin(), ingredients.end(),
-         [](const pair<string,int> &p1, const pair<string,int> &p2){
-           return p1.second > p2.second;
-         });
-  }
-  for (auto entry : matches) {
-    result.push_back(entry.second);
-  }
-  sort(result.begin(), result.end(),
-       [](const Matches &a, const Matches &b){
-         return a.iToReps.size() >= b.iToReps.size();  // >= solved pt 2 (shrug)
-       });
-  return result;
-}
 
 bool isValidCandidate(
     const Data &data, const string &ingredient, const string &allergen) {
@@ -178,7 +169,7 @@ bool isValidCandidate(
 
 bool matchIngredientToAllergen(
     const Data &data,
-    const vector<Matches> &matches,
+    const vector<Matches*> &matches,
     unordered_map<string,string> &inToAll,
     int index = 0) {
 
@@ -186,13 +177,13 @@ bool matchIngredientToAllergen(
     return true;
   }
   const auto &m1 = matches[index];
-  for (int i = 0; i < m1.iToReps.size(); ++i) {
-    const auto &ingredient = m1.iToReps[i].first;
+  for (int i = 0; i < m1->iToReps.size(); ++i) {
+    const auto &ingredient = m1->iToReps[i].first;
     if (inToAll.find(ingredient) != inToAll.end()
-       || !isValidCandidate(data, ingredient, m1.aName)) {
+       || !isValidCandidate(data, ingredient, m1->aName)) {
       continue;
     }
-    inToAll[ingredient] = m1.aName;
+    inToAll[ingredient] = m1->aName;
     if (matchIngredientToAllergen(data, matches, inToAll, index + 1)) {
       return true;
     }
@@ -217,10 +208,8 @@ string dangerousIngredientsList(unordered_map<string,string> &inToAll) {
   vector<Entry> vInToAll;
   vInToAll.reserve(inToAll.size());
   for (const auto &p : inToAll) {
-    cout << "\t" << p.first << " -> " << p.second << endl;
     vInToAll.push_back(p);
   }
-  cout << endl;
   sort(vInToAll.begin(), vInToAll.end(), [] (const Entry &a, const Entry &b) {
     return a.second <= b.second;
   });
@@ -236,15 +225,13 @@ string dangerousIngredientsList(unordered_map<string,string> &inToAll) {
 }
 
 void solve(int part = 1) {
-  Data data = Data::fromInput();
-  unordered_map<string,Matches> matches;
-  fillMatches(matches, data.foods);
-  vector<Matches> vMatches = matchesToSortedVector(matches);
-  // printMatches(matches);
-  printMatchesVector(vMatches);
-
+  unordered_map<string,Matches> matchesMap;
   unordered_map<string,string> inToAll;
-  matchIngredientToAllergen(data, vMatches, inToAll);
+
+  Data data = Data::fromInput();
+  vector<Matches*> matches = fillMatches(matchesMap, data.foods);
+  // printMatchesVector(matches);
+  matchIngredientToAllergen(data, matches, inToAll);
 
   size_t part1 = getSafeIngredientsRepetitions(data, inToAll);
   string part2 = dangerousIngredientsList(inToAll);
