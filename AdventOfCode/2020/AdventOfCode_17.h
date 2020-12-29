@@ -95,10 +95,11 @@ public:
  }
 
  vector<tuple<int,int, int>> getNeighbors() const {
+   static const int kMaxNeigh = 3;
    vector<tuple<int,int, int>> result;
-   for (int i = -1; i < kMax - 1; ++i) {
-     for (int j = -1; j < kMax - 1; ++j) {
-        for (int k = -1; k < kMax - 1; ++k) {
+   for (int i = -1; i < kMaxNeigh - 1; ++i) {
+     for (int j = -1; j < kMaxNeigh - 1; ++j) {
+        for (int k = -1; k < kMaxNeigh - 1; ++k) {
           if (i == 0 && j == 0 && k == 0) {
             continue;
           }
