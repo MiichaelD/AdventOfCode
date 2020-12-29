@@ -32,9 +32,18 @@ using namespace std;
 
 constexpr char kActive = '#';
 constexpr char kInactive = '.';
-const int kMaxIt = 1;
+const int kMaxIt = 6;
 
 int kMax = 8;
+
+struct Limits {
+  int minX = INT_MAX, maxX = INT_MIN, minY = INT_MAX, maxY = INT_MIN;
+  int minZ = INT_MAX, maxZ = INT_MIN;
+  void expand() {
+    --minX; --minY; --minZ;
+    ++maxX; ++maxY; ++maxZ;
+  }
+};
 
 class Cell {
 public:
@@ -85,10 +94,6 @@ public:
    return {x, y, z};
  }
 
- inline int64_t getX() const { return x; }
- inline int64_t getY() const { return y; }
- inline int64_t getZ() const { return z; }
-
  vector<tuple<int,int, int>> getNeighbors() const {
    vector<tuple<int,int, int>> result;
    for (int i = -1; i < kMax - 1; ++i) {
@@ -120,6 +125,10 @@ public:
     return cachedStr;
   }
 
+ inline int64_t getX() const { return x; }
+ inline int64_t getY() const { return y; }
+ inline int64_t getZ() const { return z; }
+
 private:
   char futureState = kInactive;
   char currentState = kInactive;
@@ -140,20 +149,30 @@ struct CellHasher {
   }
 };
 
+Limits getLimits(const unordered_map<string, Cell> &cells, bool expand = true) {
+  Limits r;
+  for (const auto &entry : cells) {
+    const auto &cell = entry.second;
+    if (!cell.isActive()) continue;
+    if (cell.getX() < r.minX) {r.minX = cell.getX();}
+    if (cell.getY() < r.minY) {r.minY = cell.getY();}
+    if (cell.getZ() < r.minZ) {r.minZ = cell.getZ();}
+    if (cell.getX() > r.maxX) {r.maxX = cell.getX();}
+    if (cell.getY() > r.maxY) {r.maxY = cell.getY();}
+    if (cell.getZ() > r.maxZ) {r.maxZ = cell.getZ();}
+  }
+  if (expand) r.expand();
+  return r;
+}
+
 bool isCellActive(const unordered_map<string,Cell> &cells, const string &id) {
   const auto cell = cells.find(id);
-  if (cell != cells.end()) {
-    return cell->second.isActive();
-  }
-  return false;
+  return cell != cells.end() && cell->second.isActive();
 }
 
 Cell* getCell(unordered_map<string,Cell> &cells, const string &id) {
   auto cellIt = cells.find(id);
-  if (cellIt != cells.end()) {
-    return &(cellIt->second);
-  }
-  return nullptr;
+  return cellIt != cells.end() ? &(cellIt->second) : nullptr;
 }
 
 Cell* insertCell(unordered_map<string,Cell> &cells, char c, int x, int y, int z) {
@@ -163,19 +182,15 @@ Cell* insertCell(unordered_map<string,Cell> &cells, char c, int x, int y, int z)
 }
 
 void printCells(unordered_map<string,Cell> &cells, size_t iterations = 0) {
-  int kStart = 0, kEnd = 0;
-  int xyStart = 0, xyEnd = kMax;
-  for (int i = 0 ; i < iterations; ++i) {
-    --kStart; ++kEnd;
-    --xyStart; ++xyEnd;
-  }
-  cout << "Printing: xy from " <<  xyStart << ", to " << xyEnd;
-  cout << ". z from " << kStart << ", to " << kEnd << endl;
+  Limits limits = getLimits(cells, false);
+  cout << "printing: x from " <<  limits.minX << ", to " << limits.maxX;
+  cout << ". y from " <<  limits.minY << ", to " << limits.maxY;
+  cout << ". z from " << limits.minZ << ", to " << limits.maxZ << endl;
 
-  for (int k = kStart; k <= kEnd ; ++k) {
+  for (int k = limits.minZ; k <= limits.maxZ ; ++k) {
     cout << "Z: " << k << endl;
-    for (int j = xyStart; j <= xyEnd; ++j) {
-      for (int i = xyStart; i <= xyEnd; ++i) {
+    for (int j = limits.minY; j <= limits.maxY; ++j) {
+      for (int i = limits.minX; i <= limits.maxX; ++i) {
         const Cell *c = getCell(cells, Cell::computeId(i,j,k));
         if (c) {
           cout << c->getValue();
@@ -198,19 +213,16 @@ size_t getActiveCells(unordered_map<string,Cell> &cells) {
   return active;
 }
 
- void updateIteratively(unordered_map<string, Cell> &cells, size_t iteration) {
-  int kStart = 0, kEnd = 0;
-  int xyStart = 0, xyEnd = kMax ;
-  for (int i = 0 ; i < iteration; ++i) {
-    --kStart; ++kEnd;
-    --xyStart; ++xyEnd;
-  }
-  cout << "Updating: xy from " <<  xyStart << ", to " << xyEnd;
-  cout << ". z from " << kStart << ", to " << kEnd << endl;
 
-  for (int k = kStart; k <= kEnd ; ++k) {
-    for (int j = xyStart; j <= xyEnd; ++j) {
-      for (int i = xyStart; i <= xyEnd; ++i) {
+void updateIteratively(unordered_map<string, Cell> &cells, size_t iteration) {
+  Limits limits = getLimits(cells);
+  cout << "Updating: x from " <<  limits.minX << ", to " << limits.maxX;
+  cout << ". y from " <<  limits.minY << ", to " << limits.maxY;
+  cout << ". z from " << limits.minZ << ", to " << limits.maxZ << endl;
+
+  for (int k = limits.minZ; k <= limits.maxZ ; ++k) {
+    for (int j = limits.minY; j <= limits.maxY; ++j) {
+      for (int i = limits.minX; i <= limits.maxX; ++i) {
         string cellId = Cell::computeId(i,j,k);
         Cell *cell = getCell(cells, cellId);
         if (cell == nullptr) {
@@ -222,6 +234,7 @@ size_t getActiveCells(unordered_map<string,Cell> &cells) {
         for (const auto &n : neighbors) {
           const int nX = get<0>(n), nY = get<1>(n), nZ =get<2>(n); 
           const string nId = Cell::computeId(nX, nY, nZ);
+          // activeNeighbors += isCellActive(cells,nId) ? 1 : 0;
           // cout << "\tn: " << nId;
           Cell *neighbor = getCell(cells, nId);
           // cout << ", exists ? " << (neighbor == nullptr ? "False\t" : "True\t");
@@ -256,6 +269,7 @@ size_t getActiveCells(unordered_map<string,Cell> &cells) {
 }
 
  size_t tickIt(unordered_map<string, Cell> &cells, size_t iteration) {
+   cout << "Iteration: " << iteration << endl;
   updateIteratively(cells, iteration);
   size_t active = getActiveCells(cells);
   printCells(cells, iteration);
@@ -269,6 +283,7 @@ void solve1() {
   int y = 0;
   while(!cin.eof()) {
     getline(cin, input);
+    if (input.empty()) break;
     for (int i = 0; i < input.size(); ++i) {
       insertCell(cells, input[i], i, y, 0);
     }
@@ -289,6 +304,6 @@ void solve(int part = 1) {
   } 
 }
 
-};  // aoc2020_17
+};  // aoc2020_17 - test: 112 - pt 1: 252
 
 #endif /* _2020_ADVENTOFCODE_17_H_ */
