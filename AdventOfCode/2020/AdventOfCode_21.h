@@ -159,12 +159,25 @@ vector<Matches> matchesToSortedVector(unordered_map<string,Matches> &matches) {
   }
   sort(result.begin(), result.end(),
        [](const Matches &a, const Matches &b){
-         return a.iToReps.size() > b.iToReps.size();
+         return a.iToReps.size() >= b.iToReps.size();  // >= solved pt 2 (shrug)
        });
   return result;
 }
 
+bool isValidCandidate(
+    const Data &data, const string &ingredient, const string &allergen) {
+  for (const auto &food : data.foods) {
+    if (food.allergenSet.find(allergen) != food.allergenSet.end()
+        && food.ingredientSet.find(ingredient) == food.ingredientSet.end()) {
+      // Allergen found but Ingredient was missing, not valid candidate.
+      return false;
+    }
+  }
+  return true;
+}
+
 bool matchIngredientToAllergen(
+    const Data &data,
     const vector<Matches> &matches,
     unordered_map<string,string> &inToAll,
     int index = 0) {
@@ -175,11 +188,12 @@ bool matchIngredientToAllergen(
   const auto &m1 = matches[index];
   for (int i = 0; i < m1.iToReps.size(); ++i) {
     const auto &ingredient = m1.iToReps[i].first;
-    if (inToAll.find(ingredient) != inToAll.end()) {
+    if (inToAll.find(ingredient) != inToAll.end()
+       || !isValidCandidate(data, ingredient, m1.aName)) {
       continue;
     }
     inToAll[ingredient] = m1.aName;
-    if (matchIngredientToAllergen(matches, inToAll, index + 1)) {
+    if (matchIngredientToAllergen(data, matches, inToAll, index + 1)) {
       return true;
     }
     inToAll.erase(ingredient);
@@ -187,7 +201,41 @@ bool matchIngredientToAllergen(
   return false;
 }
 
-void solve1() {
+size_t getSafeIngredientsRepetitions(
+  const Data &data, const unordered_map<string,string> &inToAll) {
+  size_t result = 0;
+  for (const auto &inEntry : data.ingredients) {
+    if (inToAll.find(inEntry.first) == inToAll.end()) {
+      result += inEntry.second;
+    }
+  }
+  return result;
+}
+
+string dangerousIngredientsList(unordered_map<string,string> &inToAll) {
+  typedef pair<string,string> Entry;
+  vector<Entry> vInToAll;
+  vInToAll.reserve(inToAll.size());
+  for (const auto &p : inToAll) {
+    cout << "\t" << p.first << " -> " << p.second << endl;
+    vInToAll.push_back(p);
+  }
+  cout << endl;
+  sort(vInToAll.begin(), vInToAll.end(), [] (const Entry &a, const Entry &b) {
+    return a.second <= b.second;
+  });
+  for (const auto &p : vInToAll) {
+    cout << "\t" << p.first << " -> " << p.second << endl;
+  }
+  stringstream ss;
+  ss << vInToAll.front().first;
+  for (int i = 1; i < vInToAll.size(); ++i) {
+    ss << ',' << vInToAll[i].first;
+  }
+  return ss.str();
+}
+
+void solve(int part = 1) {
   Data data = Data::fromInput();
   unordered_map<string,Matches> matches;
   fillMatches(matches, data.foods);
@@ -196,29 +244,15 @@ void solve1() {
   printMatchesVector(vMatches);
 
   unordered_map<string,string> inToAll;
-  matchIngredientToAllergen(vMatches, inToAll);
+  matchIngredientToAllergen(data, vMatches, inToAll);
 
-  size_t result = 0;
-  for (const auto &inEntry : data.ingredients) {
-    if (inToAll.find(inEntry.first) != inToAll.end()) {
-      continue;
-    }
-    result += inEntry.second;
-  }
-  cout << "Result: " << result << endl;
-}
-
-void solve2() {
-  string input;
-  cin >> input;
-}
-
-void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
-  }
+  size_t part1 = getSafeIngredientsRepetitions(data, inToAll);
+  string part2 = dangerousIngredientsList(inToAll);
+  cout << "Safe ingredients reps: " << part1 << endl;
+  cout << "Canonical dangerous ingredient: '" << part2 << '\'' << endl;
+  //wrong: 'dtb,zgk,pxr,xkclg,jpnv,xtzh,cqnl,lsvlx'
+  //wrong2:'dtb,zgk,pxr,cqnl,xtzh,xkclg,jpnv,lsvlx' <- added isValidCandidate
+  //right: 'dtb,zgk,pxr,cqnl,xkclg,xtzh,jpnv,lsvlx' <- replaced '>' with '>='
 }
 
 };  // aoc2020_21
