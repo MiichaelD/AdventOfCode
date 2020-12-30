@@ -166,58 +166,53 @@ bool isValid(
     const string &msg,const vector<Rule> &rules,
     int &msgInd, int rInd = 0, int srInd = 0, int depth = 0) {
   const Rule &rule = rules[rInd];
-  printPadded(depth) << "["<<depth<<"] Validating rule " << rInd;
+  // printPadded(depth) << "["<<depth<<"] Validating rule " << rInd;
   if (msgInd >= msg.size()) {
-    cout << "\t It exceeds, false" << endl;
+    // cout << "\t It exceeds, false" << endl;
     return false;
   }
-  cout << " @ '" << msg[msgInd] << "' [" << msgInd << "]";
+  // cout << " @ '" << msg[msgInd] << "' [" << msgInd << "]";
   if (rule.letter) {
     bool result = msg[msgInd++] == rule.letter;
-    cout << (result ? " - Matches!" : " - Fails") << endl;
+    // cout << (result ? " - Matches!" : " - Fails") << endl;
     return result;
   }
-  cout << endl;
+  // cout << endl;
   // Try each subrules until a valid one is found
   int tempInd = msgInd;
   vector<pair<int,int>> valids;
   for (; srInd < rule.subrules.size(); ++srInd) {
     const auto &sr = rule.subrules[srInd];
-    printPadded(depth) <<  "Subrule " << (srInd + 1) << ": ";
-    printSubrule(sr); cout << endl;
+    // printPadded(depth) <<  "Subrule " << (srInd + 1) << ": ";
+    // printSubrule(sr); cout << endl;
 
     bool valid = true;
-    int retries = 0;
     // Try each term in the subrule
     for (int valInd = 0; valInd < sr.size(); ++valInd) {
       int prevMsgInd = msgInd;
-      bool wasValid = isValid(msg, rules, msgInd, sr[valInd], retries, depth + 1);
-      if (!wasValid) {
-        printPadded(depth) << "["<<depth<<"] Not valid, ";
-        int prevRule = sr[valInd - 1];
-        if (valids.size()) {
-          // Try previous partial solution but expand it.
-          valInd = valids.back().first;
-          msgInd = valids.back().second;
-          valids.pop_back();
-          ++retries;
-          cout << "RETRYINGGGGGGGGGGG" << endl;
-        } else {
-          valid = false;
-          break;
-        }
-      } else if (sr[valInd] == 8 || sr[valInd] == 11) {
-        // Save current partial solution, it might be the case that it could wrap even more chars
-        valids.emplace_back(valInd - 1, prevMsgInd);
+      if (!isValid(msg, rules, msgInd, sr[valInd], 0, depth + 1)) {
+        valid = false;
+        break;
       }
     }
     if (valid) {
       return true;
     }
-    cout << "returning msgInd from " << msgInd << " to " << tempInd << endl;
+    // cout << "returning msgInd from " << msgInd << " to " << tempInd << endl;
     msgInd = tempInd;
   }
   return false;
+}
+
+void expand(Data &data, int x, int y, const vector<int> &terms) {
+  vector<int> subrule;
+  for (int i = 0 ; i < (x + y); ++i) {
+    subrule.push_back(data.rules[terms.front()].subrules.front().front());
+  }
+  for (int i = 0; i < y; ++i){
+    subrule.push_back(data.rules[terms.back()].subrules.front().back());
+  }
+  data.rules[0].subrules.push_back(subrule);
 }
 
 void solve(int part = 1) {
@@ -234,15 +229,21 @@ void solve(int part = 1) {
     //   }
     //   data.rules[11].subrules.push_back(toAdd);
     // }
-    data.rules[8].subrules.push_back({42, 8});
-    data.rules[11].subrules.push_back({42, 11, 31});
-    // for (size_t val : {8, 11}) {
-    //   sort(data.rules[val].subrules.begin(),
-    //       data.rules[val].subrules.end(),
-    //       [](const vector<size_t> &a, const vector<size_t> &b) {
-    //         return a.size() > b.size();
-    //         });
-    // }
+
+    // Kind of works:
+    // data.rules[8].subrules.push_back({42, 8});
+    // data.rules[11].subrules.push_back({42, 11, 31});
+
+    // From reddit: Expand 0.
+    const int maxK = 10;
+    vector<int> old0 = data.rules[0].subrules.front();
+    data.rules[0].subrules.pop_back();
+    for (int i = 1; i < maxK; ++i) {
+      for (int j = 1; j < maxK; ++j) {
+        cout << "i: " << i << ", j = " << j << endl;
+        expand(data, i, j, old0);
+      }
+    }
   }
   data.print(); cout << endl;
   size_t validMessages = 0;
@@ -258,7 +259,7 @@ void solve(int part = 1) {
     cout << endl;
   }
   cout << "Valid messages: " << validMessages << endl;
-  data.print();
+  // data.print();
 }
 
 };  // aoc2020_19
