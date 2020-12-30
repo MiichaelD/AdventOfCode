@@ -33,30 +33,30 @@ using namespace std;
 constexpr char kActive = '#';
 constexpr char kInactive = '.';
 const int kMaxIt = 6;
-
+const int kMaxNeigh = 3;
 int kMax = 8;
 
 struct Limits {
   int minX = INT_MAX, maxX = INT_MIN, minY = INT_MAX, maxY = INT_MIN;
-  int minZ = INT_MAX, maxZ = INT_MIN;
+  int minZ = INT_MAX, maxZ = INT_MIN, minW = INT_MAX, maxW = INT_MIN;
   void expand() {
-    --minX; --minY; --minZ;
-    ++maxX; ++maxY; ++maxZ;
+    --minX; --minY; --minZ; --minW;
+    ++maxX; ++maxY; ++maxZ; ++maxW;
   }
 };
 
 class Cell {
 public:
-  Cell(char c) : currentState{c}, futureState{c}, x{0}, y{0}, z{0}  { }
-  Cell(char c, int xx, int yy, int zz)
-      : currentState{c}, futureState{c}, x{xx}, y{yy}, z{zz} {
+  Cell(char c) : currentState{c}, futureState{c}, x{0}, y{0}, z{0}, w{0}  { }
+  Cell(char c, int xx, int yy, int zz, int ww)
+      : currentState{c}, futureState{c}, x{xx}, y{yy}, z{zz}, w{ww} {
         // cout << "Cell('" << c <<"' @ " << x << ',' << y << ',' << z << ')' << endl;
         // cout << "Created '" << toString() << "'" << endl;
       }
 
-  static string computeId(int x, int y, int z) {
+  static string computeId(int x, int y, int z, int w) {
     stringstream output;
-    output << x << "," << y << "," << z;
+    output << x << "," << y << "," << z << "," << w;
     return output.str();
   }
 
@@ -90,57 +90,72 @@ public:
    return currentState == kInactive;
  }
 
- tuple<int64_t,int64_t,int64_t> getPosition() const {
-   return {x, y, z};
+ tuple<int,int,int,int> getPosition() const {
+   return {x, y, z, w};
  }
 
- vector<tuple<int,int, int>> getNeighbors() const {
-   static const int kMaxNeigh = 3;
-   vector<tuple<int,int, int>> result;
+ vector<tuple<int, int, int, int>> getNeighbors() const {
+   vector<tuple<int, int, int, int>> result;
    for (int i = -1; i < kMaxNeigh - 1; ++i) {
      for (int j = -1; j < kMaxNeigh - 1; ++j) {
         for (int k = -1; k < kMaxNeigh - 1; ++k) {
           if (i == 0 && j == 0 && k == 0) {
             continue;
           }
-          result.emplace_back(x - i, y - j, z - k);
+          result.emplace_back(x - i, y - j, z - k, 0);
         }
       }
    }
+   assert(result.size() == 26);
+   return result;
+ }
+
+ vector<tuple<int, int, int, int>> getNeighbors4() const {
+   static const int kMaxNeigh = 3;
+   vector<tuple<int, int, int, int>> result;
+   for (int i = -1; i < kMaxNeigh - 1; ++i) {
+     for (int j = -1; j < kMaxNeigh - 1; ++j) {
+        for (int k = -1; k < kMaxNeigh - 1; ++k) {
+          for (int l = -1; l < kMaxNeigh - 1; ++l) {
+            if (i == 0 && j == 0 && k == 0 && l == 0) {
+              continue;
+            }
+            result.emplace_back(x - i, y - j, z - k, w - l);
+          }
+        }
+      }
+   }
+   assert(result.size() == 80);
    return result;
  }
 
   bool operator==(const Cell &other) const {
-    return (x == other.getX() && y == other.getY() && z == other.getZ());
+    return (x == other.getX() && y == other.getY()
+            && z == other.getZ() && w == other.getW());
   }
 
   size_t operator () (Cell const &other) const {
     auto p = other.getPosition();
-    return get<0>(p) ^ get<1>(p) ^ get<2>(p);
+    return get<0>(p) ^ get<1>(p) ^ get<2>(p) ^ get<3>(p);
   }
 
   const string& toString() const {
     if (cachedStr.empty()) {
-      cachedStr = computeId(x, y, z);
+      cachedStr = computeId(x, y, z, w);
     }
     return cachedStr;
   }
 
- inline int64_t getX() const { return x; }
- inline int64_t getY() const { return y; }
- inline int64_t getZ() const { return z; }
+ inline int getX() const { return x; }
+ inline int getY() const { return y; }
+ inline int getZ() const { return z; }
+ inline int getW() const { return w; }
 
 private:
   char futureState = kInactive;
   char currentState = kInactive;
-  int64_t x, y, z;
+  int x, y, z, w;
   mutable string cachedStr = "";
-
-  string computeId() const {
-    stringstream output;
-    output << x << "," << y << "," << z;
-    return output.str();
-  }
 };
 
 //http://stackoverflow.com/questions/17016175/c-unordered-map-using-a-custom-class-type-as-the-key
@@ -158,9 +173,11 @@ Limits getLimits(const unordered_map<string, Cell> &cells, bool expand = true) {
     if (cell.getX() < r.minX) {r.minX = cell.getX();}
     if (cell.getY() < r.minY) {r.minY = cell.getY();}
     if (cell.getZ() < r.minZ) {r.minZ = cell.getZ();}
+    if (cell.getW() < r.minW) {r.minW = cell.getW();}
     if (cell.getX() > r.maxX) {r.maxX = cell.getX();}
     if (cell.getY() > r.maxY) {r.maxY = cell.getY();}
     if (cell.getZ() > r.maxZ) {r.maxZ = cell.getZ();}
+    if (cell.getW() > r.maxW) {r.maxW = cell.getW();}
   }
   if (expand) r.expand();
   return r;
@@ -176,28 +193,33 @@ Cell* getCell(unordered_map<string,Cell> &cells, const string &id) {
   return cellIt != cells.end() ? &(cellIt->second) : nullptr;
 }
 
-Cell* insertCell(unordered_map<string,Cell> &cells, char c, int x, int y, int z) {
-  Cell cell(c, x, y, z);
+Cell* insertCell(
+  unordered_map<string,Cell> &cells, char c, int x, int y, int z, int w) {
+  Cell cell(c, x, y, z, w);
   auto res = cells.insert({cell.toString(), cell});
   return &(res.first->second);
 }
 
-void printCells(unordered_map<string,Cell> &cells, size_t iterations = 0) {
+void printCells(unordered_map<string,Cell> &cells) {
   Limits limits = getLimits(cells, false);
   cout << "printing: x from " <<  limits.minX << ", to " << limits.maxX;
   cout << ". y from " <<  limits.minY << ", to " << limits.maxY;
-  cout << ". z from " << limits.minZ << ", to " << limits.maxZ << endl;
-
-  for (int k = limits.minZ; k <= limits.maxZ ; ++k) {
-    cout << "Z: " << k << endl;
-    for (int j = limits.minY; j <= limits.maxY; ++j) {
-      for (int i = limits.minX; i <= limits.maxX; ++i) {
-        const Cell *c = getCell(cells, Cell::computeId(i,j,k));
-        if (c) {
-          cout << c->getValue();
-        } else {
-          cout << ".";
+  cout << ". z from " << limits.minZ << ", to " << limits.maxZ;
+  cout << ". w from " << limits.minW << ", to " << limits.maxW << endl;
+  for (int l = limits.minW; l <= limits.maxW; ++l) {
+    cout << "W: " << l << endl;
+    for (int k = limits.minZ; k <= limits.maxZ ; ++k) {
+      cout << "Z: " << k << endl;
+      for (int j = limits.minY; j <= limits.maxY; ++j) {
+        for (int i = limits.minX; i <= limits.maxX; ++i) {
+          const Cell *c = getCell(cells, Cell::computeId(i,j,k,l));
+          if (c) {
+            cout << c->getValue();
+          } else {
+            cout << ".";
+          }
         }
+        cout << endl;
       }
       cout << endl;
     }
@@ -214,71 +236,54 @@ size_t getActiveCells(unordered_map<string,Cell> &cells) {
   return active;
 }
 
-
-void updateIteratively(unordered_map<string, Cell> &cells, size_t iteration) {
+void updateIteratively(
+    unordered_map<string, Cell> &cells, bool d4) {
   Limits limits = getLimits(cells);
+  if (!d4) {limits.minW = 0; limits.maxW = 0;}
   cout << "Updating: x from " <<  limits.minX << ", to " << limits.maxX;
   cout << ". y from " <<  limits.minY << ", to " << limits.maxY;
-  cout << ". z from " << limits.minZ << ", to " << limits.maxZ << endl;
+  cout << ". z from " << limits.minZ << ", to " << limits.maxZ;
+  cout << ". w from " << limits.minW << ", to " << limits.maxW << endl;
 
-  for (int k = limits.minZ; k <= limits.maxZ ; ++k) {
-    for (int j = limits.minY; j <= limits.maxY; ++j) {
-      for (int i = limits.minX; i <= limits.maxX; ++i) {
-        string cellId = Cell::computeId(i,j,k);
-        Cell *cell = getCell(cells, cellId);
-        if (cell == nullptr) {
-          cell = insertCell(cells, kInactive, i, j, k);
-        }
-        const auto neighbors = cell->getNeighbors();
-        size_t activeNeighbors = 0; 
-          // cout << "Updating cell: " << cell->toString() << ", n: " << neighbors.size();
-        for (const auto &n : neighbors) {
-          const int nX = get<0>(n), nY = get<1>(n), nZ =get<2>(n); 
-          const string nId = Cell::computeId(nX, nY, nZ);
-          // activeNeighbors += isCellActive(cells,nId) ? 1 : 0;
-          // cout << "\tn: " << nId;
-          Cell *neighbor = getCell(cells, nId);
-          // cout << ", exists ? " << (neighbor == nullptr ? "False\t" : "True\t");
-          if (neighbor) {
-            if (neighbor->isActive()) {
-              ++activeNeighbors;
-              // cout << "and Active" << endl;
-            } else {
-              // cout << "but Inactive" << endl;
+  for (int l = limits.minW; l <= limits.maxW; ++l) {
+    for (int k = limits.minZ; k <= limits.maxZ ; ++k) {
+      for (int j = limits.minY; j <= limits.maxY; ++j) {
+        for (int i = limits.minX; i <= limits.maxX; ++i) {
+          string cellId = Cell::computeId(i,j,k,l);
+          Cell *cell = getCell(cells, cellId);
+          if (cell == nullptr) {
+            cell = insertCell(cells, kInactive, i, j, k, l);
+          }
+          const auto neighbors = d4 ? cell->getNeighbors4() : cell->getNeighbors();
+          size_t activeNeighbors = 0; 
+          for (const auto &n : neighbors) {
+            const int nX = get<0>(n), nY = get<1>(n), nZ =get<2>(n), nW =get<3>(n); 
+            const string nId = Cell::computeId(nX, nY, nZ, nW);
+            activeNeighbors += isCellActive(cells, nId) ? 1 : 0;
+          }
+          if (cell->isActive()) {
+            if (activeNeighbors < 2 || activeNeighbors > 3) {
+              cell->setValue(kInactive);
             }
-          } else {
-            // neighbor = insertCell(cells, kInactive, nX, nY, nZ);
+          } else if (activeNeighbors == 3) {
+            cell->setValue(kActive);
           }
         }
-        // cout << "\tWith " << activeNeighbors << " neighbor(s). From: '" << cell->getValue() << "' to '";
-        if (cell->isActive()) {
-          if (activeNeighbors < 2 || activeNeighbors > 3) {
-            cell->setValue(kInactive);
-            // cout << kInactive << "'" << endl;
-          }  else {
-            // cout << kActive << "'" << endl;
-          }
-        } else if (activeNeighbors == 3) {
-          cell->setValue(kActive);
-          // cout << kActive << "'" << endl;
-        } else {
-          // cout << kInactive << "'" << endl;
-          }
       }
     }
   }
 }
 
- size_t tickIt(unordered_map<string, Cell> &cells, size_t iteration) {
-   cout << "Iteration: " << iteration << endl;
-  updateIteratively(cells, iteration);
+ size_t tickIt(unordered_map<string, Cell> &cells, bool d4) {
+  updateIteratively(cells, d4);
   size_t active = getActiveCells(cells);
-  printCells(cells, iteration);
+  if (!d4) printCells(cells);
   cout << "Cells created: " << cells.size() << ", Active: " << active << endl;
   return active;
  }
 
-void solve1() {
+void solve(int part = 1) {
+  bool d4 = part != 1;
   unordered_map<string,Cell> cells;
   string input;
   int y = 0;
@@ -286,7 +291,7 @@ void solve1() {
     getline(cin, input);
     if (input.empty()) break;
     for (int i = 0; i < input.size(); ++i) {
-      insertCell(cells, input[i], i, y, 0);
+      insertCell(cells, input[i], i, y, 0, 0);
     }
     ++y;
   }
@@ -295,14 +300,9 @@ void solve1() {
   size_t active = getActiveCells(cells);
   cout << "Cells created: " << cells.size() << ", Active: " << active << endl;
   for (int i = 1; i <= kMaxIt; ++i) {
-    tickIt(cells, i);
+    cout << "Iteration: " << i << endl;
+    tickIt(cells, d4);
   }
-}
-
-void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } 
 }
 
 };  // aoc2020_17 - test: 112 - pt 1: 252
