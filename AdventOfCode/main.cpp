@@ -1,4 +1,4 @@
-
+#include "2018/AdventOfCode_04.h"
 #include "2020/AdventOfCode_01.h"
 #include "2020/AdventOfCode_02.h"
 #include "2020/AdventOfCode_03.h"
@@ -47,6 +47,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2020_19::solve(part);
+  aoc2018_04::solve(part);
   return EXIT_SUCCESS;
 }
