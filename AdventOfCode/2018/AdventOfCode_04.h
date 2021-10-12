@@ -88,8 +88,7 @@ namespace aoc2018_04 {
       }
     }
     sort(logs.begin(), logs.end());
-    print(logs);
-    
+    print(logs);    
 
     vector<int> sleepCounter(60);
     unordered_map<int, GuardLog> guardToSleepCounter;
@@ -101,7 +100,6 @@ namespace aoc2018_04 {
     
     for (const auto& e : logs) {
       char action = e[19];
-      // cout << "'" << action << "'" << endl;
       switch(action) {
         case 'G':
           if (currentGuard != -1) {
@@ -145,34 +143,33 @@ namespace aoc2018_04 {
         guardIt = guardToSleepCounter.find(currentGuard);
       }
       guardIt->second.addToLog(sleepCounter);
-      cout << "Guard: " << currentGuard << " Slept " << guardIt->second.timeAsleep << " minutes." << endl;
+      cout << "Guard: " << currentGuard << " Slept " << guardIt->second.timeAsleep
+           << " minutes." << endl;
       if (guardIt->second.timeAsleep > mostSleepMinutes) {
         mostSleepMinutes = guardIt->second.timeAsleep;
         mostSleepGuard = currentGuard;
       }
     }
 
-    if (part == 1) {
-      auto guardIt = guardToSleepCounter.find(mostSleepGuard);
-      int64_t mostSleptMin = guardIt->second.minuteMostSlept().first;
-      cout << "The most sleeping guard: " << mostSleepGuard << ". Most slept minute: " << mostSleptMin << endl;
-      cout << "Solution: " << (mostSleptMin * mostSleepGuard) << endl;
-    } else {
-      pair<int,int> winner(0,0);
-      int winnerId = 0;
-      for (const auto& p : guardToSleepCounter) {
-        auto p1 = p.second.minuteMostSlept();
-        if (p1.second > winner.second) {
-          winner = p1;
-          winnerId = p.first;
-        }
+    auto guardIt = guardToSleepCounter.find(mostSleepGuard);
+    int64_t mostSleptMin = guardIt->second.minuteMostSlept().first;
+    cout << "The most sleeping guard: " << mostSleepGuard << ". Most slept minute: "
+         << mostSleptMin << endl;
+    cout << "P1 Solution: " << (mostSleptMin * mostSleepGuard) << endl;
+    
+    pair<int,int> winner(0,0);
+    int winnerId = 0;
+    for (const auto& p : guardToSleepCounter) {
+      auto p1 = p.second.minuteMostSlept();
+      if (p1.second > winner.second) {
+        winner = p1;
+        winnerId = p.first;
       }
-      auto guardIt = guardToSleepCounter.find(mostSleepGuard);
-      int64_t mostSleptMin = guardIt->second.minuteMostSlept().first;
-      cout << "The most reliable sleeping guard: " << winnerId << ". Most slept minute: " << winner.first << " for: " << winner.second << endl;
-      cout << "Solution: " << (winner.first * winnerId) << endl;
-
     }
+    mostSleptMin = winner.first;
+    cout << "The most reliable sleeping guard: " << winnerId << ". Most repeated slept minute: "
+         << mostSleptMin << " for: " << winner.second << endl;
+    cout << "P2 Solution: " << (winner.first * winnerId) << endl;
   }
 };
 
