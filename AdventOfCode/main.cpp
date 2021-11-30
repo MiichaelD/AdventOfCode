@@ -25,12 +25,13 @@
 #include "2020/AdventOfCode_23.h"
 #include "2020/AdventOfCode_24.h"
 #include "2020/AdventOfCode_25.h"
+#include "2021/AdventOfCode_01.h"
 
 // Compiling:    g++ -std=c++11 main.cpp -o main; ./main [<part>|<generate <day>>]
 // Getting a day input:
 // curl --cookie "session=<session_str>" https://adventofcode.com/2020/day/<day>/input
 static constexpr char kGenerate[] = "generate";
-static constexpr char kTemplateFilename[] = "2020/AdventOfCode.txt";
+static constexpr char kTemplateFilename[] = "2021/AdventOfCode.txt";
 
 int main(int argc, char *argv[]) {
   using namespace std;
@@ -48,6 +49,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2018_07::solve(part);
+  aoc2021_01::solve(part);
   return EXIT_SUCCESS;
 }
