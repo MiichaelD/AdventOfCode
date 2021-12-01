@@ -21,43 +21,39 @@ namespace aoc2021_01 {
   using namespace std;
 
   unsigned long long solve1() {
-    unordered_set<int>  entries;
-    int entry, delta;
-    while(!std::cin.eof()) {
+    int prevEntry, entry, delta = 0;
+    cin >> prevEntry;
+    while(!cin.eof()) {
       cin >> entry;
-      delta = 2020 - entry;
-      if (entries.find(delta) != entries.end()) {
-        return delta * entry;
+      if (entry > prevEntry) {
+        ++delta;
       }
-      entries.insert(entry);
+      prevEntry = entry;
     }
-    return -1;
+    return delta;
   }
 
   unsigned long long solve2() {
-    vector<int>  entriesVec;
-    unordered_set<int> entries;
-    int entry;
-    unsigned long long delta;
-    while(!std::cin.eof()) {
+    deque<int> slidingWindow;
+    int accum = 0, entry = 0, delta = 0, prevAccum = -1;
+    while(!cin.eof()) {
       cin >> entry;
-      entriesVec.push_back(entry);
-      entries.insert(entry);
-    }
-
-    for (int i = 0; i < entriesVec.size(); ++i) {
-      for (int j = i + 1; j < entriesVec.size(); ++j) {
-        delta = 2020 - entriesVec[i] - entriesVec[j];
-        if (entries.find(delta) != entries.end()) {
-          return delta * entriesVec[i] * entriesVec[j];
+      slidingWindow.push_back(entry);
+      accum += entry;
+      if (slidingWindow.size() == 3) {
+        cout << "\tAccum: " << accum << endl;
+        if (prevAccum != -1 && prevAccum < accum) {
+          ++delta;
         }
+        prevAccum = accum;
+        accum -= slidingWindow.front();
+        slidingWindow.pop_front();
       }
     }
-    return -1;
+    return delta;
   }
 
   void solve(int part = 1) {
-    using namespace std;
     cout << (part == 1 ? solve1() : solve2()) << endl;
   }
 
