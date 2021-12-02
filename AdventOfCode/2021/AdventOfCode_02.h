@@ -1,8 +1,8 @@
 /*
-  Link:         http://adventofcode.com/2020/day/2
+  Link:         http://adventofcode.com/2021/day/2
  
-  Description: 
-  Compiling:    g++ -std=c++11 main.cpp -o main
+  Compiling:     g++ -std=c++17 -o main main.cpp 
+  Running:       cat 2021/AdventOfCode_01_input.txt | ./main
                
   Programmer:   Michael Duarte.
 
@@ -12,80 +12,70 @@
 #ifndef _2021_ADVENTOFCODE_02_H_
 #define _2021_ADVENTOFCODE_02_H_
 
-#include <iostream>
 #include <string>
-#include <unordered_set>
-#include <vector>
 #include "../util/util.h"
 
 namespace aoc2021_02 {
   using namespace std;
 
-  struct Policy {
-    pair<int,int> range;
-    char letter;
-    Policy (pair<int,int> &&range, char letter) : range(range), letter(letter) {}
-  };
-
-  pair<int,int> parseRange(const string &input) {
-    int i = 0, j = 0;
-    int acum = 0;
-    for (int index = 0; index < input.size(); ++index) {
-      if (isdigit(input[index])) {
-        acum *= 10;
-        acum += input[index] - '0';
-      } else if (input[index] == '-') {
-        i = acum;
-        acum = 0;
-        continue;
+  int64_t solve1() {
+    string command;
+    int64_t forward = 0, depth = 0, delta;
+    while(!cin.eof()) {
+      getline(cin, command);
+      if (command.empty()) break;
+      switch(command[0]) {
+        case 'f':
+          delta = util::getNumber(command, 8);
+          forward += delta;
+          cout << "\tForward: " << forward << endl;
+          break;
+        case 'd': 
+          delta = util::getNumber(command, 5);
+          depth += delta;
+          cout << "\tdepth down: " << depth << endl;
+          break;
+        case 'u': 
+          delta = util::getNumber(command, 3);
+          depth -= delta;
+          cout << "\tdepth up: " << depth << endl;
+          break;
       }
     }
-    j = acum;
-    return std::make_pair(i,j);
+    return forward * depth;
   }
 
-  bool checkOldPasswordValidity(const Policy &p, const string &pass) {
-    int reps = 0;
-    // cout << "Checking '" << pass << "' - letter " << p.letter << ". ";
-    // print(p.range); cout << ". Found: ";
-    for (char c : pass) {
-      if (c == p.letter) ++reps;
+  int64_t solve2() {
+    string command;
+    int64_t forward = 0, depth = 0, aim = 0, delta;
+    while(!cin.eof()) {
+      getline(cin, command);
+      if (command.empty()) break;
+      switch(command[0]) {
+        case 'f':
+          delta = util::getNumber(command, 8);
+          forward += delta;
+          depth += (aim * delta);
+          cout << "\tForward: " << forward << ", Depth: " << depth << endl;
+          break;
+        case 'd': 
+          delta = util::getNumber(command, 5);
+          aim += delta;
+          cout << "\taim down: " << aim << endl;
+          break;
+        case 'u': 
+          delta = util::getNumber(command, 3);
+          aim -= delta;
+          cout << "\taim up: " << aim << endl;
+          break;
+      }
     }
-    bool result = reps >= p.range.first && reps <= p.range.second;
-    // cout << reps << "\t" << (result ? "valid" : "invalid") << endl;
-    return result;
-  }
-
-  bool checkPasswordValidity(const Policy &p, const string &pass) {
-    int reps = 0;
-    // cout << "Checking '" << pass << "' - letter " << p.letter << ". ";
-    // print(p.range); cout << ". Found: ";
-    if (pass[p.range.first - 1] == p.letter) ++reps;
-    if (pass[p.range.second - 1] == p.letter) ++reps;
-    bool result = reps == 1;
-    // cout << reps << "\t" << (result ? "valid" : "invalid") << endl;
-    return result;
-  }
-
-  pair<int,int> solveBoth() {
-    string rangeInput, letter, password;
-    int oldValid = 0, newValid = 0;
-    while(!std::cin.eof()) {
-      cin >> rangeInput;
-      if (std::cin.eof()) break; // In case there is an extra line
-      cin >> letter >> password;
-      Policy policy(parseRange(rangeInput), letter[0]);
-      if (checkOldPasswordValidity(policy, password))
-        ++oldValid;
-      if (checkPasswordValidity(policy, password))
-        ++newValid;
-    }
-    return std::make_pair(oldValid, newValid);
+    return forward * depth;
   }
 
   void solve(int part = 1) {
     using namespace std;
-    util::printPair(solveBoth(), false);
+    cout << "Solution: " << (part == 1 ? solve1() : solve2()) << endl;
   }
 
 }
