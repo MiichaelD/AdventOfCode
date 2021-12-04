@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <utility>
+#include <math.h>
 
 namespace util {
 
@@ -19,6 +20,26 @@ inline void printPair(const pair<T,T> &p, bool lineBreak=false) {
   if (lineBreak) {
     cout << endl;
   }
+}
+
+template<class T>
+inline void printVector(const vector<T> &container, bool lineBreak = false) {
+  cout << "[";
+  for (const T& element : container) {
+    cout << element << ", ";
+    if (lineBreak) cout << endl;
+  }
+  cout << ']' << endl;
+}
+
+inline int64_t binaryToDecimal(const string &str) {
+  int64_t result = 0;
+  size_t lastIndex = str.size() - 1;
+  for (int i = lastIndex; i >= 0; --i) {
+    int bit = str[i] - '0';
+    result += bit * pow(2, lastIndex - i);
+  }
+  return result;
 }
 
 // Gets the number from the string starting at the given index (or 0).
