@@ -105,27 +105,8 @@ static const size_t kBoardSize = 5;
 
 };
 
-uint64_t firstWinningBoard(const string &drawnNumbers, vector<Board> &boards) {
-  int index = 0;
-  while (true) {
-    int drawn = util::getNumberRef(drawnNumbers, index);
-    cout << "Numero: " << drawn << endl;
-    for (Board &board : boards) {
-      if (board.numberDrawn(drawn)) {
-        // Winning board.
-        cout << "\tWinner winner chicken dinner: " << board.sum << " * " << drawn << " = ";
-        uint64_t result = board.sum;
-        result *= drawn;
-        return result;
-      }
-    }
-    ++index; // Skip the current comma.
-  }
-  return 0;
-}
-
 pair<uint64_t, uint64_t> firstAndLastWinningBoards(
-  const string &drawnNumbers, vector<Board> &boards) {
+  const string &drawnNumbers, vector<Board> &boards, int part=1) {
   const size_t totalBoards = boards.size();
   pair<uint64_t, uint64_t> finalResult;
   int completedBoards = 0;
@@ -143,6 +124,9 @@ pair<uint64_t, uint64_t> firstAndLastWinningBoards(
         if (++completedBoards == 1) {
             // First winning board
             finalResult.first = result;
+            if (part == 1) {
+              return finalResult;
+            }
         } else if (completedBoards == totalBoards) {
             // Last winning board
             finalResult.second = result;
@@ -169,8 +153,7 @@ void solve(int part = 1) {
   }
   cout << "Boards loaded: " << boards.size() << endl;
   cout << "Se va y se corre con ..." << endl;
-  
-  util::printPair(firstAndLastWinningBoards(drawnNumbers, boards), true);
+  util::printPair(firstAndLastWinningBoards(drawnNumbers, boards, part), true);
 }
 
 };  // namespace aoc2021_04
