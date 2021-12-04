@@ -42,18 +42,22 @@ inline int64_t binaryToDecimal(const string &str) {
   return result;
 }
 
-// Gets the number from the string starting at the given index (or 0).
-int getNumber(const string &line, int index=0) {
+// Gets the number from the string starting at the given index (or 0) - updates index.
+int getNumberRef(const string &line, int &indexRef) {
   int accum = 0;
-  for (; index < line.size(); ++index) {
-    if (isdigit(line[index])) {
+  for (; indexRef < line.size(); ++indexRef) {
+    if (isdigit(line[indexRef])) {
       accum *= 10;
-      accum += line[index] - '0';
+      accum += line[indexRef] - '0';
     } else {
       break;
     }
   }
   return accum;
+}
+// Gets the number from the string starting at the given index (or 0).
+int getNumber(const string &line, int index=0) {
+  return getNumberRef(line, index);
 }
 
 // Gets number and advances the index reference.

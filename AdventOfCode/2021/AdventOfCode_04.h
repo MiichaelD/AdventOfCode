@@ -23,181 +23,154 @@
 namespace aoc2021_04 {
 using namespace std;
 
-static constexpr char kOptionalId[] = "cid:";
+static const size_t kBoardSize = 5;
 
-static const unordered_set<string> kIds = {
-    "byr:", "iyr:", "eyr:", "hgt:", "hcl:", "ecl:", "pid:", "cid:"};
+ struct Board {
+  vector<vector<int>> matrix;//(5, vector<int>(kBoardSize));
+  unordered_set<int> values, seenValues;
+  uint32_t sum = 0;
+  bool complete = false;
+  Board() { }
 
-vector<string> getLines() {
-  string line;
-  vector<string> lines;
-  stringstream ss;
-  while (!cin.eof()) {
-    getline(cin, line);
-    ss << line;
-    if (line.empty()) {
-      lines.push_back(ss.str());
-      // cout << "Passport: " << ss.str() << endl;
-      ss.str("");
-      ss.clear();
-    } else {
-      ss << ' ';
+  bool numberDrawn(int numberDrawn) {
+    if (complete) {
+      return false; // This board is complete.
     }
+    if (values.find(numberDrawn) == values.end()) {
+      return false; // Number not on the board.
+    }
+    seenValues.insert(numberDrawn);
+    sum -= numberDrawn;
+    return isCompleted();
   }
-  lines.push_back(ss.str());
-  // cout << "Passport: " << ss.str() << endl;
-  return lines;
-}
 
-bool hasValidPassportIds(const string &pass) {
-  // cout << "checking passport IDs: " << pass << endl;
-  unordered_set<string> passIds = kIds;
-  stringstream ss;
-  string id;
-  bool skipping = false;
-  for (int i = 0; i < pass.size(); ++i) {
-    if (skipping) {
-      if (pass[i] == ' ') {
-        skipping = false;
+  void print() {
+    cout << "Board w/ " << seenValues.size() << " seen values. Sum: " << sum << endl;
+    for (int i = 0; i < kBoardSize; ++i) {
+      for (int j = 0; j < kBoardSize; ++j) {
+        cout << matrix[i][j] << ", ";
       }
-      continue;
+      cout << endl;
     }
-    ss << pass[i];
-    if (pass[i] == ':') {
-      id = ss.str();
-      if (passIds.find(id) != passIds.end()) {
-        passIds.erase(id);
-        // cout << "\tfound: " << id << ". Ids left: " << passIds.size() <<
-        // endl;
-      }
-      ss.str("");
-      ss.clear();
-      skipping = true;
-    }
+    cout << endl;
   }
-  if (passIds.find(kOptionalId) != passIds.end()) {
-    passIds.erase(kOptionalId);
-  }
-  return passIds.empty();
-}
 
-inline bool isValueInRange(const string &value, int from, int to) {
-  int val = atoi(value.c_str());
-  return val >= from && val <= to;
-}
-
-bool isValidIdValue(const string &key, const string &value) {
-  // cout << "\t\tChecking: '" << key << "'\t'" << value << "'";
-  if (key == "byr:") {
-    return isValueInRange(value, 1920, 2002);
-  }
-  if (key == "iyr:") {
-    return isValueInRange(value, 2010, 2020);
-  }
-  if (key == "eyr:") {
-    return isValueInRange(value, 2020, 2030);
-  }
-  if (key == "hgt:") {
-    if (value[value.size() - 2] == 'i') {
-      return isValueInRange(value, 59, 76);
+  bool isCompleted() {
+    // This card was processed;
+    if (complete) {
+      return true;
     }
-    return value[value.size() - 2] == 'c' && isValueInRange(value, 150, 193);
-  }
-  if (key == "hcl:") {
-    if (value[0] != '#' || value.size() != 7) {
-      return false;
-    }
-    for (int i = 1; i < value.size(); ++i) {
-      if (!isxdigit(value[i])) {
-        return false;
-      }
-    }
-    return true;
-  }
-  if (key == "ecl:") {
-    static unordered_set<string> kValidEyeColors = {"amb", "blu", "brn", "gry",
-                                                    "grn", "hzl", "oth"};
-    return kValidEyeColors.find(value) != kValidEyeColors.end();
-  }
-  if (key == "pid:") {
-    if (value.size() != 9) {
-      return false;
-    }
-    for (int i = 0; i < value.size(); ++i) {
-      if (!isdigit(value[i])) {
-        return false;
-      }
-    }
-    return true;
-  }
-  return key == "cid:";
-}
-
-bool isValidPassport(const string &pass) {
-  // cout << "checking passport validity: " << pass << endl;
-  unordered_set<string> passIds = kIds;
-  stringstream ss;
-  string id;
-  bool skipping = false;
-  size_t validIdCount = 0;
-  for (int i = 0; i < pass.size(); ++i) {
-    if (skipping) {
-      if (isspace(pass[i])) {
-        skipping = false;
-        if (isValidIdValue(id, ss.str())) {
-          // cout << "\tValid" << endl;
-          ++validIdCount;
-        } else {
-          // cout << "\tINVALID - MOVING ON..." << endl;
-          return false;
+    // Check rows
+    for (int i = 0; i < kBoardSize; ++i) {
+      int valuesSeenInRow = 0;
+      for (int j = 0; j < kBoardSize; ++j) {
+        if (seenValues.find(matrix[i][j]) != seenValues.end()) {
+          ++valuesSeenInRow;
         }
-        ss.str("");
-        ss.clear();
-      } else {
-        ss << pass[i];
       }
-      continue;
-    }
-    ss << pass[i];
-    if (pass[i] == ':') {
-      id = ss.str();
-      if (passIds.find(id) == passIds.end()) {
-        return false;
+      if (valuesSeenInRow == kBoardSize) {
+        complete = true;
+        return true; // Row is complete.
       }
-        passIds.erase(id);
-      // cout << "\tfound: " << id << ". Ids left: " << passIds.size() << endl;
-      ss.str("");
-      ss.clear();
-      skipping = true;
     }
+    // Check columns
+    for (int j = 0; j < kBoardSize; ++j) {
+      int valuesSeenInCol = 0;
+      for (int i = 0; i < kBoardSize; ++i) {
+        if (seenValues.find(matrix[i][j]) != seenValues.end()) {
+          ++valuesSeenInCol;
+        }
+      }
+      if (valuesSeenInCol == kBoardSize) {
+        complete = true;
+        return true; // Column is complete.
+      }
+    }
+    return false;
   }
-  if (skipping && isValidIdValue(id, ss.str())) {
-    ++validIdCount;
+
+  static Board createBoard() {
+    Board board;
+    for (int i = 0; i < kBoardSize; ++i) {
+      board.matrix.push_back({0,0,0,0,0});
+      for (int j = 0; j < kBoardSize; ++j) {
+        cin >> board.matrix[i][j];
+        board.values.insert(board.matrix[i][j]);
+        board.sum += board.matrix[i][j];
+      }
+    }
+    if (board.sum) board.print();
+    return board;
   }
-  if (passIds.find(kOptionalId) != passIds.end()) {
-    ++validIdCount;
-    passIds.erase(kOptionalId);
+
+};
+
+uint64_t firstWinningBoard(const string &drawnNumbers, vector<Board> &boards) {
+  int index = 0;
+  while (true) {
+    int drawn = util::getNumberRef(drawnNumbers, index);
+    cout << "Numero: " << drawn << endl;
+    for (Board &board : boards) {
+      if (board.numberDrawn(drawn)) {
+        // Winning board.
+        cout << "\tWinner winner chicken dinner: " << board.sum << " * " << drawn << " = ";
+        uint64_t result = board.sum;
+        result *= drawn;
+        return result;
+      }
+    }
+    ++index; // Skip the current comma.
   }
-  return passIds.empty() && validIdCount == 8;
+  return 0;
+}
+
+pair<uint64_t, uint64_t> firstAndLastWinningBoards(
+  const string &drawnNumbers, vector<Board> &boards) {
+  const size_t totalBoards = boards.size();
+  pair<uint64_t, uint64_t> finalResult;
+  int completedBoards = 0;
+  int index = 0;
+  while (true) {
+    int drawn = util::getNumberRef(drawnNumbers, index);
+    cout << "Numero: " << drawn << endl;
+    for (Board &board : boards) {
+      if (board.numberDrawn(drawn)) {
+        // Winning board.
+        uint64_t result = board.sum;
+        result *= drawn;
+        cout << "\tWinner winner chicken dinner: " << board.sum << " * " << drawn;
+        cout << " = " << result << endl;
+        if (++completedBoards == 1) {
+            // First winning board
+            finalResult.first = result;
+        } else if (completedBoards == totalBoards) {
+            // Last winning board
+            finalResult.second = result;
+            return finalResult;
+        }
+      }
+    }
+    ++index; // Skip the current comma.
+  }
+  return {-1, -1}; // This shouldn't happen
 }
 
 void solve(int part = 1) {
-  vector<string> lines = getLines();
-  size_t valids = 0;
-  if (part == 1) {
-    for (const string &p : lines) {
-      if (hasValidPassportIds(p)) {
-        ++valids;
-      }
-    }
-  } else {
-    for (const string &p : lines) {
-      if (isValidPassport(p)) {
-        ++valids;
-      }
+  string drawnNumbers;
+  getline(cin, drawnNumbers);
+  cout << drawnNumbers << endl;
+  vector<Board> boards;
+  while (true) {
+    boards.emplace_back(Board::createBoard());
+    if (boards.back().sum == 0) {
+      boards.pop_back();
+      break;
     }
   }
-  cout << valids << endl;
+  cout << "Boards loaded: " << boards.size() << endl;
+  cout << "Se va y se corre con ..." << endl;
+  
+  util::printPair(firstAndLastWinningBoards(drawnNumbers, boards), true);
 }
 
 };  // namespace aoc2021_04
