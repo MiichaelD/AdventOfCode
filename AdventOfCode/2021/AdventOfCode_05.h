@@ -27,99 +27,81 @@
 namespace aoc2021_05 {  
 using namespace std;
 
+typedef pair<int,int> Point;
+typedef pair<Point,Point>  Line;
 
-class BiSearch {
-public:
-  BiSearch(size_t start, size_t end) {
-    reset(start, end);
-  }
-
-  void update(char c) {
-    // cout << "processing: "<< c<< endl;
-    size_t mid = (start + end) / 2;
-    if (c == 'F' || c == 'L') {
-      end = mid; 
-    } else if (c == 'B' || c == 'R') {
-      start = mid;
-    } else {
-      cout << "\tThis shouldn't happen" << endl;
-    }
-  }
-
-  void reset(size_t start, size_t end) {
-    this->start = start;
-    this->end = end;
-  }
-
-  size_t getResult() {
-    return start;
-  }
-
-  void print() {
-    cout << "Binary: " << start << " ==> " << end << endl;
-  }
-
-private:
-  // Start is inclusive, End is exclusive.
-  size_t start,end;  
-};
-
-pair<int,int> parseInput(const string &line) {
+Point getPoint(const string &input) {
   pair<int,int> result;
-  BiSearch seatSearch(0, 128);
-  for (int i = 0; i < 7; ++i) {
-    seatSearch.update(line[i]);
-
-  }
-  result.first = seatSearch.getResult();
-  seatSearch.reset(0, 8);
-  for (int i = 7; i < line.length(); ++i) {
-    seatSearch.update(line[i]);
-  }
-  result.second = seatSearch.getResult();
+  int index = 0;
+  result.first = util::getNumberRef(input, index);
+  result.second = util::getNumber(input, index + 1);
   return result;
 }
 
-inline size_t getSeatId(const pair<int,int> &seat) {
-  return seat.first * 8 + seat.second;
+inline bool IsHorizontal(const Line &line) {
+  return (line.first.second == line.second.second);
 }
 
-size_t getMissingSeat(const vector<bool> &seats, size_t maxSeatIndex) {
-  for (int i = 1; i <= maxSeatIndex; ++i) {
-    if (!seats[i] && seats[i - 1] && seats[i + 1]) {
-      return i;
-    }
-  }
-  return 0;
+inline bool IsVertical(const Line &line) {
+  return (line.first.first == line.second.first);
 }
 
-inline void printSeatPosition(size_t seatId) {
-  cout << " @ [" << seatId / 8 << "," << seatId % 8 << "]" << endl;
+inline bool IsDiagonal(const Line &line) {
+  return !IsHorizontal(line) && !IsVertical(line);
 }
 
 void solve(int part = 1) {
-  string line;
-  size_t maxSeatId = 0;
-  vector<bool> seats(128*8);
+  string point1, point2, aux;
+  vector<Line> lines;
+  unordered_map<Point, int, util::pair_hash> overlapPerPoint;
   while (!cin.eof()) {
-    getline(cin, line);
-    if (line.empty()) {
-      break;
+    cin >> point1 >> aux >> point2;
+    Line line;
+    line.first = getPoint(point1);
+    line.second = getPoint(point2);
+    lines.push_back(line);
+    cout << "Line: "; util::printPair(line.first); cout << ", "; util::printPair(line.second);
+    if (IsHorizontal(line)) {
+      cout << " Horizontal:" << endl;
+      Point *a, *b;
+      if (line.first.first < line.second.first) {
+        a = &line.first;
+        b = &line.second;
+      } else {
+        a = &line.second;
+        b = &line.first;
+      }
+      for (int i = a->first; i <= b->first ; ++i) {
+        cout << "\tVisited point: " << i << ", " << a->second << " : " <<
+             ++overlapPerPoint[{i, a->second}];
+        cout << " times" << endl;
+      }
+    } else if (IsVertical(line)) {
+      cout << " Vertical:" << endl;
+      Point *a, *b;
+      if (line.first.second < line.second.second) {
+        a = &line.first;
+        b = &line.second;
+      } else {
+        a = &line.second;
+        b = &line.first;
+      }
+      for (int i = a->second; i <= b->second ; ++i) {
+        cout << "\tVisited point: " << a->first << ", " << i << " : " <<
+            ++overlapPerPoint[{a->first, i}];
+        cout << " times" << endl;
+      }
+    } else {
+      cout << "Skipped." << endl;
     }
-
-    pair<int,int> seat = parseInput(line);
-    size_t seatId = getSeatId(seat);
-    seats[seatId] = true;
-
-    if (seatId > maxSeatId) {
-      maxSeatId = seatId;
-    }
-    // util::printPair(seat); cout << "Seat ID: " << seatId << endl;
   }
-  cout << "Part 1 - Max seat ID: " << maxSeatId; printSeatPosition(maxSeatId);
-
-  size_t mySeatId = getMissingSeat(seats, maxSeatId);
-  cout << "Part 2 - My seat ID:  " << mySeatId; printSeatPosition(mySeatId);
+  int totalPointsWithOverlap = 0;
+  for (const auto &entry : overlapPerPoint) {
+    if (entry.second > 1) {
+      ++totalPointsWithOverlap;
+    }
+  }
+  cout << "Total Points w/ Overlap: " << totalPointsWithOverlap << endl;
 }
 
 };

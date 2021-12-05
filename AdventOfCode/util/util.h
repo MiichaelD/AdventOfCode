@@ -13,6 +13,15 @@ namespace util {
 using namespace std;
 
 
+struct pair_hash {
+  template <class T1, class T2>
+  std::size_t operator () (std::pair<T1,T2> const &p) const {
+    std::size_t h1 = std::hash<T1>()(p.first);
+    std::size_t h2 = std::hash<T2>()(p.second);
+    return h1 ^ h2;
+  }
+};
+
 // Common utils for daily problems
 template<class T>
 inline void printPair(const pair<T,T> &p, bool lineBreak=false) {
