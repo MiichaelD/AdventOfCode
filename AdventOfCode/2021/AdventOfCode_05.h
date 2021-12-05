@@ -61,64 +61,34 @@ void solve(int part = 1) {
     line.second = getPoint(point2);
     lines.push_back(line);
     cout << "Line: "; util::printPair(line.first); cout << ", "; util::printPair(line.second);
+    int steps = 0, horizontalDelta = 0, verticalDelta = 0;
     if (IsHorizontal(line)) {
       cout << " Horizontal:" << endl;
-      Point *a, *b;
-      if (line.first.first < line.second.first) {
-        a = &line.first; b = &line.second;
-      } else {
-        a = &line.second; b = &line.first;
-      }
-      for (int i = a->first; i <= b->first ; ++i) {
-        cout << "\tVisited point: " << i << ", " << a->second << " : " <<
-             ++overlapPerPoint[{i, a->second}];
-        cout << " times" << endl;
-      }
+      steps = abs(line.first.first - line.second.first);
+      horizontalDelta = line.first.first > line.second.first ? -1 : 1;
+     
     } else if (IsVertical(line)) {
       cout << " Vertical:" << endl;
-      Point *a, *b;
-      if (line.first.second < line.second.second) {
-        a = &line.first;  b = &line.second;
-      } else {
-        a = &line.second; b = &line.first;
-      }
-      for (int i = a->second; i <= b->second ; ++i) {
-        cout << "\tVisited point: " << a->first << ", " << i << " : " <<
-            ++overlapPerPoint[{a->first, i}];
-        cout << " times" << endl;
-      }
+      steps = abs(line.first.second - line.second.second);
+      verticalDelta = line.first.second > line.second.second ? -1 : 1;
     } else {
       if (part == 1) {
         cout << "Skipped." << endl;
         continue;
       }
       cout << " Diagonal: " << endl;
-      // Point *ah, *bh;
-      // if (line.first.first < line.second.first) {
-      //   ah = &line.first; bh = &line.second;
-      // } else {
-      //   ah = &line.second; bh = &line.first;
-      // }
-      // Point *av, *bv;
-      // if (line.first.second < line.second.second) {
-      //   av = &line.first;  bv = &line.second;
-      // } else {
-      //   av = &line.second; bv = &line.first;
-      // }
-      int steps = abs(line.first.first - line.second.first);
-      int x1 = line.first.first;
-      int y1 = line.first.second;
-      int x2 = line.second.first;
-      int y2 = line.second.second;
-      int horizontalDelta = x1 > x2 ? -1 : 1;
-      int verticalDelta = y1 > y2 ? -1 : 1;
-      for (int i = 0; i <= steps; ++i) {
-        cout << "\tVisited point: " << x1 << ", " << y1 << " : " <<
-            ++overlapPerPoint[{x1, y1}];
-        cout << " times" << endl;
-        x1 += horizontalDelta;
-        y1 += verticalDelta;
-      }
+      steps = abs(line.first.second - line.second.second);
+      horizontalDelta = line.first.first > line.second.first ? -1 : 1;
+      verticalDelta = line.first.second > line.second.second ? -1 : 1;
+    }
+    int x1 = line.first.first;
+    int y1 = line.first.second;
+    for (int i = 0; i <= steps; ++i) {
+      cout << "\tVisited point: " << x1 << ", " << y1 << " : " <<
+          ++overlapPerPoint[{x1, y1}];
+      cout << " times" << endl;
+      x1 += horizontalDelta;
+      y1 += verticalDelta;
     }
   }
   int totalPointsWithOverlap = 0;
