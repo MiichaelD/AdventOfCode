@@ -31,16 +31,15 @@ const int kWaitPerCreation = 7;
 const int kInitialWaitPerCreation = kWaitPerCreation + 1;
 const vector<int> daysOfInterest = {18, 80, 256};
 
-size_t SimulateLanternFishesDay(
-  vector<int> lanternFishes, int days) {
+size_t SimulateLanternFishesDay(const vector<int> &lanternFishes, int days) {
   uint64_t totalLF;
   vector<uint64_t> fishesPerDay(10, 0);
-  for (int lfi = 0; lfi < lanternFishes.size(); ++lfi) {
-    ++fishesPerDay[lanternFishes[lfi]];
+  for (int fishPeriod : lanternFishes) {
+    ++fishesPerDay[fishPeriod];
   }
-  for (int iteration = 0; iteration <= days; ++iteration) {
-    bool interest = (iteration == daysOfInterest[0] || iteration == daysOfInterest[1] || iteration == daysOfInterest[2]);
-    if (interest) cout << "Day " << iteration << ":\t";
+  for (int day = 0; day <= days; ++day) {
+    bool interest = (day == daysOfInterest[0] || day == daysOfInterest[1] || day == daysOfInterest[2]);
+    if (interest) cout << endl << "Day " << day << ":\t";
     uint64_t previousZero = fishesPerDay[0];
     totalLF = previousZero;
     for (int i = 1; i < fishesPerDay.size(); ++i) {
@@ -53,7 +52,7 @@ size_t SimulateLanternFishesDay(
       fishesPerDay[8] = previousZero;
       if (interest) cout << previousZero <<  " x '0', ";
     }
-    if (interest) cout << endl << "Total Lantern Fishes in " << iteration << " days: " << totalLF << endl << endl;
+    if (interest) cout << endl << "Total Lantern Fishes in " << day << " days: " << totalLF << endl;
   }
   return totalLF;
 }
@@ -67,9 +66,8 @@ void solve(int part = 1) {
     counters.push_back(n);
   }
   cout << "Initial state:\t";
-  util::printVector(counters); cout << endl;
+  util::printVector(counters);
   SimulateLanternFishesDay(counters, part == 1 ? 80 : 256);
-  cout << "0" << endl;
 }
 
 };
