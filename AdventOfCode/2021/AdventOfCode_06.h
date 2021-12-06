@@ -27,43 +27,49 @@
 namespace aoc2021_06 {  
 using namespace std;
 
-vector<vector<string>> getLines() {
-  string line;
-  vector<vector<string>> lines;
-  stringstream ss;
-  lines.push_back({});
-  while (!cin.eof()) {
-    getline(cin, line);
-    if (line.empty()) {
-      lines.push_back({});
-    } else {
-      lines.back().push_back(line);
+const int kWaitPerCreation = 7;
+const int kInitialWaitPerCreation = kWaitPerCreation + 1;
+const vector<int> daysOfInterest = {18, 80, 256};
+
+size_t SimulateLanternFishesDay(
+  vector<int> lanternFishes, int days) {
+  uint64_t totalLF;
+  vector<uint64_t> fishesPerDay(10, 0);
+  for (int lfi = 0; lfi < lanternFishes.size(); ++lfi) {
+    ++fishesPerDay[lanternFishes[lfi]];
+  }
+  for (int iteration = 0; iteration <= days; ++iteration) {
+    bool interest = (iteration == daysOfInterest[0] || iteration == daysOfInterest[1] || iteration == daysOfInterest[2]);
+    if (interest) cout << "Day " << iteration << ":\t";
+    uint64_t previousZero = fishesPerDay[0];
+    totalLF = previousZero;
+    for (int i = 1; i < fishesPerDay.size(); ++i) {
+      totalLF += fishesPerDay[i];
+      fishesPerDay[i - 1] = fishesPerDay[i];
+      if (interest && fishesPerDay[i]) cout << fishesPerDay[i] <<  " x '" << i <<  "', ";
     }
+    if (previousZero) {
+      fishesPerDay[6] += previousZero;
+      fishesPerDay[8] = previousZero;
+      if (interest) cout << previousZero <<  " x '0', ";
+    }
+    if (interest) cout << endl << "Total Lantern Fishes in " << iteration << " days: " << totalLF << endl << endl;
   }
-  if (lines.back().empty()) {
-    lines.pop_back();
-  }
-  return lines;
+  return totalLF;
 }
 
 void solve(int part = 1) {
-  size_t diffAnswers = 0, commonAnswersInGroup = 0;
-  for (const vector<string> &groupAnswers : getLines()) {
-    unordered_map<char,int> answerReps;
-    for (const string &answers : groupAnswers) {
-      for (char c : answers) {
-        ++answerReps[c];
-      }
-    }
-    for (const auto &entry : answerReps) {
-      ++diffAnswers;
-      if (entry.second == groupAnswers.size()) {
-        ++commonAnswersInGroup;
-      }
-    }
+  string input;
+  cin >> input;
+  vector<int> counters;
+  for (int index = 0; index < input.length(); ++index) {
+    int n = util::getNumberRef(input, index);
+    counters.push_back(n);
   }
-  cout << "Part 1 - Total different answers: " << diffAnswers << endl;
-  cout << "Part 2 - Group's common answers:  " << commonAnswersInGroup << endl;
+  cout << "Initial state:\t";
+  util::printVector(counters); cout << endl;
+  SimulateLanternFishesDay(counters, part == 1 ? 80 : 256);
+  cout << "0" << endl;
 }
 
 };
