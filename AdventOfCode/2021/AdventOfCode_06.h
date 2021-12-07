@@ -2,7 +2,7 @@
   Link:         http://adventofcode.com/2020/day/X
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/06/2020
+  Date:         12/05/2021
 */
 
 #ifndef _2021_ADVENTOFCODE_06_H_
