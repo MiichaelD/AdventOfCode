@@ -38,7 +38,8 @@ inline void printVector(const vector<T> &container, bool lineBreak = false) {
     cout << element << ", ";
     if (lineBreak) cout << endl;
   }
-  cout << ']' << endl;
+  cout << ']';
+  if (lineBreak) cout << endl;
 }
 
 inline int64_t binaryToDecimal(const string &str) {
