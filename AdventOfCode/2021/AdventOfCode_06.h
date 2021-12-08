@@ -1,5 +1,5 @@
 /*
-  Link:         http://adventofcode.com/2020/day/X
+  Link:         http://adventofcode.com/2021/day/6
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
   Date:         12/05/2021

@@ -1,8 +1,8 @@
 /*
-  Link:         http://adventofcode.com/2020/day/08
+  Link:         http://adventofcode.com/2021/day/8
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/08/2021
+  Date:         12/07/2021
 */
 
 #ifndef _2021_ADVENTOFCODE_08_H_
