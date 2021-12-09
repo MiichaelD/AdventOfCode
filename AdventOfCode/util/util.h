@@ -22,6 +22,18 @@ struct pair_hash {
   }
 };
 
+struct vector_size_hash {
+  template <class T1, class T2>
+  bool operator () (const std::vector<T1>& a, const std::vector<T2>& b) {
+    return a.size() < b.size();
+  }
+};
+
+template <class T1, class T2>
+bool vector_size_predicate(const std::vector<T1>& a, const std::vector<T2>& b) {
+    return a.size() > b.size();
+}
+
 // Common utils for daily problems
 template<class T>
 inline void printPair(const pair<T,T> &p, bool lineBreak=false) {

@@ -27,87 +27,122 @@
 namespace aoc2021_09 {
 using namespace std;
 
-size_t preamble = 5;
-
-vector<unsigned long long> getNumbers() {
-  unsigned long long n;
-  vector<unsigned long long> numbers;
-  stringstream ss;
-  while (!cin.eof()) {
-    cin >> n;
-    numbers.push_back(n);
+int getMinPointsSum(const vector<int> &mins) {
+  int result = 0;
+  for (int val : mins) {
+    result += val + 1;
   }
-  return numbers;
+  return result;
 }
 
-pair<int,int> findNumbersAddingUpTo(
-    const vector<unsigned long long> numbers, int index) {
-  for (size_t i = index - preamble; i <= index; ++i) {
-    int n = numbers[i];
-    // cout << "\ti = " << n << endl;
-    for (size_t j = i + 1; j <= index; ++j) {
-      // cout << "\t\tj = " << numbers[j] << endl;
-      if (n + numbers[j] == numbers[index]) {
-        // cout << "Found pair adding up to " << numbers[index] << ". i:"
-        //     << numbers[i] << ", j: " << numbers[j] << endl; 
-        return make_pair(n, numbers[j]);
+int top = 0;
+int left = 1;
+int bottom = 2;
+int right = 3;
+void fillBasins(
+  vector<int> &result,
+  unordered_set<pair<int,int>, util::pair_hash> &seen,
+  const vector<vector<int>> &values, int i, int j) {
+  int min = values[i][j];
+  pair<int,int> point = {i, j};
+  if (seen.find(point) != seen.end()) {
+    // this point was seen before.
+    return;
+  }
+  seen.insert(point);
+  result.push_back(min);
+  // cout << "Trying " << min << endl;
+  if (i > 0 && values[i-1][j] >= min && values[i-1][j] != 9) { // top
+    // result.push_back(values[i-1][j]);
+    fillBasins(result, seen, values, i-1, j);
+  }
+  // cout << "\tleft" << endl;
+  if (j > 0 && values[i][j-1] >= min && values[i][j-1] != 9) { // left
+    // result.push_back(values[i][j-1]);
+    fillBasins(result, seen, values, i, j-1);
+  }
+  // cout << "\tBottom" << endl;
+  if (i < (values.size() - 1) && values[i+1][j] >= min && values[i+1][j] != 9) { // bottom
+    // result.push_back(values[i+1][j]);
+    fillBasins(result, seen, values, i+1, j);
+  }
+  // cout << "\tRight" << endl;
+  if (j < (values[i].size() - 1) && values[i][j+1]>= min && values[i][j+1] != 9) { // bottom
+    // result.push_back(values[i][j+1]);
+    fillBasins(result, seen, values, i, j+1);
+  }
+  // cout << "\tThis is part of a basin: " << min << endl;
+}
+
+pair<vector<int>, vector<vector<int>>> getMinPoints(const vector<vector<int>> &values) {
+  vector<int> mins;
+  vector<vector<int>> basins;
+  for (int i = 0; i < values.size(); ++i) {
+    for (int j = 0; j < values[i].size(); ++j) {
+      int value = values[i][j];
+      // cout << "Trying " << value << " top" << endl;
+      if (i > 0 && values[i-1][j] <= value) { // top
+        continue;
       }
+      // cout << "\tleft" << endl;
+      if (j > 0 && values[i][j-1] <= value) { // left
+        continue;
+      }
+      // cout << "\tBottom" << endl;
+      if (i < (values.size() - 1) && values[i+1][j] <= value) { // bottom
+        continue;
+      }
+      // cout << "\tRight" << endl;
+      if (j < (values[i].size() - 1) && values[i][j+1] <= value) { // right
+        continue;
+      }
+      // cout << "\t\tThis is a good one: " << value << endl;
+      mins.push_back(value);
+      vector<int> basin;
+      unordered_set<pair<int,int>, util::pair_hash> seen;
+      fillBasins(basin, seen, values, i, j);
+      basins.push_back(basin);
     }
+    // cout << endl;
   }
-  return make_pair(-1, -1);
-}
-
-size_t findFirstNumberIndexNotAddingUp(
-    const vector<unsigned long long> numbers) {
-  for (size_t i = preamble; i < numbers.size(); ++i) {
-    // cout << "Trying to find numbers adding to " << numbers[i] << endl;
-    pair<int,int> p = findNumbersAddingUpTo(numbers, i);
-    if (p.first == -1 || p.second == -1) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-pair<unsigned long long, unsigned long long> getMinAndMaxFromRange(
-    const vector<unsigned long long> numbers,
-    unsigned long long  i,
-    unsigned long long  j) {
-  unsigned long long minimum = SIZE_MAX, maximum = 0;
-  for (;i <= j; ++i) {
-    minimum = min(minimum, numbers[i]);
-    maximum = max(maximum, numbers[i]);
-  }
-  return make_pair(minimum, maximum);
-}
-
-pair<unsigned long long, unsigned long long> setRangeToInvalidNumber(
-    const vector<unsigned long long> numbers, size_t invalidIndex) {
-  unsigned long long target = numbers[invalidIndex];
-  unsigned long long i = 0, j = 1, result = numbers[i] + numbers[j];
-  while (true) {
-    if (result == target) {
-      return getMinAndMaxFromRange(numbers, i, j);
-    }
-    if (result > target) {
-      result -= numbers[i];
-      ++i;
-    } else {
-      result += numbers[++j];
-    }
-  }
-  return make_pair(0, 0);
+  sort(basins.begin(), basins.end(), 
+      [](const vector<int>& a, const vector<int>& b) {
+          return a.size() > b.size();
+      }
+  );
+  return {mins, basins};
 }
 
 void solve(int part = 1) {
-  preamble = 25;
-  vector<unsigned long long> numbers = getNumbers();
-  size_t invalidNumberIndex = findFirstNumberIndexNotAddingUp(numbers);
-  cout << "Part 1 - Invalid number: " << numbers[invalidNumberIndex]  << endl;
-  pair<unsigned long long, unsigned long long> minAndMaxInSet =
-      setRangeToInvalidNumber(numbers, invalidNumberIndex);
-  cout << "Part 2 - min & max: "; util::printPair(minAndMaxInSet);
-  cout << "Adds up: " << (minAndMaxInSet.first + minAndMaxInSet.second) << endl;
+  vector<vector<int>> values;
+  int lowest = 0, highest = 9;
+  while(!cin.eof()) {
+    string line;
+    cin >> line;
+    vector<int> vi;
+    for (char c : line) { 
+      cout << c;
+      int val = c - '0';
+      vi.push_back(val);
+    }
+    values.push_back(vi);
+    cout << endl;
+  }
+  pair<vector<int>, vector<vector<int>>> minPoints = getMinPoints(values);
+  // cout << "Total Basins: " << minPoints.second.size() << endl;
+  // for (vector<int> &basin : minPoints.second) {
+  //   sort(basin.begin(), basin.end());
+  //   cout << endl << "Bassin size: " << basin.size() << ". " << endl << "\t";
+  //   util::printVector(basin);
+  // }
+
+  size_t part2 = 1;
+  for (int i = 0; i < 3; ++i) {
+    part2 *= minPoints.second[i].size();
+  }
+  cout << "Total min spots: " << minPoints.first.size() << endl;
+  cout << "Part 1 - Sum of min spots: " << getMinPointsSum(minPoints.first) << endl;
+  cout << "Part 2 - Multiplying the 3 largest basin's sizes: " << part2 << endl;
 }
 
 };  // aoc2021_09
