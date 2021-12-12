@@ -1,8 +1,8 @@
 /*
-  Link:         http://adventofcode.com/2020/day/12
+  Link:         http://adventofcode.com/2021/day/12
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/12/2020
+  Date:         12/12/2021
 */
 
 #ifndef _2021_ADVENTOFCODE_12_H_
@@ -29,168 +29,183 @@ using namespace std;
 
 typedef long long int lli;
 
-constexpr char F = 'F';
-constexpr char N = 'N';
-constexpr char S = 'S';
-constexpr char E = 'E';
-constexpr char W = 'W';
-constexpr char L = 'L';
-constexpr char R = 'R';
+const char *kStart = "start";
+const char *kEnd = "end";
 
-class Navigator {
-private:
-  bool rotateLeft(int val=90) {
-    size_t times = val / 90;
-    cout << "Rotating left " << times << " times, now facing: '";  
-    for (size_t i = 0 ; i < times; ++i) {
-      switch(direction) {
-        case E: direction = N; break;
-        case N: direction = L; break;
-        case L: direction = S; break;
-        case S: direction = E; break;
-        default: cout << "This shouldn't happen." << endl; return false;
-      }
-    }
-    cout << direction << "'\t";
-    return true;
-  }
-  
-  bool rotateRight(int val=90) {
-    size_t times = val / 90;
-    cout << "Rotating right " << times << " times, now facing: '";
-    for (size_t i = 0 ; i < times; ++i) {
-      switch(direction) {
-        case E: direction = S; break;
-        case S: direction = L; break;
-        case L: direction = N; break;
-        case N: direction = E; break;
-        default: cout << "This shouldn't happen." << endl; return false;
-      }
-    }
-    cout << direction << "'\t";
-    return true;
-  }
-
-  bool forward(int val) {
-    switch(direction) {
-      case E: cout << "Moving E \t"; coordinates.first += val; break;
-      case N: cout << "Moving N \t"; coordinates.second -= val; break;
-      case L: cout << "Moving L \t"; coordinates.first -= val; break;
-      case S: cout << "Moving S \t"; coordinates.second += val; break;
-      default: cout << "This shouldn't happen." << endl; return false;
-    }
-    return true;
-  }
-
-  vector<string> getCommands() {
-    string line;
-    vector<string> lines;
-    while(!cin.eof()) {
-      cin >> line;
-      lines.push_back(line); 
-    }
-    return lines;
-  }
-
-  bool rotateWaypointLeft(int val=90) {
-    size_t times = val / 90;
-    cout << "Rotating left " << times << " times, now facing: '";  
-    for (size_t i = 0 ; i < times; ++i) {
-      lli aux = waypoint.first;
-      waypoint.first = waypoint.second;
-      waypoint.second = -aux;
-    }
-    cout << direction << "'\t";
-    return true;
-  }
-  
-  bool rotateWaypointRight(int val=90) {
-    size_t times = val / 90;
-    cout << "Rotating right " << times << " times, now facing: '";
-    for (size_t i = 0 ; i < times; ++i) {
-      lli aux = waypoint.first;
-      waypoint.first = -waypoint.second;
-      waypoint.second = aux;
-    }
-    cout << direction << "'\t";
-    return true;
-  }
-
-  bool forwardWaypoint(int val) {
-    coordinates.first += waypoint.first * val;
-    coordinates.second += waypoint.second * val;
-    return true;
-  }
-
-  pair<lli,lli> coordinates;
-  char direction;
-  pair<lli,lli> waypoint;
-  bool hasWaypoint;
-
+class Node {
 public:
-  Navigator() : coordinates{make_pair(0, 0)}, direction{E}, hasWaypoint{false} {}
-
-  void setWaypoint(const pair<lli,lli> *coords) {
-    if (coords == nullptr) {
-      hasWaypoint = false;
-      return;
-    }
-    waypoint = *coords;
-    hasWaypoint = true;
+  Node(const string &name) : name_{name}, isStartEnd{name == kStart || name == kEnd} {
+    // if (isStartEnd) cout << "Found a start/end node: " << name << endl;
   }
 
-  bool processInput(char cmd, int val) {
-    bool result = true;
-    cout << "Processing: '" << cmd << "'' x '" << val << "'\t";
-    pair<lli,lli> &coords = hasWaypoint ? waypoint : coordinates;
-    switch(cmd) {
-      case F: result = hasWaypoint ? forwardWaypoint(val) : forward(val); break;
-      case N: coords.second -= val; break;
-      case S: coords.second += val; break;
-      case E: coords.first += val; break;
-      case W: coords.first -= val; break;
-      case L: result = hasWaypoint ? rotateWaypointLeft(val) : rotateLeft(val); break;
-      case R: result = hasWaypoint ? rotateWaypointRight(val) : rotateRight(val); break;
-      default: cout << "This shouldn't happen." << endl;  return false;
+  inline bool isBigCave() const { // Big caves have uppercase names.
+    return name_[0] >= 'A' && name_[0] <= 'Z';
+  }
+
+  inline bool canBeRevisited(int part = 1) const { // Whether the cave can be revisited.
+    if (part == 1) return isBigCave();
+    return isBigCave() || (!isStartEnd && visits < 2);
+  }
+
+  void addAdjacent(Node *adjacent) {
+    adjacent_.push_back(adjacent);
+  }
+
+  void print() const {
+    cout << "Node " << name_ << " has " << adjacent_.size() << " adjacent nodes." << endl;
+  }
+  
+  inline const string& getName() {return name_;}
+
+  inline int markVisited(bool visited) {return visited? ++visits : --visits;}
+
+  inline int getVisitedCount() const {return visits;}
+
+  inline bool isSmallRevisit() const {
+    return !isBigCave() && !isStartEnd && visits;
+  }
+
+  vector<Node*>& getAdjacents() {
+    return adjacent_;
+  }
+
+private:
+  vector<Node*> adjacent_;
+  int visits = 0;
+  string name_;
+  bool isStartEnd = false;
+};
+
+class Graph {
+public:
+  Graph() {}
+
+  inline bool contains(const string &nodeName) const {
+    return allNodes.find(nodeName) != allNodes.end();
+  }
+
+  inline Node* get(const string &nodeName) const {
+    auto it = allNodes.find(nodeName);
+    return (it != allNodes.end()) ? it->second : nullptr;
+  }
+
+  inline Node* getOrAdd(const string &nodeName) {
+    Node *result = get(nodeName);
+    if (result == nullptr) {
+      Node *newNode = new Node(nodeName);
+      allNodes[nodeName] = newNode;
+      // cout << "\tAdded new node: " << nodeName << endl;
+      return newNode;
     }
-    if (hasWaypoint) {
-      util::printPair(coordinates);
-      cout << ". Waypoint: ";
-      util::printPair(waypoint, true);
-    } else {
-      util::printPair(coordinates, true); 
-    }
+    // cout << "\tFound node: " << nodeName << endl;
     return result;
   }
 
-  bool processInput() {
-    vector<string> lines = getCommands();
-    for (const string &str : lines) {
-      char cmd = str[0];
-      int val = atoi(&str.c_str()[1]);
-      if (!processInput(cmd, val)) {
-        cout << "ERROR" << endl; return false; 
+  void addNodes(const string &nodeA, const string &nodeB) {
+    cout << "Nodes: `" << nodeA << "` & `" << nodeB << '`' << endl;
+    Node *a = getOrAdd(nodeA);
+    Node *b = getOrAdd(nodeB);
+    a->addAdjacent(b);
+    b->addAdjacent(a);
+    if (startNode == nullptr) {
+      if (nodeA == "start") {
+        startNode = a;
+      } else if (nodeB == "start") {
+        startNode = b;
       }
     }
-    cout << "Navigator's Manhattan Distance: "; util::printPair(coordinates);
-    cout << "Added: " << (abs(coordinates.first) + abs(coordinates.second)) << endl;
-    return true;
+    if (endNode == nullptr) {
+      if (nodeA == "end") {
+        endNode = a;
+      } else if (nodeB == "end") {
+        endNode = b;
+      }
+    }
   }
 
-  pair<lli,lli> getManhattanDistance() const {
-    return coordinates;
+  void print() const {
+    cout << "Graph contains: " << allNodes.size() << " Nodes." << endl;
+    for (const auto &entry : allNodes) {
+      cout << "\t"; entry.second->print();
+    }
+    cout << endl;
   }
+
+private:
+  Node* startNode = nullptr;
+  Node* endNode = nullptr;
+  unordered_map<string,Node*> allNodes;
 };
 
-void solve(int part = 1) {
-  Navigator navigator;
-  if (part == 1) {
-    navigator.processInput();
-  } else {
-    pair<lli,lli> waypoint(10, -1);
-    navigator.setWaypoint(&waypoint);
-    navigator.processInput();
+Graph processInput() {
+  Graph graph;
+  stringstream ss;
+  string line;
+  size_t pos;
+  while(!cin.eof()) {
+    cin >> line;
+    if ((pos = line.find('-')) != string::npos) {
+      string nodeA = line.substr(0, pos++);
+      string nodeB = line.substr(pos, line.size());
+      graph.addNodes(nodeA, nodeB);
+    }
   }
+  return graph;
+}
+
+void computePaths(
+  vector<vector<string>> &result, vector<string> &currentPath, unordered_set<string> &visited,
+  Node *current, Node *goal, int part = 1) {
+  if (current == goal) {
+    currentPath.push_back(current->getName());
+    result.push_back(currentPath);
+    currentPath.pop_back();
+    return;
+  }
+  current->markVisited(true);
+  currentPath.push_back(current->getName());
+  visited.insert(current->getName());
+  for (Node *adjacent : current->getAdjacents()) {
+    if (!visited.contains(adjacent->getName()) || adjacent->canBeRevisited(part)) {
+      // Small cave revisits can only be done 1 per path, switch to part 1 once consumed.
+      computePaths(result, currentPath, visited, adjacent, goal,
+                   part != 1 && adjacent->isSmallRevisit() ? 1 : part);
+    }
+  }
+  currentPath.pop_back();
+  if (!current->markVisited(false)) {
+    visited.erase(current->getName());
+  }
+}
+
+vector<vector<string>> getAllPaths(Graph &graph, int part = 1) {
+  vector<vector<string>> result;
+  Node *start = graph.get(kStart);
+  unordered_set<string> visited;
+  vector<string> path;
+  visited.insert(kStart);
+  path.push_back(kStart);
+  start->markVisited(true);
+  for (Node *adjacent : start->getAdjacents()) {
+    computePaths(result, path, visited, adjacent, graph.get(kEnd), part);
+  }
+  if (start->markVisited(false)) {
+    visited.erase(kStart);
+  }
+  path.pop_back();
+  
+  return result;
+}
+
+void solve(int part = 1) {
+  Graph graph = processInput();
+  graph.print();
+  vector<vector<string>> allPaths = getAllPaths(graph, part);
+  for (const vector<string> &path : allPaths) {
+    util::printVector(path);
+    cout << endl;
+  }
+  cout << "Part " << part << ": There are " << allPaths.size() << " total paths."<< endl; 
 }
 
 };  // aoc2021_12
