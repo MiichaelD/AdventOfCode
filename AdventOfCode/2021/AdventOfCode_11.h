@@ -2,7 +2,7 @@
   Link:         http://adventofcode.com/2020/day/11
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/11/2020
+  Date:         12/11/2021
 */
 
 #ifndef _2021_ADVENTOFCODE_11_H_
@@ -27,65 +27,70 @@
 namespace aoc2021_11 {
 using namespace std;
 
-constexpr char kAvailable = 'L';
-constexpr char kOccupied = '#';
-constexpr char kFloor = '.';
 
 class Cell {
 public:
- Cell(char c) : currentState{c}, futureState{c} { }
+ Cell(int c = 0) : currentState{c}, futureState{c} { }
 
+ // Returns whether the cell flashed.
  inline bool commit() {
-   bool result = currentState != futureState;
-   currentState = futureState;
+   bool result = flashed;
+   currentState = flashed ? 0 : futureState;
+   futureState = currentState;
+   flashed = false;  // Reset flash state.
    return result;
  }
 
- inline char getValue() const {
+ inline int getValue() const {
    return currentState;
  }
 
- inline void setValue(char state) {
+ inline void setValue(int state) {
    futureState = state;
  }
 
- inline int isAvailableNum() const {
-   return isAvailable() ? 1 : 0;
+ // Returns whether the cell flashed or not.
+ inline bool onTick() {
+   // Increment future state by one
+   if (++futureState == 10) {
+      flashed = true;
+      return true;
+   };
+   return false;
  }
 
- inline bool isAvailable() const {
-   return currentState == kAvailable;
- }
-
- inline bool isOccupied() const {
-   return currentState == kOccupied;
- }
-
- inline bool isFloorTile() const {
-   return currentState == kFloor;
+ inline bool onNeighborFlash() {
+   return onTick();
  }
 
 private:
-  char futureState = kFloor;
-  char currentState = kFloor;
+  int futureState = 0;
+  int currentState = 0;
+  bool flashed = false;
 };
 
 typedef vector<vector<Cell>> Matrix;
+const size_t kMatrixSize = 10;
 
 class GameOfLife {
 
 public:
-  GameOfLife() : run{false} {
-    string word;
+  GameOfLife() : run{false}, maxY{kMatrixSize}, maxX{kMatrixSize}, totalFlashes {0} {
+    int num = 0;
+    string line;
     while(!cin.eof()) {
-      cin >> word;
-      grid.emplace_back(vector<Cell>(word.size(), Cell(kFloor)));
-      for (int i = 0 ; i < word.size(); ++i) {
-        grid.back()[i].setValue(word[i]);
+      grid.reserve(kMatrixSize);
+      for (int i = 0; i < kMatrixSize; ++i) {
+        grid.emplace_back(vector<Cell>(kMatrixSize));
+        cin >> line;
+        for (int j = 0 ; j <line.size(); ++j) {
+          grid.back()[j].setValue(line[j] - '0');
+          grid.back()[j].commit();
+          cout << grid.back()[j].getValue();
+        }
+        cout << endl;
       }
     }
-    maxY = grid.size();
-    maxX = grid.back().size();
     cout << "Grid size: " << maxX  << " x " << maxY << endl;
   }
 
@@ -116,187 +121,140 @@ public:
     return hasNextY(y) ? y + 1 : 0;
   }
   
-  pair<size_t,size_t> getLongNeighborsCount(size_t f, size_t c) const {
-    size_t availableNeighborsCount = 0;
-    size_t occupiedNeighborsCount = 0;
-    for (int i = f - 1; i >=0 ; --i) { // UP
-      availableNeighborsCount += grid[i][c].isAvailableNum(); 
-      occupiedNeighborsCount += grid[i][c].isOccupied() ? 1 : 0;
-      if (!grid[i][c].isFloorTile()) break;
-    }
-    for (int i = f + 1; i < maxY ; ++i) { // Down
-      availableNeighborsCount += grid[i][c].isAvailableNum(); 
-      occupiedNeighborsCount += grid[i][c].isOccupied() ? 1 : 0;
-      if (!grid[i][c].isFloorTile()) break;
-    }
-    for (int i = c - 1; i >=0 ; --i) { // Left
-      availableNeighborsCount += grid[f][i].isAvailableNum(); 
-      occupiedNeighborsCount += grid[f][i].isOccupied() ? 1 : 0;
-      if (!grid[f][i].isFloorTile()) break;
-    }
-    for (int i = c + 1; i < maxX ; ++i) { // Right
-      availableNeighborsCount += grid[f][i].isAvailableNum(); 
-      occupiedNeighborsCount += grid[f][i].isOccupied() ? 1 : 0;
-      if (!grid[f][i].isFloorTile()) break;
-    }
-    for (int i = f - 1, j = c - 1; i >=0  && j >= 0; --i, --j) { // UP LEFT
-      availableNeighborsCount += grid[i][j].isAvailableNum(); 
-      occupiedNeighborsCount += grid[i][j].isOccupied() ? 1 : 0;
-      if (!grid[i][j].isFloorTile()) break;
-    }
-    for (int i = f - 1, j = c + 1; i >=0  && j < maxX; --i, ++j) { // UP Right
-      availableNeighborsCount += grid[i][j].isAvailableNum(); 
-      occupiedNeighborsCount += grid[i][j].isOccupied() ? 1 : 0;
-      if (!grid[i][j].isFloorTile()) break;
-    }
-    for (int i = f + 1, j = c - 1; i < maxY && j >= 0; ++i, --j) { // Down LEFT
-      availableNeighborsCount += grid[i][j].isAvailableNum(); 
-      occupiedNeighborsCount += grid[i][j].isOccupied() ? 1 : 0;
-      if (!grid[i][j].isFloorTile()) break;
-    }
-    for (int i = f + 1, j = c + 1; i < maxY && j < maxX; ++i, ++j) { // Down Right
-      availableNeighborsCount += grid[i][j].isAvailableNum(); 
-      occupiedNeighborsCount += grid[i][j].isOccupied() ? 1 : 0;
-      if (!grid[i][j].isFloorTile()) break;
-    }
-    return make_pair(availableNeighborsCount, occupiedNeighborsCount);
-  }
-  
-  pair<size_t,size_t> getNeighborsCount(size_t f, size_t c) const{
-    size_t availableNeighborsCount = 0;
-    size_t occupiedNeighborsCount = 0;
+  // Returns the amount of neighbors that flashed.
+  size_t onNeighborFlash(vector<pair<int,int>> &flashedCellIndeces, size_t f, size_t c) {
     size_t prevC = getPreviousX(c);
     size_t prevF = getPreviousY(f);
     size_t nextC = getNextX(c);
     size_t nextF = getNextY(f);
+    size_t flashes = 0;
     if (hasPrevious(f)) {
-      availableNeighborsCount += grid[prevF][c].isAvailableNum(); // UP
-      occupiedNeighborsCount += grid[prevF][c].isOccupied() ? 1 : 0;
+      if (grid[prevF][c].onNeighborFlash()) {// UP
+        ++flashes;
+        flashedCellIndeces.push_back({prevF, c});
+      } 
       if (hasPrevious(c)) {
-        availableNeighborsCount += grid[prevF][prevC].isAvailableNum(); // UP LEFT
-        occupiedNeighborsCount += grid[prevF][prevC].isOccupied() ? 1 : 0; // UP LEFT
+        if (grid[prevF][prevC].onNeighborFlash()) {// UP LEFT
+          ++flashes;
+          flashedCellIndeces.push_back({prevF, prevC});
+        } 
       }
       if (hasNextX(c)) {
-        availableNeighborsCount += grid[prevF][nextC].isAvailableNum(); // UP RIGHT
-        occupiedNeighborsCount += grid[prevF][nextC].isOccupied() ? 1 : 0; // UP RIGHT
+        if (grid[prevF][nextC].onNeighborFlash()) {// UP RIGHT
+          ++flashes;
+          flashedCellIndeces.push_back({prevF, nextC});
+        } 
       }
     }
     if (hasPrevious(c)) {
-      availableNeighborsCount += grid[f][prevC].isAvailableNum(); // LEFT
-      occupiedNeighborsCount += grid[f][prevC].isOccupied() ? 1 : 0; // LEFT
+      if (grid[f][prevC].onNeighborFlash()) {// LEFT
+        ++flashes;
+        flashedCellIndeces.push_back({f, prevC});
+      }
     }
     if (hasNextX(c)) {
-      availableNeighborsCount += grid[f][nextC].isAvailableNum(); // RIGHT
-      occupiedNeighborsCount += grid[f][nextC].isOccupied() ? 1 : 0; // RIGHT
+      if (grid[f][nextC].onNeighborFlash()) {// RIGHT
+        ++flashes;
+        flashedCellIndeces.push_back({f, nextC});
+      }
     }
     if (hasNextY(f)) {
-      availableNeighborsCount += grid[nextF][c].isAvailableNum(); // DOWN
-      occupiedNeighborsCount += grid[nextF][c].isOccupied() ? 1 : 0; // DOWN
+      if (grid[nextF][c].onNeighborFlash()) {// DOWN
+        ++flashes;
+        flashedCellIndeces.push_back({nextF, c});
+      }
       if (hasPrevious(c)) {
-        availableNeighborsCount += grid[nextF][prevC].isAvailableNum(); // DOWN LEFT
-        occupiedNeighborsCount += grid[nextF][prevC].isOccupied() ? 1 : 0; // DOWN LEFT
+        if (grid[nextF][prevC].onNeighborFlash()) {// DOWN LEFT
+          ++flashes;
+          flashedCellIndeces.push_back({nextF, prevC});
+        }
       }
       if (hasNextX(c)) {
-        availableNeighborsCount += grid[nextF][nextC].isAvailableNum(); // DOWN RIGHT
-        occupiedNeighborsCount += grid[nextF][nextC].isOccupied() ? 1 : 0; // DOWN RIGHT
+        if (grid[nextF][nextC].onNeighborFlash()) {// DOWN RIGHT
+          ++flashes;
+          flashedCellIndeces.push_back({nextF, nextC});
+        }
       }
     }
-    return make_pair(availableNeighborsCount, occupiedNeighborsCount);
+    return flashes;
   }
 
   size_t tick(bool longSight = false){
-    availableSeats = 0;
-    floorCount = 0;
-    occupiedSeats = 0;
+    size_t flashes = 0;
+    vector<pair<int,int>> flashedCellIndeces;
+    // Tick
     for (size_t f = 0; f < maxY; ++f){
       for (size_t c = 0; c < maxX; ++c){
-        pair<size_t, size_t> neighbors = 
-            longSight ? getLongNeighborsCount(f,c) : getNeighborsCount(f, c);
         Cell *currentCell = &grid[f][c];
-        /*
-        If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
-        If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
-        */
-        if (currentCell->isFloorTile()) {
-          ++floorCount;
-          continue;
+        if (currentCell->onTick()) {
+          ++flashes;
+          cout << "\tf: " << f << ", c: " << c << " flashed" << endl;
+          flashedCellIndeces.push_back({f,c});
         }
-        if (currentCell->isAvailable()) {
-          if (neighbors.second == 0) {
-            currentCell->setValue(kOccupied);
-            ++occupiedSeats;
-          } else {
-            ++availableSeats;
-          }
-        } else if (currentCell->isOccupied()) {
-          if (neighbors.second >= (longSight ? 5 : 4)) {
-            currentCell->setValue(kAvailable);
-            ++availableSeats;
-          } else {
-            ++occupiedSeats;
-          }
-        } 
-        // Otherwise, the seat's state does not change.
       }
     }
-    return availableSeats;
+    // Process Flashes
+    for (int i = 0; i < flashedCellIndeces.size(); ++i){
+      const pair<int,int> &entry = flashedCellIndeces[i];
+      // Cell *currentCell = &grid[entry.first][entry.second];
+      flashes += onNeighborFlash(flashedCellIndeces, entry.first, entry.second);
+    }
+    totalFlashes += flashes;
+    return flashes;
   }
 
   void printStatus() {
-    size_t total = availableSeats + occupiedSeats + floorCount;
-    cout << "Available: " << availableSeats << ", Occupied: " << occupiedSeats
-        << ", Floor tiles: " << floorCount << ". Total: " <<  total << endl;
-  }
-  
-  bool commit() {
-    size_t changes = 0;
-    for (size_t f = 0; f < maxY; ++f){
-      for (size_t c = 0; c < maxX; ++c){
-        Cell *currentCell = &grid[f][c];
-        changes += currentCell->commit() ? 1 : 0;
-      }
-    }
-    return changes != 0;
-  }
-  
-  bool print() {
-    size_t changes = 0;
-    for (size_t f = 0; f < maxY; ++f){
-      for (size_t c = 0; c < maxX; ++c){
-        Cell *currentCell = &grid[f][c];
-        changes += currentCell->commit() ? 1 : 0;
-        cout << currentCell->getValue();
-      }
-      cout << endl;
-    }
-    cout << "Changes: " << changes << "\t"; printStatus();
-    cout << endl;
-    return changes != 0;
+    cout << "Total flashes: " << totalFlashes << endl;
   }
 
-  inline size_t getAvailableSeatCount() const {
-    return availableSeats;
+  size_t getTotalFlashes() const {
+    return totalFlashes;
+  } 
+  
+  size_t commit(bool print = false) {
+    size_t changes = 0;
+    for (size_t f = 0; f < maxY; ++f){
+      for (size_t c = 0; c < maxX; ++c){
+        Cell *currentCell = &grid[f][c];
+        changes += currentCell->commit() ? 1 : 0;
+        if (print) cout << currentCell->getValue();
+      }
+      if (print) cout << endl;
+    }
+    if (print) {
+      cout << "Flashes: " << changes << "\t"; printStatus();
+      cout << endl;
+    }
+    return changes;
   }
+
 
 private:
   size_t maxY, maxX, maxTicks;
+  size_t totalFlashes;
   bool run;
   Matrix grid;
-  size_t availableSeats, occupiedSeats, floorCount;
 };
 
 
 void solve(int part = 1) {
   GameOfLife game;
-    for (int i = 0; true; ++i) {
-      // cout << i << ":\t";
-      game.tick(part != 1);
-      // if (!game.print()) {
-      if (!game.commit()) {
-        cout << "Stabilization @ tick: " << i << "\t"; game.printStatus();
-        break;
-      }
+  size_t totalFlashesAt100 = 0;
+  size_t stepAllFlashes = 0;
+  for (int i = 1; true; ++i) {
+    // cout << i << ":\t";
+    game.tick(part != 1);
+    cout << "Step: " << i << endl;
+    if (game.commit(true) == 100) {
+      stepAllFlashes = i;
+      break;
     }
+    if (i == 100) {
+      totalFlashesAt100 = game.getTotalFlashes();
+    }
+  }
+  cout << "Part 1: Total flashes at step 100: " << totalFlashesAt100 << endl;
+  cout << "Part 2: All octopus flash at step: " << stepAllFlashes << endl;
 }
 
 };  // aoc2021_11
