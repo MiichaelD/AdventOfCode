@@ -28,184 +28,116 @@
 namespace aoc2021_13 {
 using namespace std;
 
-typedef uint64_t lli;
-typedef pair<lli,size_t> Bus;
+typedef pair<int,int> Coordinate;
 
-lli gcd(lli a, lli b) {
-  while(a != b)  {
-    if(a > b)
-        a -= b;
-    else
-        b -= a;
+void updateMinAndMax(Coordinate &min, Coordinate &max, const Coordinate &point) {
+  // util::printPair(point, true);
+  if (point.first < min.first) {
+    min.first = point.first;
   }
-  return a;
+  if (point.second < min.second) {
+    min.second = point.second;
+  }
+  if (point.first > max.first) {
+    max.first = point.first;
+  }
+  if (point.second > max.second) {
+    max.second = point.second;
+  }
 }
 
-double lcm(lli a, lli b) {
-  return ((double) a) * b / gcd(a, b);
-}
-
-bool fillBusses(vector<Bus> *input) {
-  string line;
-  cin >> line;
-  lli accum = 0;
-  size_t bInd = 0;
-  for (int index = 0; index < line.size(); ++index) {
-    if (isdigit(line[index])) {
-      accum *= 10;
-      accum += line[index] - '0';
-    } else if (line[index] == ',') {
-      if (accum != 0) {
-        input->push_back({accum, bInd++});
-        accum = 0;
+void printCoordinates(
+  const unordered_set<Coordinate, util::pair_hash> &coordinates,
+  const Coordinate &min, const Coordinate &max) {
+    cout << "Map: " << endl;
+    for (int f = min.second; f <= max.second; ++f) { // Row (Y dimension);
+      cout << f << ":\t";
+      for (int c = min.first; c <= max.first; ++c) { // Column (X dimension)
+        cout << (coordinates.contains({c,f}) ? '#' : '.');  // {c,f} == {x,y};
       }
-      continue;
-    } else if (line[index] == 'x') {
-      ++bInd;
-      continue;
+      cout << endl;
     }
-  }
-  if (accum != 0) {
-    input->push_back({accum, bInd});
-    accum = 0;
-  }
-  return true;
+    cout << endl;
 }
 
-lli getEarliestShuttlePickup(const vector<Bus> &busses, lli earliestPickup) {
-  lli nextPickup = INT64_MAX;
-  int earliestBus = INT_MAX;
-  for (const auto &busPair : busses) {
-    lli bus = busPair.first;
-    lli result = earliestPickup / bus;
-    if ((result * bus) < earliestPickup) {
-      ++result;
-    }
-    if (result * bus < nextPickup) {
-      // cout << "\t bus: " << bus <<  " @ " << result * bus << endl;
-      nextPickup = result * bus;
-      earliestBus = bus;
-    }
+void printCoordinates(const unordered_set<Coordinate, util::pair_hash> &coordinates) {
+  Coordinate min, max;
+  for (const Coordinate c : coordinates) {
+    updateMinAndMax(min, max, c);
   }
-  return (nextPickup - earliestPickup) * earliestBus;
+  printCoordinates(coordinates, min, max);
 }
 
-lli getTimeT(const vector<Bus> &busses) {
-  lli mInd = 0;
-  for (int i = 1; i < busses.size(); ++i) {
-    if (busses[i] > busses[mInd]) { 
-      mInd = i;
-    }
-  }
-  const Bus &maxBus = busses[mInd];
-  lli maxVal = maxBus.first;
-  cout << "Max Bus: " << maxVal << " @ index: " << busses[mInd].second << endl;
+void processInput(
+  unordered_set<Coordinate, util::pair_hash> &coordinates,
+  vector<pair<char,int>> &instructions,
+  Coordinate &min, Coordinate &max, int part) {
+  cout << endl << "Min: ";
+  util::printPair(min);
+  cout << "\tMax: ";
+  util::printPair(max, true);
+  printCoordinates(coordinates, min, max);
 
-  for (int i = 0; i < busses.size(); ++i) {
-    if (busses[i].first == 0) continue;
-    const Bus &b = busses[i];
-    cout << "\t" << b.first << " @ " << b.second << "\tGCD: ";
-    cout << gcd(b.first, maxVal) << ", LCM: " << lcm(b.first, maxVal) << endl;
-  }
-
-  bool found;
-  for (lli i = maxVal; true; i += maxVal) {
-    found = true;
-    for (size_t j = 0; j < busses.size(); ++j) {
-      lli target = i - busses[mInd].second + busses[j].second;
-      // cout << "Target: " << target << " @ " << busses[j] << endl;;
-      if ((target % busses[j].first) > 0) {
-        found = false;
-        break;
+  for (int i = 0; i < (part == 1 ? 1 : instructions.size()); ++i) {
+    unordered_set<Coordinate, util::pair_hash> ci = coordinates;
+    pair<char,int> &instruction = instructions[i];
+    cout << "Folding in " << instruction.first << " axis, folding point: " << instruction.second << endl;
+    if (instruction.first == 'x') {
+      int x = instruction.second;
+      for (const Coordinate &coord : ci) {
+        if (coord.first < x) {
+          continue;
+        }
+        int delta = coord.first - x;
+        Coordinate foldedPosition(std::max(0, x - delta), coord.second);
+        if (!coordinates.contains(foldedPosition)) {
+          coordinates.insert(foldedPosition);
+        }
+        coordinates.erase(coord);
+      }
+    } else {
+      int y = instruction.second;
+      for (const Coordinate &coord : ci) {
+        if (coord.second < y) {
+          continue;
+        }
+        int delta = coord.second - y;
+        Coordinate foldedPosition(coord.first, std::max(0, y - delta));
+        if (!coordinates.contains(foldedPosition)) {
+          coordinates.insert(foldedPosition);
+        }
+        coordinates.erase(coord);
       }
     }
-    if (found) {
-      cout << "After " << i / maxVal << " iterations... Done" << endl;
-      return i - maxBus.second;
-    }
+    printCoordinates(coordinates);
   }
-  return 0ll;
-}
-
-// https://github.com/Chrinkus/advent-of-code-2020/blob/main/src/day13.cpp
-// Manually find a stride that is common for current bus and adjacent bus index.
-lli solveChallenge(const vector<Bus> &boffs) {
-  auto it = boffs.begin();
-  lli mins = it->first, stride = mins;
-  cout << "Bus [" << it->second << "]: Every :" << it->first << " mins" << endl;
-  cout << "\tMins: " <<  mins << ", Stride: " << stride << endl;
-  for (it = next(it); it != boffs.end(); ++it) {
-    cout << "Bus [" << it->second << "]: " << it->first << endl;
-    size_t times = 0;
-    while ((mins + it->second) % it->first != 0) {
-      cout << "\t\t" << (mins + it->second) << " % " << it->first << " = ";
-      cout << (mins + it->second) % it->first << endl;
-      mins += stride;
-      ++times;
-    }
-    stride *= it->first;
-    cout << "\t\t" << (mins + it->second) << " % " << it->first << " = ";
-    cout << (mins + it->second) % it->first << endl;
-    cout << "\tMins: " <<  mins << ", Stride: " << stride << ", Times: " << times << endl;
-  }
-  return mins;
 }
 
 void solve(int part = 1) {
-  lli earliest, result = 0ll;
-  cin >> earliest;  
-  vector<Bus> busses;
-  fillBusses(&busses);
-  // sort(busses.begin(), busses.end(),
-  //      [](const Bus &a, const Bus &b) {return a.first < b.first;});
-  if (part == 1) {
-    result = getEarliestShuttlePickup(busses, earliest);
-  } else {
-    result = solveChallenge(busses);
+  string line;
+  unordered_set<Coordinate, util::pair_hash> coordinates;
+  vector<pair<char,int>> instructions;
+  Coordinate min, max;
+  while(!cin.eof()) {
+    getline(cin,line);
+    if (line.empty()) break;
+    int i = 0;
+    Coordinate coordinate(util::getNumberRef(line, i), util::getNumberRef(line, ++i));
+    coordinates.insert(coordinate);
+    updateMinAndMax(min, max, coordinate);
   }
-  cout << "Result: " << result << endl;
+  cout << endl;
+  while(!cin.eof()) {
+    getline(cin,line);
+    instructions.emplace_back(line[11], util::getNumber(line, 13));
+    util::printPair(instructions.back(),true);
+  }
+  processInput(coordinates, instructions, min, max, part);
+  cout << "Part 1 - Total points remaining: " << coordinates.size() << endl;
+  cout << "Part 2:";
+  printCoordinates(coordinates);
 }
 
 };  // aoc2021_13
 
 #endif /* _2021_ADVENTOFCODE_13_H_ */
-
-/*
-
-tuple<lli,lli,lli> egcd(lli a, lli b) {
-  if (a == 0) {
-    return {b, 0ll, 1ll};
-  } else {
-    tuple<lli,lli,lli> res = egcd(b % a, a);
-    // const auto [g, x, y] = egcd(b % a, a);  // C++-17
-    lli g = get<0>(res), x = get<1>(res), y = get<2>(res);
-    return {g, y - (b / a) * x, x};
-  }
-}
-
-lli mod_inv(lli a, lli n) {
-  // x = gcd(a, n);
-  lli x = get<1>(egcd(a, n));
-  // const auto [g, x, y] = egcd(a, n);  // C++-17
-  // x = lcm(x, n);
-  return (x % n + n) % n;
-}
-
-// https://en.wikipedia.org/wiki/Chinese_remainder_theorem#Search_by_sieving
-// https://www.youtube.com/watch?v=0dbXaSkZ-vc
-lli chineseRemainderTheorem(const vector<Bus> &busses) {
-  lli product = 1;
-  for (size_t j = 0; j < busses.size(); ++j) {
-    product *= busses[j].first;
-  }
-  lli accum = 0;
-
-  for (size_t j = 0; j < busses.size(); ++j) {
-    const Bus &bus = busses[j];
-    lli p = product / bus.first;
-    accum = accum +  bus.second  + mod_inv(p, bus.first) * p;
-  }
-  return accum % product;;
-}
-
-*/
