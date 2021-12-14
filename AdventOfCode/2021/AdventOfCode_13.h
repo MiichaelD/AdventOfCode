@@ -53,7 +53,7 @@ void printCoordinates(
     for (int f = min.second; f <= max.second; ++f) { // Row (Y dimension);
       cout << f << ":\t";
       for (int c = min.first; c <= max.first; ++c) { // Column (X dimension)
-        cout << (coordinates.contains({c,f}) ? '#' : '.');  // {c,f} == {x,y};
+        cout << (coordinates.contains({c,f}) ? "█" : ".");  // {c,f} == {x,y};
       }
       cout << endl;
     }
@@ -95,6 +95,7 @@ void processInput(
         }
         coordinates.erase(coord);
       }
+      max.first /= 2;
     } else {
       int y = instruction.second;
       for (const Coordinate &coord : ci) {
@@ -108,8 +109,11 @@ void processInput(
         }
         coordinates.erase(coord);
       }
+      max.second /= 2;
     }
-    printCoordinates(coordinates);
+    // Since we know we're folding in halves, no need to recompute dimensions.
+    // Folding happens as `x = (x - 1) / 2`
+    printCoordinates(coordinates, min, max);
   }
 }
 
