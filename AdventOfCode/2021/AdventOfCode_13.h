@@ -134,8 +134,10 @@ void solve(int part = 1) {
   }
   processInput(coordinates, instructions, min, max, part);
   cout << "Part 1 - Total points remaining: " << coordinates.size() << endl;
-  cout << "Part 2:";
-  printCoordinates(coordinates);
+  if (part == 2) {
+    cout << "Part 2:";
+    printCoordinates(coordinates);
+  }
 }
 
 };  // aoc2021_13

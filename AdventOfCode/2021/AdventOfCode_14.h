@@ -2,7 +2,7 @@
   Link:         http://adventofcode.com/2020/day/14
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/14/2020
+  Date:         12/13/2021
 */
 
 #ifndef _2021_ADVENTOFCODE_14_H_
@@ -28,122 +28,116 @@
 namespace aoc2021_14 {
 using namespace std;
 
-typedef unordered_map<size_t, uint64_t> Memory;
+typedef pair<unordered_map<string,uint64_t>,vector<uint64_t>> RepsPair;
 
+void print(const RepsPair &repsPair) {
+  for (const auto &entry : repsPair.first) {
+    util::printPair(entry);
+  }
+  uint64_t len = 0;
+  cout << endl << "\tchars: ";
+  for (int i = 0; i < repsPair.second.size(); ++i) {
+    if (repsPair.second[i] == 0) {
+      continue;
+    } 
+    cout << static_cast<char>(i + 'A') << " - " << repsPair.second[i] << ", ";
+    len += repsPair.second[i];
+  }
+  cout << endl << "\tstring length: "<< len << endl << endl;
+}
 
-Memory memory;
-string mask;
-size_t floatingIndexes;
-
-vector<string> getInput() {
-  vector<string> input;
-  string line;
-  while(cin && !cin.eof()) {
+pair<string,unordered_map<string,char>> getInput() {
+  pair<string,unordered_map<string,char>> result;
+  cin >> result.first;
+  while(!cin.eof()) {
+    string s, line;
+    cin >> s;
     getline(cin, line);
-    input.push_back(line);
+    result.second[s] = line.at(4);
+    cout << "\t" << s << ": " << line.at(4) << endl;
   }
-  return input;
+  return result;
 }
 
-uint64_t getMaskedValue(uint64_t value) {
-  size_t len = mask.size() - 1;
-  for (int i = len; i >= 0; --i) {
-    switch(mask[i]) {
-      case '0': value &= ~(1ull << (len - i)); break;
-      case '1': value |= (1ull << (len - i)); break;
-      case 'X':
-      default: break;
-    }
+RepsPair processInput(const string &tmpl) {
+  unordered_map<string,uint64_t> stringReps;
+  vector<uint64_t> charsReps(26);
+  for (int i = 0; i < tmpl.size() - 1; ++i) {
+    char c = tmpl.at(i);
+    string aux = tmpl.substr(i, 2); // start and size
+    ++stringReps[aux];
+    ++charsReps[c - 'A'];
   }
-  return value;
+  ++charsReps[tmpl.back() - 'A'];
+  return {stringReps, charsReps};
 }
 
-vector<uint64_t> getMaskedIndexes(uint64_t index) {
-  vector<uint64_t> result(pow(2, floatingIndexes), index);
-  size_t len = mask.size() - 1;
-  size_t floating = 0;
-  for (int i = len; i >= 0; --i) {
-    switch(mask[i]) {
-      case '0': break;
-      case '1': 
-      for (size_t in = 0; in < result.size(); ++in) {
-        // cout << "\t\t 1 in position " << len - i << endl;
-        result[in] |= (1ull << (len - i));
-      }
-      break;
-      case 'X':
-        for (size_t in = 0; in < result.size(); ++in) {
-          uint64_t bitValue = (in & 1ull << floating);
-          size_t bitPos = len - i;
-          if ((bitValue >> floating) & 1) {
-            // cout << "\t\t 1 in position " << len - i << endl;
-            result[in] |= (1ull << (len - i));
-          } else {
-            // cout << "\t\t 0 in position " << len - i << endl;
-            result[in] &= ~(1ull << (len - i));
-          }
-        }
-        ++floating;
-        break;
-      default:
-       break;
+RepsPair processReps(const RepsPair &rp, const unordered_map<string,char> &insertionRules) {
+  RepsPair result;
+  result.second = rp.second;
+  for (const pair<string,uint64_t>& entry : rp.first) {
+    const string &str = entry.first;
+    uint64_t reps = entry.second;
+    if (insertionRules.contains(str)) {
+      cout << "\t\tRemoving: " << str << ". Adding: ";
+      char c = insertionRules.at(str);
+      // add the inserted char
+      result.second[c - 'A'] += reps;
+
+      // insert new prefix;
+      stringstream prefix;
+      prefix << str.front() << c;
+      result.first[prefix.str()] += reps;
+
+      // insert new suffix;
+      stringstream suffix;
+      suffix << c << entry.first.back();
+      result.first[suffix.str()] += reps;
+      cout << prefix.str() << ", " << suffix.str() << " x " << reps << " times" << endl;
+
+      // Remove all this entry as it has been processed {entry.second} times.
+      // result.first.erase(str);
     }
-  
-  } 
+  }
   return result;
 }
 
-bool processInput(const string &input, bool version2) {
-  if (input.empty()) return false;
-  if (input[1] == 'a') {
-    mask = input.substr(6);
-    floatingIndexes = 0;
-    for (char c : mask) { if (c == 'X') ++floatingIndexes; }
-    // cout << "Mask = " << mask << endl;
-    return true;
-  } else if (input[1] == 'e') {
-    size_t index = atol(&input.c_str()[4]);
-    size_t digits = log10(index) + 1;
-    uint64_t value = atol(&input.c_str()[7 + digits]);
-    if (version2) {
-      vector<uint64_t> indexes = getMaskedIndexes(index);
-      for (uint64_t i : indexes) {
-        memory[i] = value;
-        // cout << "Memory @ " << i << " = " << value<< endl;
-      }
-    } else {
-      uint64_t maskedValue = getMaskedValue(value);
-      memory[index] = maskedValue;
-      // cout << "Memory @ " << index << " = " << value << " Masked = " << maskedValue << endl;
-    }
-    return true;
+RepsPair process(const string &tmpl, const unordered_map<string,char> &insertionRules, int steps) {
+  RepsPair repsPair = processInput(tmpl);
+  cout << "step 0:\t";
+  print(repsPair);
+  for (int i = 1; i <= steps; ++i) {
+    repsPair = processReps(repsPair, insertionRules);
+    cout << endl << "step " << i << ":\t";
+    print(repsPair);
   }
-  return false;
+  return repsPair;
 }
 
-bool processInput(const vector<string> &input, bool version2=false) {
-  for (const string &in : input) {
-    if (!processInput(in, version2)) {
-      return false;
+uint64_t resolve(const vector<uint64_t> &charsReps) {
+  uint64_t minimum = ULLONG_MAX, maximum = 0; 
+  for (uint64_t letterIndex = 0; letterIndex < 26; ++letterIndex) {
+    uint64_t reps = charsReps[letterIndex];
+    if (reps == 0) {
+      continue;
+    }
+    if (reps > maximum) {
+      maximum = reps;
+    }
+    if (reps < minimum) {
+      minimum = reps;
     }
   }
-  return true;
-}
-
-uint64_t getMemoryValuesSum() {
-  uint64_t result = 0;
-  for (const auto &entry : memory) {
-    // cout << "\tMemory @ " << entry.first << " = " << entry.second << endl;
-    result += entry.second;
-  }
-  return result;
+  return maximum - minimum;
 }
 
 void solve(int part = 1) {
-  vector<string> input = getInput();
-  processInput(input, part != 1);
-  uint64_t result = getMemoryValuesSum();
-  cout << "Result: " << result << ". After adding " << memory.size() << " values" << endl;
+  int totalSteps = part == 1 ? 10 : 40;
+  pair<string,unordered_map<string,char>> input = getInput();
+  string aux = input.first;
+  RepsPair repsPair = process(input.first, input.second, totalSteps);
+  uint64_t result = resolve(repsPair.second);
+  cout << "Part " << part << " (after " << totalSteps << "): " << result << endl;
 }
 
 };  // aoc2021_14
