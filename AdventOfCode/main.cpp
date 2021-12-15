@@ -37,7 +37,7 @@
 // #include "2021/AdventOfCode_10.h"
 // #include "2021/AdventOfCode_11.h"
 // #include "2021/AdventOfCode_12.h"
-#include "2021/AdventOfCode_13.h"
+// #include "2021/AdventOfCode_13.h"
 // #include "2021/AdventOfCode_14.h"
 #include "2021/AdventOfCode_15.h"
 
@@ -63,6 +63,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2021_13::solve(part);
+  aoc2021_15::solve(part);
   return EXIT_SUCCESS;
 }
