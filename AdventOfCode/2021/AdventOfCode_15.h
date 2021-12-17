@@ -115,7 +115,7 @@ void printSum(const Matrix &data) {
 }
 
 // This actually gets the path, works for test cases and part1 but not part 2.
-// The output path is different to the expected ones but good values. 
+// Very slow, no memoization. E.g. Updates all steps in pre-computed paths when finding a shorter path.
 void compute(Matrix &data, const Coordinate &goal, const Coordinate &coordinate,
     unordered_set<Coordinate, util::pair_hash> &memo, vector<int> &path, int &sum) {
   // cout << "Checking coordinate: "; util::printPair(coordinate, true);

@@ -64,6 +64,11 @@ inline int64_t binaryToDecimal(const string &str) {
   return result;
 }
 
+// Gets number and advances the index reference -- oops, same as below.
+int getNumberAdvancing(const string &line, int &index) {
+  return getNumberRef(line, index);  // Left for compatibility - CLEAN UP!
+}
+
 // Gets the number from the string starting at the given index (or 0) - updates index.
 int getNumberRef(const string &line, int &indexRef) {
   int accum = 0;
@@ -82,19 +87,83 @@ int getNumber(const string &line, int index=0) {
   return getNumberRef(line, index);
 }
 
-// Gets number and advances the index reference.
-int getNumberAdvancing(const string &line, int &index) {
-  int accum = 0;
-  for (; index < line.size(); ++index) {
-    if (isdigit(line[index])) {
-      accum *= 10;
-      accum += line[index] - '0';
-    } else {
-      break;
+
+// BINARY - HEXADECIMAL - DECIMAL
+
+// Reads a string of binary data and converts them to big ints/types
+string hexToBinary(char hexadecimal) {
+  switch(hexadecimal) {
+    case '0': return "0000";
+    case '1': return "0001";
+    case '2': return "0010";
+    case '3': return "0011";
+    case '4': return "0100";
+    case '5': return "0101";
+    case '6': return "0110";
+    case '7': return "0111";
+    case '8': return "1000";
+    case '9': return "1001";
+    case 'A': return "1010";
+    case 'B': return "1011";
+    case 'C': return "1100";
+    case 'D': return "1101";
+    case 'E': return "1110";
+    case 'F': return "1111";
+    default: break;
+  }
+  return "";
+}
+
+// Converts ints [0 - 15] to their Hex value as char.
+char decToHex(int c){
+  if (c < 10) {
+    return c + '0';
+  } else {
+    switch (c) {
+      case 10: return 'A';
+      case 11: return 'B';
+      case 12: return 'C';
+      case 13: return 'D';
+      case 14: return 'E';
+      case 15: return 'F';
+      default: break;
     }
   }
-  return accum;
+  return '-';
 }
+
+string hexToBinary(const string &input) {
+  stringstream ss;
+  for (char c : input) {
+    ss << hexToBinary(c);
+  }
+  return ss.str();
+}
+
+char binToHex(const string &binary, int start = 0, int length = 4) {
+  int times = 0;
+  char result = 0; 
+  for (int i = start + length - 1; i >= start; --i, ++times) {
+    if (binary[i] == '1') {
+      result += (1 << times);
+    }
+  }
+  return result;
+}
+template<class T>
+T binToDec(const string &binary, int start = 0, int length = 4) {
+  int times = 0;
+  T shift = 1;
+  T result = 0; 
+  for (int i = start + length - 1; i >= start; --i, ++times) {
+    if (binary[i] == '1') {
+      result += (shift << times);  // Be careful when defining the type of bit to be shifted
+    }
+  }
+  return result;
+}
+
+
 
 // Daily template file generator code
 template<typename T>

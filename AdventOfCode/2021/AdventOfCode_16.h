@@ -1,8 +1,8 @@
 /*
-  Link:         http://adventofcode.com/2020/day/16
-  Compiling:    g++ -std=c++11 main.cpp -o main
+  Link:         http://adventofcode.com/2021/day/16
+  Compiling:    g++ -std=c++20 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/16/2020
+  Date:         12/17/2020
 */
 
 #ifndef _2021_ADVENTOFCODE_16_H_
@@ -28,232 +28,172 @@
 namespace aoc2021_16 {
 using namespace std;
 
-struct Ticket {
-  vector<size_t> values;
-  bool discarded = false;
-};
+inline void printSpaces(int depth) {
+  for (int i = 0; i < depth; ++i) {
+    cout << "\t";
+  }
+}
 
-struct Range {
-  string name;
-  vector<pair<int,int>> rules;
-  vector<size_t> possibleFieldIndexes;
-  int fieldIndex = -1;
+struct Packet {
+  int version = 0;
+  int type = 0;
+  int totalLengthInBits = 0;
+  int subPacketsCount = 0;
+  vector<Packet> packets;
+  vector<int> values;
+  stringstream literal;
+  uint64_t cachedValue = 0;
 
-  bool isInRange(int val) const {
-    for (const auto &p : rules) {
-      if (p.first <= val && val <= p.second) {
-        return true;
+  uint64_t getTotalVersion() {
+    uint64_t result = version;
+    for (Packet &packet : packets) {
+      result += packet.getTotalVersion();
+    }
+    return result;
+  }
+
+  uint64_t getValue() {
+    if (cachedValue) {
+      return cachedValue;
+    }
+    uint64_t result = 0;
+    switch(type) {
+      case 0:   // Sum value
+        for (Packet &packet : packets) {
+          result += packet.getValue();
+        }
+        cachedValue = result;
+        return result;
+      case 1:  // Product value
+        if (packets.size()) {
+          result = 1;
+          for (Packet &packet : packets) {
+            result *= packet.getValue();
+          }
+        }
+        cachedValue = result;
+        return result;
+      case 2:
+        if (packets.size()) {  // Minimum value
+          result = INT_MAX;
+          for (Packet &packet : packets) {
+            int val = packet.getValue();
+            if (val < result) {
+              result = val;
+            }
+          }
+        }
+        cachedValue = result;
+        return result;
+      case 3:
+        if (packets.size()) {  // Maximum value
+          result = 0;
+          for (Packet &packet : packets) {
+            uint64_t val = packet.getValue();
+            if (val > result) {
+              result = val;
+            }
+          }
+        }
+        cachedValue = result;
+        return result;
+      case 4: {  // Literal
+        string literalStr = literal.str(); 
+        cachedValue = util::binToDec<uint64_t>(literalStr, 0, literalStr.size());
+        return cachedValue;
+      }
+      case 5:  // Greater than value
+        return (packets.size() > 1) && packets[0].getValue() > packets[1].getValue() ? 1 : 0;
+      case 6:  // Less than value
+        return (packets.size() > 1) && packets[0].getValue() < packets[1].getValue() ? 1 : 0;
+      case 7:  // Equal value
+        return (packets.size() > 1) && packets[0].getValue() == packets[1].getValue() ? 1 : 0;
+    }
+    return result;
+  }
+
+  void print(int depth = 0) {
+    string literalStr = literal.str();
+    printSpaces(depth); cout << (type == 4 ? "Literal " : "Operator ") << "Packet Contents: " << endl;
+    printSpaces(depth); cout << "Version: " << version << ", Type: " << type << endl;
+    printSpaces(depth); cout << "Total (Recursive) Version: " << getTotalVersion() << endl;
+    if (type == 4) {
+      printSpaces(depth);
+      cout << "Literal (" << literalStr.size() << "): " << literalStr << " Decimal: " <<  getValue() << ". Values: [";
+      for (int c : values) {
+        cout << util::decToHex(c);
+      }
+      cout << "]" << endl;
+    } else {
+      printSpaces(depth);
+      if (totalLengthInBits) {
+        cout << "Total length in bits: " << totalLengthInBits << endl;
+      } else {
+        cout << "Total amount of subpackets: " << subPacketsCount << endl;
+      }
+      printSpaces(depth);
+      cout << "Number of subpackets: " << packets.size() << endl;
+      for (Packet &packet : packets) {
+        cout << endl;
+        packet.print(depth + 1);
       }
     }
-    return false;
-  }
-
-  void print() const {
-    cout << "\tRange '" << name << "':" << endl;
-    for (const auto &r : rules) {
-      cout << "\t\t"; util::printPair(r, true);
-    }
-    if (fieldIndex != -1)
-      cout << "\t\tField Index Match: " << fieldIndex << endl;
-    cout << "\t\tPossible ticket indexes:";
-    for (size_t index : possibleFieldIndexes) {
-      cout << " " << index;
-    }
-    cout << endl << endl;
-  }
-
-  int getTicketValue(const Ticket &ticket) const {
-    return fieldIndex == -1 ? -1 : ticket.values[fieldIndex];
   }
 };
 
-struct Data{
-  vector<Range> ranges;
-  vector<Ticket> tickets;
-
-  void print() const {
-    cout << "Ranges: " << ranges.size() << endl;
-    for (const auto &r : ranges) {
-      r.print();
-    }
-    cout << "Tickets: " << tickets.size() << endl;
-    // for (const auto &ticket : tickets) {
-    //   cout << "\t";
-    //   for (size_t t : ticket) {
-    //     cout << ", " << t;
-    //   }
-    //   cout << endl;
-    // }
-  }
-};
-
-pair<int,int> getRangeRule(const string &line, size_t &index) {
-  pair<int,int> result{-1, -1};
-  int accum = 0;
-  for (; index < line.size(); ++index) {
-    if (isdigit(line[index])) {
-      accum *= 10;
-      accum += line[index] - '0';
-    } else if (line[index] == '-') {
-      result.first = accum;
-      accum = 0;
-    } else if (line[index] == ' ') {
-      result.second = accum;
-      break;
-    }
-  }
-  if (result.second == -1) {
-    result.second = accum;
-  }
-  return result;
-}
-
-Ticket getTicketData() {
-  Ticket input;
-  string line;
-  cin >> line;
-  uint64_t accum = 0;
-  size_t bInd = 0;
-  for (size_t index = 0; index < line.size(); ++index) {
-    if (isdigit(line[index])) {
-      accum *= 10;
-      accum += line[index] - '0';
-    } else if (line[index] == ',') {
-      input.values.push_back(accum);
-      accum = 0;
-    }
-  }
-  input.values.push_back(accum);
-  accum = 0;
-  return input;
-}
-
-Data getInput() {
-  Data result;
-  string str, line;
-  vector<string> lines;
-  stringstream ss;
-  do {
-    getline(cin,line);
-    if (line.empty()) break;
-    result.ranges.push_back({});
-    size_t index = 0;
-    // Getting Range name
-    for (; index < line.size(); ++index) {
-      if (line[index] == ':') {
-        result.ranges.back().name = line.substr(0, index);
+Packet binToPacket(const string &binary, int &start, int length) {
+  Packet result;
+  // Packet header
+  result.version = util::binToHex(binary, start, 3);
+  result.type = util::binToHex(binary, start + 3, 3);
+  start += 6;
+  
+  // Packet contents:
+  if (result.type == 4) {  // Literal packet
+    while (true) {
+      result.values.push_back(util::binToHex(binary, start + 1, 4));
+      result.literal << binary.substr(start + 1, 4);
+      if (binary[start] == '0') {
+        start += 5;
         break;
       }
+      start += 5;
     }
-    index += 2;
-    result.ranges.back().rules.push_back(getRangeRule(line, index));
-    index += 4;
-    result.ranges.back().rules.push_back(getRangeRule(line, index));
-  } while(!line.empty());
-
-  getline(cin,line);
-  result.tickets.emplace_back(getTicketData());
-  getline(cin,line);
-  getline(cin,line);
-  getline(cin,line);
-  while(!cin.eof()) {
-    result.tickets.emplace_back(getTicketData());
+  } else { // Operator packet
+    if (binary[start] == '0') {
+      result.totalLengthInBits = util::binToDec<uint64_t>(binary, start + 1, 15);
+      start += 16;
+      int prevStart = start;
+      while ((start - prevStart) < result.totalLengthInBits) {
+        result.packets.push_back(binToPacket(binary, start, length));
+      }
+    } else {
+      result.subPacketsCount = util::binToDec<uint64_t>(binary, start + 1, 11);
+      start += 12;
+      for (int i = 0; i < result.subPacketsCount; ++i) {
+        result.packets.push_back(binToPacket(binary, start, length));
+      }
+    }
   }
   return result;
 }
 
-uint64_t discardInvalidTickets(Data &input) {
-  uint64_t result = 0;
-  for (auto &ticket : input.tickets) {
-    for (auto &t : ticket.values) {
-      bool isValid = false;
-      for (const auto &r: input.ranges) {
-        if (r.isInRange(t)) {
-          isValid = true;
-          break;
-        }
-      }
-      if (!isValid) {
-        // cout << "Ticket value " << t << " not in any valid range" << endl;
-        ticket.discarded = true;
-        result += t;
-      }
-    }
-  }
-  cout << "Ticket scanning error rate: " << result << endl;
-  return result;
-}
-
-void findPossibleMatches(Data &input) {
-  for (auto &r: input.ranges) {
-    for (int index = 0; index < input.tickets[0].values.size(); ++index) {
-      bool valid = true;
-      for (auto &ticket : input.tickets) {
-        if (ticket.discarded) continue;
-        if (!r.isInRange(ticket.values[index])) {
-          valid = false;
-          break;
-        }
-      }
-      if (valid) {
-        r.possibleFieldIndexes.push_back(index);
-      }
-    }
-  }
-}
-
-bool matchTicketFields(vector<Range> &ranges, size_t &map, size_t index=0) {
-  if (index >= ranges.size()) {
-    return true;
-  }
-  Range &r = ranges[index];
-  for (size_t j = 0 ; j < r.possibleFieldIndexes.size(); ++j) {
-    size_t trialIndex = r.possibleFieldIndexes[j];
-    int shiftedBit = (1l << trialIndex);
-    for (int i = 0; i < index; ++i) { cout << "  ";}
-    cout << r.name << " [" << index << "] w/ field #" << trialIndex;
-    if (map & shiftedBit) {
-      cout << ". VISITED" << endl;
-      continue; // Already visited
-    }
-    map |= (shiftedBit);
-    r.fieldIndex = trialIndex;
-    cout << ". (Remaining:" << (r.possibleFieldIndexes.size() - j - 1) << ')'<< endl;
-    if (matchTicketFields(ranges, map, index + 1)) {
-      return true; // We found a Range - Field match
-    }
-    // This didn't work, try next field index
-    map &= ~(shiftedBit);
-    r.fieldIndex = -1;
-  }
-  return false;
+Packet binToPacket(const string &binary) {
+  int start = 0;
+  return binToPacket(binary, start, binary.size());
 }
 
 void solve(int part = 1) {
-  Data input = getInput();
-  discardInvalidTickets(input);
-  if (part != 1) {
-    const string fieldPrefix = "departure";
-    findPossibleMatches(input);
-    sort(input.ranges.begin(), input.ranges.end(),
-         [](const Range &a, const Range &b){
-           return a.possibleFieldIndexes.size() < b.possibleFieldIndexes.size();
-         });
-    size_t map = 0;
-    matchTicketFields(input.ranges, map);
-    size_t result = 1;
-    for (const auto &r: input.ranges) {
-      // r.print();
-      int ticketValue = r.getTicketValue(input.tickets.front());
-      if (ticketValue > 0) {
-        cout << "Ticket's " << r.name << ": " << ticketValue << endl;
-        if (!r.name.compare(0, fieldPrefix.size(), fieldPrefix)) {
-          result *= ticketValue;
-        }
-      }
-    }
-    cout << "Multiplication of ticket's departure field values: " << result << endl; 
-  }
+  string input;
+  cin >> input;
+  string result = util::hexToBinary(input);
+  cout << "Input (" << input.size() << "): " << input << endl;
+  cout << "Binary: (" << result.size() << "): " << result << endl << endl;
+  Packet resultPacket = binToPacket(result);
+  resultPacket.print();
+  cout << endl << endl;
+  cout << "Part 1: Total version: " << resultPacket.getTotalVersion() << endl;
+  cout << "Part 2: Evaluated expresion: " << resultPacket.getValue() << endl;
 }
 
 };  // aoc2021_16
