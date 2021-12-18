@@ -41,39 +41,6 @@ using namespace std;
 // Solve xvel_min * (xvel_min + 1) / 2 > xmin
   int xvelMin = 11;   // Real: 11
 
-enum State{
-  TRAVEL = 0,
-  FAILURE = 1,
-  SUCCESS = 2,
-};
-
-struct Probe{
-  pair<int,int> position;
-  pair<int,int> velocity;
-
-  Probe(const pair<int,int> &vel) : velocity{vel} {}
-
-  State step() {
-    position.first += velocity.first;
-    position.second += velocity.second;
-    velocity.first = max(velocity.first - 1, 0);
-    --velocity.second;
-    if (position.first >= minPoint.first && position.first <= maxPoint.first
-        && position.second <= minPoint.second && position.second >= maxPoint.second) {
-      return SUCCESS;
-    }
-    if (velocity.second <= 0 && position.second > minPoint.second) {
-      return FAILURE;
-    }
-    return TRAVEL;
-  }
-
-};
-
-void attempt() {
-
-}
-
 inline bool onX(int x) {
   return minPoint.first <= x && x <= maxPoint.first;
 }
@@ -84,9 +51,8 @@ inline bool onY(int y) {
 
 
 void solve(int part = 1) {
+  // https://www.reddit.com/r/adventofcode/comments/ri9kdq/2021_day_17_solutions/
   vector<unordered_set<int>> validX, validY;
-  
-
   for (int xVel = xvelMin; xVel <= maxPoint.first; ++xVel) {
     int step = 0;
     int x = 0;
