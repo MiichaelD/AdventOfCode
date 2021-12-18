@@ -64,11 +64,6 @@ inline int64_t binaryToDecimal(const string &str) {
   return result;
 }
 
-// Gets number and advances the index reference -- oops, same as below.
-int getNumberAdvancing(const string &line, int &index) {
-  return getNumberRef(line, index);  // Left for compatibility - CLEAN UP!
-}
-
 // Gets the number from the string starting at the given index (or 0) - updates index.
 int getNumberRef(const string &line, int &indexRef) {
   int accum = 0;
@@ -85,6 +80,11 @@ int getNumberRef(const string &line, int &indexRef) {
 // Gets the number from the string starting at the given index (or 0).
 int getNumber(const string &line, int index=0) {
   return getNumberRef(line, index);
+}
+
+// Gets number and advances the index reference -- oops, same as above.
+int getNumberAdvancing(const string &line, int &index) {
+  return getNumberRef(line, index);  // Left for compatibility - CLEAN UP!
 }
 
 
