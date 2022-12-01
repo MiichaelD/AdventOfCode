@@ -41,10 +41,12 @@
 // #include "2021/AdventOfCode_14.h"
 // #include "2021/AdventOfCode_16.h"
 // #include "2021/AdventOfCode_17.h"
-#include "2021/AdventOfCode_18.h"
+// #include "2021/AdventOfCode_18.h"
 // #include "2021/AdventOfCode_19.h"
 // #include "2021/AdventOfCode_20.h"
 // #include "2021/AdventOfCode_21.h"
+#include "2022/AdventOfCode_01.h"
+#include "util/util.h"
 
 // Compiling:    g++ -std=c++11 main.cpp -o main; ./main [<part>|<generate <day>>]
 // Getting a day input:
@@ -68,6 +70,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2021_18::solve(part);
+  aoc2022_01::solve(part);
   return EXIT_SUCCESS;
 }
