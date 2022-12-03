@@ -1,16 +1,16 @@
 /*
-  Link:         http://adventofcode.com/2021/day/4
+  Link:         http://adventofcode.com/2022/day/4
 
   Description:
-  Compiling:    g++ -std=c++11 main.cpp -o main
+  Compiling:    g++ -std=c++11 main.cpp -o main && cat 2022/AdventOfCode_04_input.txt | ./main
 
   Programmer:   Michael Duarte.
 
-  Date:         12/04/2021
+  Date:         12/04/2022
 */
 
-#ifndef _2021_ADVENTOFCODE_04_H_
-#define _2021_ADVENTOFCODE_04_H_
+#ifndef _2022_ADVENTOFCODE_04_H_
+#define _2022_ADVENTOFCODE_04_H_
 
 #include <iostream>
 #include <sstream>
@@ -20,7 +20,7 @@
 
 #include "../util/util.h"
 
-namespace aoc2021_04 {
+namespace aoc2022_04 {
 using namespace std;
 
 static const size_t kBoardSize = 5;
@@ -156,6 +156,6 @@ void solve(int part = 1) {
   util::printPair(firstAndLastWinningBoards(drawnNumbers, boards, part), true);
 }
 
-};  // namespace aoc2021_04
+};  // namespace aoc2022_04
 
-#endif /* _2021_ADVENTOFCODE_04_H_ */
+#endif /* _2022_ADVENTOFCODE_04_H_ */
