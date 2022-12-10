@@ -1,12 +1,12 @@
 /*
-  Link:         http://adventofcode.com/2021/day/5
-  Compiling:    g++ -std=c++11 main.cpp -o main
+  Link:         http://adventofcode.com/2022/day/5
+  Compiling:    g++ -std=c++17 main.cpp -o main && cat 2022/AdventOfCode_05_input.txt | ./main
   Programmer:   Michael Duarte.
-  Date:         12/04/2021
+  Date:         12/10/2022
 */
 
-#ifndef _2021_ADVENTOFCODE_05_H_
-#define _2021_ADVENTOFCODE_05_H_
+#ifndef _2022_ADVENTOFCODE_05_H_
+#define _2022_ADVENTOFCODE_05_H_
 
 #include <algorithm> // std::sort
 #include <iomanip>      // std::setprecision
@@ -22,84 +22,94 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <utility>
 #include "../util/util.h"
 
-namespace aoc2021_05 {  
+namespace aoc2022_05 {  
 using namespace std;
 
-typedef pair<int,int> Point;
-typedef pair<Point,Point>  Line;
+typedef vector<deque<char>> Stacks;
 
-Point getPoint(const string &input) {
-  pair<int,int> result;
-  int index = 0;
-  result.first = util::getNumberRef(input, index);
-  result.second = util::getNumber(input, index + 1);
+std::optional<char> getCrate(const string& input, int& index) {
+  if (index >= input.size() || input[index] == ' ') {
+    index += 4;
+    return std::nullopt;
+  }
+  char result = input[index+1];
+  index +=4;
   return result;
 }
 
-inline bool IsHorizontal(const Line &line) {
-  return (line.first.second == line.second.second);
-}
-
-inline bool IsVertical(const Line &line) {
-  return (line.first.first == line.second.first);
-}
-
-inline bool IsDiagonal(const Line &line) {
-  return !IsHorizontal(line) && !IsVertical(line);
+void printStacks(const Stacks& stacks, bool final = false) {
+  for (int s = 0; s < stacks.size(); ++s) {
+    cout << "Stack [" << s << "] size: " << stacks[s].size() << ". Top crate: " << stacks[s].back() << endl;
+  }
+  if (final) {
+    cout << "Top cranes per stack: ";
+    for (int s = 0; s < stacks.size(); ++s) {
+      cout << stacks[s].back();
+    }
+    cout << endl;
+  }
 }
 
 void solve(int part = 1) {
-  string point1, point2, aux;
-  vector<Line> lines;
-  unordered_map<Point, int, util::pair_hash> overlapPerPoint;
-  while (!cin.eof()) {
-    cin >> point1 >> aux >> point2;
-    Line line;
-    line.first = getPoint(point1);
-    line.second = getPoint(point2);
-    lines.push_back(line);
-    cout << "Line: "; util::printPair(line.first); cout << ", "; util::printPair(line.second);
-    int steps = 0, horizontalDelta = 0, verticalDelta = 0;
-    if (IsHorizontal(line)) {
-      cout << " Horizontal:" << endl;
-      steps = abs(line.first.first - line.second.first);
-      horizontalDelta = line.first.first > line.second.first ? -1 : 1;
-     
-    } else if (IsVertical(line)) {
-      cout << " Vertical:" << endl;
-      steps = abs(line.first.second - line.second.second);
-      verticalDelta = line.first.second > line.second.second ? -1 : 1;
-    } else {
-      if (part == 1) {
-        cout << "Skipped." << endl;
+  string input;
+  Stacks stacks;
+  // Get Stacks state.
+  while (getline(cin, input)) {
+    if (input.empty()) {
+      cout << "Finishing processing" << endl;
+      break;
+    }
+    if (stacks.empty()) {
+      int total_stacks = (input.size() + 1) / 4;
+      cout << "Processing: " << total_stacks << " stacks" << endl;
+      for (int s = 0; s < total_stacks; ++s) {
+        stacks.emplace_back(deque<char>());
+      }
+    }
+    for (int i = 0, s = 0 ; i < input.length(); ++s) {
+      std::optional<char> crate = getCrate(input, i);
+      if (!crate.has_value()) {
         continue;
       }
-      cout << " Diagonal: " << endl;
-      steps = abs(line.first.second - line.second.second);
-      horizontalDelta = line.first.first > line.second.first ? -1 : 1;
-      verticalDelta = line.first.second > line.second.second ? -1 : 1;
-    }
-    int x1 = line.first.first;
-    int y1 = line.first.second;
-    for (int i = 0; i <= steps; ++i) {
-      cout << "\tVisited point: " << x1 << ", " << y1 << " : " <<
-          ++overlapPerPoint[{x1, y1}];
-      cout << " times" << endl;
-      x1 += horizontalDelta;
-      y1 += verticalDelta;
+      stacks[s].push_front(crate.value());
     }
   }
-  int totalPointsWithOverlap = 0;
-  for (const auto &entry : overlapPerPoint) {
-    if (entry.second > 1) {
-      ++totalPointsWithOverlap;
+  printStacks(stacks);
+  // Process instructions
+  while (getline(cin, input)) {
+    int index = 5;
+    int cranes_to_move = util::getNumberRef(input, index);
+    index += 6;
+    int from = util::getNumberRef(input, index) - 1;
+    index += 4;
+    int to = util::getNumberRef(input, index) - 1;
+    cout << "Moving " << cranes_to_move << " cranes from " << from + 1 << " to " << to + 1 << endl;
+
+    deque<char> temp_queue;
+    for (int c = 0; c < cranes_to_move; ++c) { 
+      if (part == 1) {
+        stacks[to].push_back(stacks[from].back());
+        stacks[from].pop_back();
+      } else {
+        temp_queue.push_back(stacks[from].back());
+        stacks[from].pop_back();
+      }
     }
+    if (part != 1) {
+      while(!temp_queue.empty()) {
+        stacks[to].push_back(temp_queue.back());
+        temp_queue.pop_back();
+      }
+    }
+    printStacks(stacks);
+    cout << endl << endl;
   }
-  cout << "Total Points w/ Overlap: " << totalPointsWithOverlap << endl;
+  printStacks(stacks, true);
 }
 
 };
 
-#endif /* _2021_ADVENTOFCODE_05_H_ */
+#endif /* _2022_ADVENTOFCODE_05_H_ */
