@@ -77,6 +77,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2022_08::solve(part);
+  aoc2022_06::solve(part);
   return EXIT_SUCCESS;
 }

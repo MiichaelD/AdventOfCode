@@ -2,7 +2,7 @@
   Link:         http://adventofcode.com/2022/day/6
   Compiling:    g++ -std=c++17 main.cpp -o main && cat 2022/AdventOfCode_06_input.txt | ./main
   Programmer:   Michael Duarte.
-  Date:         12/10/2022
+  Date:         12/12/2022
 */
 
 #ifndef _2022_ADVENTOFCODE_06_H_
@@ -26,48 +26,39 @@
 
 namespace aoc2022_06 {  
 using namespace std;
+const int kStartPacketSize = 4;
+const int kStartMessageSize = 14;
 
-const int kWaitPerCreation = 7;
-const int kInitialWaitPerCreation = kWaitPerCreation + 1;
-const vector<int> daysOfInterest = {18, 80, 256};
-
-size_t SimulateLanternFishesDay(const vector<int> &lanternFishes, int days) {
-  uint64_t totalLF;
-  vector<uint64_t> fishesPerDay(10, 0);
-  for (int fishPeriod : lanternFishes) {
-    ++fishesPerDay[fishPeriod];
-  }
-  for (int day = 0; day <= days; ++day) {
-    bool interest = (day == daysOfInterest[0] || day == daysOfInterest[1] || day == daysOfInterest[2]);
-    if (interest) cout << endl << "Day " << day << ":\t";
-    uint64_t previousZero = fishesPerDay[0];
-    totalLF = previousZero;
-    for (int i = 1; i < fishesPerDay.size(); ++i) {
-      totalLF += fishesPerDay[i];
-      fishesPerDay[i - 1] = fishesPerDay[i];
-      if (interest && fishesPerDay[i]) cout << fishesPerDay[i] <<  " x '" << i <<  "', ";
+size_t findPos(const string& input, int target) {
+  deque<char> q;
+  unordered_map<char, int> seen;
+  for (size_t i = 0; i < input.size(); ++i) {
+    q.push_back(input[i]);
+    if (q.size() > target) {
+      char removed = q.front();
+      q.pop_front();
+      --seen.at(removed);
+      if (seen.at(removed) == 0) {
+        seen.erase(removed);
+      }
     }
-    if (previousZero) {
-      fishesPerDay[6] += previousZero;
-      fishesPerDay[8] = previousZero;
-      if (interest) cout << previousZero <<  " x '0', ";
+    if (seen.find(input[i]) == seen.end()) {
+      seen.insert({input[i], 0});
     }
-    if (interest) cout << endl << "Total Lantern Fishes in " << day << " days: " << totalLF << endl;
+    ++seen.at(input[i]);
+    if (seen.size() == target) {
+      return i;
+    }
   }
-  return totalLF;
+  return 0;
 }
 
 void solve(int part = 1) {
   string input;
-  cin >> input;
-  vector<int> counters;
-  for (int index = 0; index < input.length(); ++index) {
-    int n = util::getNumberRef(input, index);
-    counters.push_back(n);
+  while(getline(cin, input)) {
+    size_t solution = findPos(input, part == 1 ? kStartPacketSize : kStartMessageSize) + 1;
+    cout << "End of first Marker at pos: " << solution << endl;
   }
-  cout << "Initial state:\t";
-  util::printVector(counters);
-  SimulateLanternFishesDay(counters, part == 1 ? 80 : 256);
 }
 
 };
