@@ -1,8 +1,8 @@
 /*
-  Link:         http://adventofcode.com/2021/day/8
-  Compiling:    g++ -std=c++11 main.cpp -o main
+  Link:         http://adventofcode.com/2022/day/8
+  Compiling:    g++ -std=c++17 main.cpp -o main && cat 2022/AdventOfCode_08_input.txt | ./main
   Programmer:   Michael Duarte.
-  Date:         12/07/2021
+  Date:         12/07/2022
 
          0  1  2  3  4  5  6  7  8  9             765432
 a = 8 (6,    5, 5,    5, 6, 3, 7, 6) _3_5556667 133010
@@ -14,8 +14,8 @@ f = 9 (6, 2,    5, 4, 5, 6, 3, 7, 6) 23455_6667 132111
 g = 7 (6,    5, 5,    5, 6,    7, 6) ___5556667 133000
 */
 
-#ifndef _2021_ADVENTOFCODE_08_H_
-#define _2021_ADVENTOFCODE_08_H_
+#ifndef _2022_ADVENTOFCODE_08_H_
+#define _2022_ADVENTOFCODE_08_H_
 
 #include <algorithm> // std::sort
 #include <iomanip>      // std::setprecision
@@ -34,191 +34,163 @@ g = 7 (6,    5, 5,    5, 6,    7, 6) ___5556667 133000
 #include "../util/util.h"
 #include "../util/robot_2020.h"
 
-namespace aoc2021_08 {
+namespace aoc2022_08 {
 using namespace std;
 
-typedef pair<vector<string>,vector<string>> Entry;
+typedef vector<vector<int>> Map;
 
-// 7 = ACF and 1 = CF, (ACF - CF) = A;
-char findA(const string &one, const string &seven) {
-  for (char c : seven) {
-    bool found = false;
-    for (char d : one) {
-      if (d == c) {
-        found = true;
-        break;
+void printMap(const Map& map) {
+  for (int r = 0; r < map.size(); ++r) {
+    for (int c = 0; c < map[r].size(); ++c) {
+      cout << map[r][c];
+    }
+    cout << endl;
+  }
+}
+
+bool isTreeVisible(const Map& map, int r, int c) {
+  // top
+  int i = 0;
+  int curTree = map[r][c];
+  for (i = r - 1; i >= 0; --i) {
+    if (map[i][c] >= curTree) {
+      break;
+    }
+  }
+  if (i == -1) {
+    cout << curTree << " Visible from the top" << endl;
+    return true;
+  }
+  // left
+  for (i = c - 1; i >= 0; --i) {
+    if (map[r][i] >= curTree) {
+      break; 
+    }
+  }
+  if (i == -1) {
+    cout << curTree << " Visible from the left" << endl;
+    return true;
+  }
+  // bottom
+  for (i = r + 1; i < map[r].size(); ++i) {
+    if (map[i][c] >= curTree) {
+      break;
+    }
+  }
+  if (i == map[r].size()) {
+    cout << curTree << " Visible from the bottom" << endl;
+    return true;
+  }
+  // right
+  for (i = c + 1; i < map[r].size(); ++i) {
+    if (map[r][i] >= curTree) {
+      break;
+    }
+  }
+  if (i == map.size()) {
+    cout << curTree << " Visible from the right" << endl;
+    return true;
+  }
+  cout << curTree << " Not visible" << endl;
+  return false;
+}
+
+size_t treeScenicScore(const Map& map, int r, int c) {
+  
+  size_t score = 0, top_score = 0, left_score = 0, bottom_score = 0, right_score = 0;
+  int i = 0;
+  int curTree = map[r][c];
+  // top
+  for (i = r - 1; i >= 0; --i) {
+      ++top_score;
+    if (map[i][c] >= curTree) {
+      break;
+    }
+  }
+  cout << "\t" <<curTree << " Score from the top: " << top_score << endl;
+  // left
+  for (i = c - 1; i >= 0; --i) {
+    ++left_score;
+    if (map[r][i] >= curTree) {
+      break;
+    }
+  }
+  cout << "\t" <<curTree << " Score from the left: " << left_score << endl;
+  // bottom
+  for (i = r + 1; i < map[r].size(); ++i) {
+    ++bottom_score;
+    if (map[i][c] >= curTree) {
+      break;
+    }
+  }
+  cout << "\t" << curTree << " Score from the bottom: " << bottom_score << endl;
+  // right
+  for (i = c + 1; i < map[r].size(); ++i) {
+    ++right_score;
+    if (map[r][i] >= curTree) {
+      break;
+    }
+  }
+  cout << "\t" <<curTree << " Score from the right: " << right_score << endl;
+  score = top_score * left_score * right_score * bottom_score;
+  return score;
+}
+
+size_t visibleTreeCount(const Map& map) {
+  size_t result = (map.front().size() * 2) + ((map.size() - 2) * 2);
+  for (int r = 1; r < map.size() - 1; ++r) {
+    for (int c = 1; c < map[r].size() - 1; ++c) {
+      if (isTreeVisible(map, r, c)) {
+        ++result;
       }
     }
-    if (!found) {
-      cout << "\t" << c << " is Segment: a" << endl;
-      return c;
-    }
   }
-  return 0;
+  return result;
 }
 
-// 1 = CF, it will be the only missing once we have decoded F.
-char findC(const string &one, char f) {
-  for (char c : one) {
-    if (c != f) {
-      cout << "\t" << c << " is Segment: c" << endl;
-      return c;
-    }
-  }
-  return 0;
-}
-
-// 4 = BCDF, it will be the only one missing once we have decoded BDF.
-char findD(const string &four, const unordered_map<char,char> &decoder) {
-  for (char c : four) {
-    if (decoder.find(c) == decoder.end()) {
-      cout << "\t" << c << " is Segment: g" << endl;
-      return c;
-    }
-  }
-  return 0;
-}
-
-char findG(const unordered_map<char,char> &decoder) {  // The only character not seen.
-  int accumulator = 0;
-  for (const auto &p : decoder) {
-    accumulator |= 1 << (p.first - 'a');
-  }
-  for (int i = 0; i < 7; ++i) {
-    if ((accumulator & (1 << i)) == 0) {
-      char result = 'a' + i;
-      cout << "\t" << result << " is Segment: d" << endl;
-      return result;
-    }
-  }
-  return 0;
-}
-
-int decode(const vector<string> message,  const unordered_map<char,char> &decoder) {
-  int solution = 0;
-  for (int i = 0; i < message.size(); ++i) {
-    int digit = 0;
-    const string &digitStr = message[i];
-    switch(digitStr.size()) {
-      case 2: digit = 1; break;
-      case 3: digit = 7; break;
-      case 4: digit = 4; break;
-      case 7: digit = 8; break;
-     default:
-      // Decode:
-      stringstream ss;
-      for (char c : digitStr) {
-        ss << decoder.at(c);
-      }
-      string decodedSegments = ss.str();
-      sort(decodedSegments.begin(), decodedSegments.end());
-      if (decodedSegments == "acdeg") {
-        digit = 2;
-      } else if (decodedSegments == "acdfg") {
-        digit = 3;
-      }else if (decodedSegments == "abdfg") {
-        digit = 5;
-      }else if (decodedSegments == "abdefg") {
-        digit = 6;
-      }else if (decodedSegments == "abcdfg") {
-        digit = 9;
+size_t bestScenicScore(const Map& map) {
+  size_t best_score = 0;
+  pair<int,int> best_tree;
+  for (int r = 1; r < map.size() - 1; ++r) {
+    for (int c = 1; c < map[r].size() - 1; ++c) {
+      size_t score = treeScenicScore(map, r, c); 
+      if (score > best_score) {
+        best_score = score;
+        best_tree = {r, c};
+        cout << "Tree " << map[r][c] << " at (" << r << ", " << c << ") is the best tree so far." << endl;
       }
     }
-
-    digit *= pow(10, 3 - i);
-    solution += digit;
   }
-  return solution;
-}
 
-int decode(const Entry &entry) {
-  int solution = 0;
-  util::printVector(entry.first); cout << " | "; util::printVector(entry.second);
-  cout << endl;
-
-  unordered_map<char,char> decoder;
-  vector<int> letterReps(7);
-  vector<int> digitsIndex(10);
-
-  for (int i = 0; i < entry.first.size(); ++i) {
-    for (int j = 0; j < entry.first[i].size(); ++j) {
-      ++letterReps[entry.first[i][j] - 'a'];
-    }
-    switch(entry.first[i].size()) {
-      case 2: digitsIndex[1] = i;  break;// one:  cc ff 
-      case 4: digitsIndex[4] = i; break; // four: bb cc dd ff
-      case 3: digitsIndex[7] = i; break; // seven: aa cc ff
-      case 7: digitsIndex[8] = i; break; // eight: aa bb cc dd ee ff gg
-    }
-  }
-  decoder[findA(entry.first[digitsIndex[1]], entry.first[digitsIndex[7]])] = 'a';
-  for (char i = 0 ; i < letterReps.size(); ++i) {
-    switch(letterReps[i]) {
-      case 4: decoder['a' + i] = 'e';
-        cout << "\t" << (char)('a' + i) << " is Segment: e" << endl;; 
-        break;
-      case 6: decoder['a' + i] = 'b';
-        cout << "\t" << (char)('a' + i) << " is Segment: b" << endl;
-        break;
-      case 9: decoder['a' + i] = 'f';
-        cout << "\t" << (char)('a' + i) << " is Segment: f" << endl;
-
-        decoder[findC(entry.first[digitsIndex[1]], 'a' + i)] = 'c';
-        break;
-      default:
-        break;
-    }
-  }
-  decoder[findD(entry.first[digitsIndex[4]], decoder)] = 'd';
-  decoder[findG(decoder)] = 'g';
-
-  cout << endl << "Decoder: ";
-  for (const pair<char,char> &entry : decoder) {
-    util::printPair(entry);
-  }
-  solution = decode(entry.second, decoder);
-  cout << endl << "Decoded value: " << solution << endl;
-  return solution;
+  // size_t score = treeScenicScore(map, 3, 2);
+  // if (score > best_score) {
+  //   best_score = score;
+  //   best_tree = {3, 2};
+  // }
+  cout << "Tree " << map[best_tree.first][best_tree.second] << " at (";
+  cout << best_tree.first << ", " << best_tree.second << ") is the best tree." << endl;
+  return best_score;
 }
 
 void solve(int part = 1) {
-  vector<Entry> input;
-  string word;
-  size_t uniqueSegmentNumbersReps = 0;
-  size_t decodedValuesSum = 0;
-  while(!cin.eof()) {
-    input.push_back({vector<string>(10), vector<string>(4)});
-    for (int i = 0 ; i < 10; ++i) {
-      cin >> input.back().first[i];
-      // sort(input.back().first[i].begin(), input.back().first[i].end());
+  string line;
+  Map map;
+  while(getline(cin, line)) {
+    map.emplace_back(vector<int>());
+    for (char c: line) {
+      map.back().push_back(c - '0');
     }
-    cin >> word;
-    for (int i = 0 ; i < 4; ++i) {
-      cin >> input.back().second[i];
-      switch (input.back().second[i].size()) {
-        case 2: // one:  cc ff 
-        case 4: // four: bb cc dd ff
-        case 3: // seven: aa cc ff
-        case 7: // eight: aa bb cc dd ee ff gg
-          ++uniqueSegmentNumbersReps;
-          // cout << "\t" << input.back().second << " Has " << input.back().second.size() << " digits." << endl;
-        case 5: //  two:    aa cc dd ee gg
-                //  three:  aa cc dd ff gg
-                //  five:   aa bb dd ff gg
-        case 6: //  six:    aa bb dd ee ff gg
-                //  nine:   aa bb cc dd ff gg 
-                //  zero:   aa bb cc ee ff gg
-        default:
-          break;
-      }
-      // sort(input.back().second[i].begin(), input.back().second[i].end());
-    }
-    decodedValuesSum += decode(input.back());
   }
-  cout << "Part 1: Unique Segment Number Reps: " << uniqueSegmentNumbersReps << endl;
-  cout << "Part 2: Decoded values sum:         " << decodedValuesSum << endl;
+  printMap(map);
+  if (part == 1) {
+    size_t result = visibleTreeCount(map);
+    cout << "Total visible trees: " << result << endl;
+  } else {
+    size_t result = bestScenicScore(map);
+    cout << "Tree with best score: " << result << endl;
+  }
 }
 
-};  // aoc2021_08
+};  // aoc2022_08
 
-#endif /* _2021_ADVENTOFCODE_08_H_ */
+#endif /* _2022_ADVENTOFCODE_08_H_ */

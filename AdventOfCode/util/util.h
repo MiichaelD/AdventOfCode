@@ -78,12 +78,12 @@ int getNumberRef(const string &line, int &indexRef) {
   return accum;
 }
 // Gets the number from the string starting at the given index (or 0).
-int getNumber(const string &line, int index=0) {
+inline int getNumber(const string &line, int index=0) {
   return getNumberRef(line, index);
 }
 
 // Gets number and advances the index reference -- oops, same as above.
-int getNumberAdvancing(const string &line, int &index) {
+inline int getNumberAdvancing(const string &line, int &index) {
   return getNumberRef(line, index);  // Left for compatibility - CLEAN UP!
 }
 
