@@ -20,9 +20,6 @@
  std::unordered_map<std::string, int> numbers = 
  {{"one", 1}, {"two", 2}, {"three", 3}, {"four", 4},  {"five", 5},
  {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9 }};
- std::unordered_map<std::string, int> numbers_backwards = 
- {{"eno", 1}, {"owt", 2}, {"eerht", 3}, {"ruof", 4},  {"evif", 5},
- {"xis", 6}, {"neves", 7}, {"thgie", 8}, {"enin", 9 }};
 
 namespace aoc2023_01 {
   using namespace std;
@@ -79,10 +76,10 @@ namespace aoc2023_01 {
         break;
       } else {
         bool match = true;
-        for (const auto& entry : numbers_backwards) {
+        for (const auto& entry : numbers) {
           match = true;
           for (int x = 0; x < entry.first.size(); ++x) {
-            if (input.at(i - x) != entry.first[x]) {
+            if (input.at(i - x) != entry.first[entry.first.size() -1 - x]) {
               match = false;
               break;
             }
