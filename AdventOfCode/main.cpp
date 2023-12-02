@@ -45,14 +45,16 @@
 // #include "2021/AdventOfCode_19.h"
 // #include "2021/AdventOfCode_20.h"
 // #include "2021/AdventOfCode_21.h"
-#include "2022/AdventOfCode_01.h"
-#include "2022/AdventOfCode_02.h"
-#include "2022/AdventOfCode_03.h"
-#include "2022/AdventOfCode_04.h"
-#include "2022/AdventOfCode_05.h"
-#include "2022/AdventOfCode_06.h"
-#include "2022/AdventOfCode_07.h"
-#include "2022/AdventOfCode_08.h"
+// #include "2022/AdventOfCode_01.h"
+// #include "2022/AdventOfCode_02.h"
+// #include "2022/AdventOfCode_03.h"
+// #include "2022/AdventOfCode_04.h"
+// #include "2022/AdventOfCode_05.h"
+// #include "2022/AdventOfCode_06.h"
+// #include "2022/AdventOfCode_07.h"
+// #include "2022/AdventOfCode_08.h"
+#include "2023/AdventOfCode_01.h"
+// #include "2022/AdventOfCode_02.h"
 #include "util/util.h"
 
 // Compiling:    g++ -std=c++11 main.cpp -o main; ./main [<part>|<generate <day>>]
@@ -77,6 +79,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2022_06::solve(part);
+  aoc2023_01::solve(part);
   return EXIT_SUCCESS;
 }
