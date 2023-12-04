@@ -2,7 +2,7 @@
   Link:         http://adventofcode.com/2023/day/04
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/04/2023
+  Date:         12/03/2023
 */
 
 #ifndef _2023_ADVENTOFCODE_04_H_
