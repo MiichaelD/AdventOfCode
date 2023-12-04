@@ -59,9 +59,9 @@
 
 // Compiling:    g++ -std=c++11 main.cpp -o main; ./main [<part>|<generate <day>>]
 // Getting a day input:
-// curl --cookie "session=<session_str>" https://adventofcode.com/2020/day/<day>/input
+// curl --cookie "session=<session_str>" https://adventofcode.com/2023/day/<day>/input
 static constexpr char kGenerate[] = "generate";
-static constexpr char kTemplateFilename[] = "2021/AdventOfCode.txt";
+static constexpr char kTemplateFilename[] = "2023/AdventOfCode.txt";
 
 int main(int argc, char *argv[]) {
   using namespace std;

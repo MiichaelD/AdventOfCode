@@ -1,12 +1,12 @@
 /*
-  Link:         http://adventofcode.com/2020/day/XX
+  Link:         http://adventofcode.com/2023/day/XX
   Compiling:    g++ -std=c++11 main.cpp -o main
   Programmer:   Michael Duarte.
-  Date:         12/XX/2020
+  Date:         12/XX/2023
 */
 
-#ifndef _2021_ADVENTOFCODE_XX_H_
-#define _2021_ADVENTOFCODE_XX_H_
+#ifndef _2023_ADVENTOFCODE_XX_H_
+#define _2023_ADVENTOFCODE_XX_H_
 
 #include <algorithm> // std::sort
 #include <iomanip>      // std::setprecision
@@ -25,7 +25,7 @@
 #include <vector>
 #include "../util/util.h"
 
-namespace aoc2021_XX {
+namespace aoc2023_XX {
 using namespace std;
 
 void solve1() {
@@ -46,6 +46,6 @@ void solve(int part = 1) {
   }
 }
 
-};  // aoc2021_XX
+};  // aoc2023_XX
 
-#endif /* _2021_ADVENTOFCODE_XX_H_ */
+#endif /* _2023_ADVENTOFCODE_XX_H_ */
