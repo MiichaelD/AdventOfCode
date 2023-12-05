@@ -65,6 +65,21 @@ inline int64_t binaryToDecimal(const string &str) {
 }
 
 // Gets the number from the string starting at the given index (or 0) - updates index.
+template<class T>
+T getNumberRef(const string &line, int &indexRef) {
+  T accum = 0;
+  for (; indexRef < line.size(); ++indexRef) {
+    if (isdigit(line[indexRef])) {
+      accum *= 10;
+      accum += line[indexRef] - '0';
+    } else {
+      break;
+    }
+  }
+  return accum;
+}
+
+// Gets the number from the string starting at the given index (or 0) - updates index.
 int getNumberRef(const string &line, int &indexRef) {
   int accum = 0;
   for (; indexRef < line.size(); ++indexRef) {
@@ -77,6 +92,7 @@ int getNumberRef(const string &line, int &indexRef) {
   }
   return accum;
 }
+
 // Gets the number from the string starting at the given index (or 0).
 inline int getNumber(const string &line, int index=0) {
   return getNumberRef(line, index);
