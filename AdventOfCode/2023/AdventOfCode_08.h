@@ -106,8 +106,10 @@ void solve(int part = 1) {
   uint64_t steps = 0;
   
   vector<Solver> solvers;
+  vector<uint64_t> solutions;
   for (const string* starting_node_id : input.starting_nodes_ids) {
     solvers.emplace_back(input, starting_node_id, part);
+    solutions.emplace_back(0);
   }
 
   while(true) {
@@ -116,13 +118,33 @@ void solve(int part = 1) {
     char instruction = input.instructions[index];
     // cout << "\tInstruction: " << instruction << endl;
     size_t finished = 0;
-    for (Solver& solver : solvers) {
-      if (solver.Step(instruction)) {
+    for (int s = 0; s < solvers.size(); ++s) {
+      if (solvers[s].Step(instruction)) {
         ++finished;
+        if (!solutions[s]) {
+          solutions[s] = steps;
+        }
       }
     }
     if (finished == solvers.size()){
-      break; // We're done.
+      break; // We're done linearly.
+    }
+    int s = 0;
+    uint64_t hacked_solution = 1;
+    for (; s< solutions.size(); ++s) {
+      if (!solutions[s]) {
+        break;
+      }
+      hacked_solution *= solutions[s];
+    }
+    if (s == solutions.size()) {
+      cout << "Found a pattern on each solver at step: " << steps << endl;
+      cout << "Now find the LCM / MCD of the following patterns here:\t";
+      cout << "https://calculatorsoup.com/calculators/math/lcm.php" << endl;
+      
+      util::printVector(solutions, true);
+      steps = hacked_solution;
+      break;
     }
   }
   cout << "Solution " << steps << " steps." << endl;
