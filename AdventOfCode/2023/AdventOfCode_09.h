@@ -28,78 +28,87 @@
 namespace aoc2023_09 {
 using namespace std;
 
-vector<vector<int64_t>> getInput() {
+vector<deque<int64_t>> getInput(int part = 1) {
   string input;
-  vector<vector<int64_t>> histories;
+  vector<deque<int64_t>> histories;
   while(!cin.eof()) {
     getline(cin, input);
     histories.emplace_back();
     for (int i = 0; i < input.size(); ++i) {
-      histories.back().push_back(util::getNumberRef(input, i));
+      if (part == 1) {
+        histories.back().push_back(util::getNumberRef<int64_t>(input, i));
+      } else {
+        histories.back().push_front(util::getNumberRef<int64_t>(input, i));
+      }
     }
   }
   return histories;
 }
 
-int64_t interpolate(vector<int64_t>& history, int depth = 1) {
+int64_t interpolate(deque<int64_t>& history, int part = 1, int depth = 1) {
   int64_t solution = 0l;
-  vector<int64_t> sub_history;
+  deque<int64_t> sub_history;
   bool all_zeroes = true;
   for (int i = 0; i < depth; ++i) {
-    cout << "\t"; 
+    cout << "  "; 
   }
+
   for (int i = 1; i < history.size(); ++i) {
-    int64_t delta = history[i] - history[i - 1];
+    // int64_t delta = history[i] - history[i - 1];
+    int64_t delta = part == 1
+        ? history[i] - history[i - 1]
+        : history[i - 1] - history[i];
     if (delta != 0) { all_zeroes = false; }
     sub_history.push_back(delta);
   }
-  util::printVector(sub_history, false); cout << endl << "\t"; 
+  // if (part == 1) {
+  //   for (int i = 1; i < history.size(); ++i) {
+  //     int64_t delta = history[i] - history[i - 1];
+  //     if (delta != 0) { all_zeroes = false; }
+  //     sub_history.push_back(delta);
+  //   }
+  // } else {
+  //   for (int i = history.size() - 2; i >= 0; --i) {
+  //     int64_t delta = history[i + 1] - history[i];
+  //     if (delta != 0) { all_zeroes = false; }
+  //     sub_history.push_front(delta);
+  //   }
+  // }
+  util::printDeque(sub_history, false); cout << endl << "\t"; 
   if (all_zeroes) {
     for (int i = 0; i < depth; ++i) {
-      cout << "\t"; 
+      cout << "  "; 
     }
-    cout << "\treturning 0" << endl;
+    cout << "  returning 0" << endl;
     history.emplace_back(0);
     return 0;
   } 
   for (int i = 0; i < depth; ++i) {
-    cout << "\t"; 
+    cout << "  "; 
   }
   int64_t last_item =  sub_history.back();
-  auto result =  interpolate(sub_history, depth + 1);
-  solution = last_item + result;
+  auto result =  interpolate(sub_history, part, depth + 1);
+  solution = part == 1 ? last_item + result : last_item - result;
   history.push_back(solution);
   for (int i = 0; i < depth; ++i) {
-    cout << "\t"; 
+    cout << "  "; 
   }
-  cout << "\tlast step returned: " << solution << endl; 
+  cout << "  returning: " << solution << endl; 
   return solution;
 }
 
-void solve1() {
-  vector<vector<int64_t>> histories = getInput();
+void solve(int part = 1) {
+  vector<deque<int64_t>> histories = getInput(part);
   int64_t solution = 0;
   for (auto& h : histories) {
-    cout << "History: "; util::printVector(h, false);
-    cout << endl << "\t";
-    auto step_solution =  h.back() + interpolate(h);
+    cout << "History: "; util::printDeque(h, false);
+    cout << endl << "  ";
+    auto step_solution = part == 1 ? h.back() + interpolate(h, part)
+                                   : h.back() - interpolate(h, part);
     solution += step_solution;
     cout << "Solution:  " << step_solution << endl;
   }
   cout << "Complete solution: " <<solution << endl;
-}
-
-void solve2() {
-  string input;
-  cin >> input;
-}
-
-void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
-  }
 }
 
 };  // aoc2023_09

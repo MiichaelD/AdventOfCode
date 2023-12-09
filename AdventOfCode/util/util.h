@@ -53,6 +53,16 @@ inline void printVector(const vector<T> &container, bool lineBreak = false) {
   cout << ']';
   if (lineBreak) cout << endl;
 }
+template<class T>
+inline void printDeque(const deque<T> &container, bool lineBreak = false) {
+  cout << "[";
+  for (const T& element : container) {
+    cout << element << ", ";
+    if (lineBreak) cout << endl;
+  }
+  cout << ']';
+  if (lineBreak) cout << endl;
+}
 
 inline int64_t binaryToDecimal(const string &str) {
   int64_t result = 0;
@@ -67,29 +77,39 @@ inline int64_t binaryToDecimal(const string &str) {
 // Gets the number from the string starting at the given index (or 0) - updates index.
 template<class T>
 T getNumberRef(const string &line, int &indexRef) {
+  int first = indexRef;
+  bool negate = false;
   T accum = 0;
   for (; indexRef < line.size(); ++indexRef) {
     if (isdigit(line[indexRef])) {
       accum *= 10;
       accum += line[indexRef] - '0';
+    } else if (first == indexRef && line[indexRef] == '-') {
+      negate = true;
     } else {
       break;
     }
   }
+  if (negate) accum *= -1;
   return accum;
 }
 
 // Gets the number from the string starting at the given index (or 0) - updates index.
 int getNumberRef(const string &line, int &indexRef) {
+  int first = indexRef;
+  bool negate = false;
   int accum = 0;
   for (; indexRef < line.size(); ++indexRef) {
     if (isdigit(line[indexRef])) {
       accum *= 10;
       accum += line[indexRef] - '0';
+    } else if (first == indexRef && line[indexRef] == '-') {
+      negate = true;
     } else {
       break;
     }
   }
+  if (negate) accum *= -1;
   return accum;
 }
 
