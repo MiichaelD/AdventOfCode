@@ -130,12 +130,10 @@ void solve(int part = 1) {
       break; // We're done linearly.
     }
     int s = 0;
-    uint64_t hacked_solution = 1;
     for (; s< solutions.size(); ++s) {
       if (!solutions[s]) {
         break;
       }
-      hacked_solution *= solutions[s];
     }
     if (s == solutions.size()) {
       cout << "Found a pattern on each solver at step: " << steps << endl;
@@ -143,7 +141,6 @@ void solve(int part = 1) {
       cout << "https://calculatorsoup.com/calculators/math/lcm.php" << endl;
       
       util::printVector(solutions, true);
-      steps = hacked_solution;
       break;
     }
   }
