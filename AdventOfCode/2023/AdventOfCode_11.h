@@ -80,24 +80,25 @@ struct PuzzleInput {
   }
 };
 
-void Expand(PuzzleInput& input, int increment = 1) {
-  cout << "Expanding Rows" << endl;
-  for (int r = input.rows_no_gal.size() - 1; r >= 0; --r) {
-    for (auto& entry : input.galaxies_vec) {
+void Expand(PuzzleInput& input, int64_t increment = 1) {
+  for (auto& entry : input.galaxies_vec) {
+    // rows
+    int64_t times = 0;
+    for (int r = input.rows_no_gal.size() - 1; r >= 0; --r) {
       if (entry.first > input.rows_no_gal[r]) {
-        entry.first += increment;
+        ++times;
       }
     }
-  }
-  cout << "Expanding Cols" << endl;
-  for (int c = input.cols_no_gal.size() - 1; c >= 0; --c) {
-    for (auto& entry : input.galaxies_vec) {
+    entry.first += (increment * times);
+    // Cols
+    times = 0;
+    for (int c = input.cols_no_gal.size() - 1; c >= 0; --c) {
       if (entry.second > input.cols_no_gal[c]) {
-        entry.second += increment;
+        ++times;
       }
     }
+    entry.second += (increment * times);
   }
-
   cout << "New galaxies expanded: " << endl;
   for (const auto& entry : input.galaxies_vec) {
     input.galaxies_expanded.insert(entry);
@@ -122,7 +123,7 @@ int64_t Distance(const PuzzleInput& input) {
 
 void solve(int part = 1) {
   PuzzleInput input = PuzzleInput::GetInput();
-  Expand(input, part == 1 ? 1 : 100);
+  Expand(input, part == 1 ? 1 : (1000000 - 1)); //1000000
   int64_t result = Distance(input);
   cout << "Solution: " << result << endl;
 }
