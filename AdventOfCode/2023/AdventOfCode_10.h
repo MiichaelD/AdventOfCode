@@ -154,26 +154,13 @@ size_t Navigate(
   return longest;
 }
 
-void solve1() {
- PuzzleInput input = PuzzleInput::GetInput();
- vector<char> possible_directions{kNorth, kWest, kSouth, kEast};
+void solve(int part = 1) {
+  PuzzleInput input = PuzzleInput::GetInput();
+  vector<char> possible_directions{kNorth, kWest, kSouth, kEast};
   unordered_map<pair<int,int>, size_t, util::pair_hash> visited_pos;
   for (char dir: possible_directions) {
     auto res = Navigate(input, visited_pos, dir);
     cout << "Going " << dir << ". Longest position at: " << res << " steps" << endl;
-  }
-}
-
-void solve2() {
-  string input;
-  cin >> input;
-}
-
-void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
   }
 }
 
