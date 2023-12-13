@@ -32,7 +32,7 @@ class Challenge {
   public:
   vector<string> read;
 
-  void print() const {
+  inline void print() const {
     util::printVector(read, true);
   }
 
@@ -44,8 +44,7 @@ class Challenge {
     }
     for (int r = 0; r < challenge.read.size(); ++r) {
       if (challenge.read[r][c_a] != challenge.read[r][c_b]) {
-        // cout << "\tFailed at row: " << r << endl;
-        // we found a mismatch
+        // cout << "\tFailed at row: " << r << endl;  // we found a mismatch
         if (--smudge < 0) {
           // cout << "\t\t No smudge left" << endl;
           return false;
@@ -64,8 +63,7 @@ class Challenge {
     }
     for (int c = 0; c < challenge.read.back().size(); ++c) {
       if (challenge.read[r_a][c] != challenge.read[r_b][c]) {
-        // cout << "\tFailed at col: " << c << endl;
-        // we found a mismatch
+        // cout << "\tFailed at col: " << c << endl;  // we found a mismatch
         if (--smudge < 0) {
           // cout << "\t\t No smudge left" << endl;
           return false;
@@ -115,14 +113,8 @@ public:
     }
     return input;
   }
-  void print() const {
-    for (const auto& challenge : challenges) {
-      challenge.print();
-      cout << endl;
-    }
-  }
  
-  int64_t CountWaysToSolve(int part = 1) {
+  int64_t FindReflectionValue(int part = 1) {
     int64_t solutions = 0;
     int64_t multiplier = 100;
     for (const auto& challenge : challenges) {
@@ -138,7 +130,7 @@ public:
 
 void solve(int part = 1) {
   PuzzleInput input = PuzzleInput::GetInput();
-  auto solutions =  input.CountWaysToSolve(part);
+  auto solutions =  input.FindReflectionValue(part);
   cout << "Possible Solutions: " << solutions << endl;
 }
 
