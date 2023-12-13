@@ -105,6 +105,7 @@ size_t Navigate(
       case '-':   // East-West
         current_pos.second += direction == kWest ? -1 : 1;
         break;
+      // case '└':
       case 'L':  // North-East
         if (direction == kSouth) {
           direction = kEast;
@@ -114,6 +115,7 @@ size_t Navigate(
           current_pos.first -= 1;
         }
         break;
+      // case '┘':
       case 'J':  // North-West
         if (direction == kSouth) {
           direction = kWest;
@@ -123,6 +125,7 @@ size_t Navigate(
           current_pos.first -= 1;
         }
         break;
+      // case '┐':
       case '7':  // South-West
         if (direction == kNorth) {
           direction = kWest;
@@ -132,6 +135,7 @@ size_t Navigate(
           current_pos.first += 1;
         }
         break;
+      // case '┌':
       case 'F':  // South-East
         if (direction == kNorth) {
           direction = kEast;
