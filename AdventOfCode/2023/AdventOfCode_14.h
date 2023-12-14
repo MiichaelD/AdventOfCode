@@ -28,22 +28,88 @@
 namespace aoc2023_14 {
 using namespace std;
 
-void solve1() {
-  string input;
-  cin >> input;  
-}
+class PuzzleInput {
+  public:
+  vector<string> map;
 
-void solve2() {
-  string input;
-  cin >> input;
-}
+  static PuzzleInput GetInput() {
+    PuzzleInput input;
+    while(!cin.eof()) {
+      getline(cin, input.map.emplace_back());
+    }
+    return input;
+  }
+
+  void ShakeNorth() {
+    cout << endl << "Shaking North" << endl << endl;
+    for (int c = 0; c < map.back().size(); ++c) {
+      int empty_spaces = 0;
+      int first_empty_row = -1;
+      for (int r = 0; r < map.size(); ++r) {
+        switch(map[r][c]) {
+          case 'O': {
+            if (!empty_spaces) {
+              break;
+            }
+            map[first_empty_row++][c] = 'O';
+            map[r][c] = '.';
+            --r; // let's reevaluate.
+            // int distance_to_move = r - first_empty_row;
+            // int movable_stones = 1;
+            // int r2 = r + 1;
+            // // how many stones we can move down?
+            // for (;r2 < map.size() && empty_spaces; ++r2, --empty_spaces) {
+            //   if (map[r2][c] != '0') {
+            //     break;
+            //   }
+            //   ++movable_stones;
+            // }
+            // // move stones down;
+            // int moved = std::min(empty_spaces, movable_stones);
+            // for (int i = first_empty_row; i < moved; ++i) {
+            //   map[r][c] = '0';
+            // }
+            // // reset rest of stones up;
+            // // for (;r2 )
+          }
+          break;
+          case '.': 
+            if (empty_spaces++ == 0) {
+              first_empty_row = r;
+            }
+            break;
+          case '#': 
+            first_empty_row = -1;
+            empty_spaces = 0;
+            break;
+        }
+      }
+    }
+  }
+
+  int64_t GetValue() {
+    int64_t result = 0;
+    for (int r = 0; r < map.size(); ++r) {
+      int64_t row_result = 0;
+      for (int c = 0; c < map.back().size(); ++c) {
+        if (map[r][c] == 'O') {
+          row_result += map.size() - r;
+        }
+      }
+      cout << "\tresult in row " << r << ", is: " << row_result << endl;
+      result += row_result;
+    }
+    return result;
+  }
+};
 
 void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
-  }
+  PuzzleInput input = PuzzleInput::GetInput();
+  util::printVector(input.map, true);
+  input.ShakeNorth();
+  util::printVector(input.map, true);
+  cout << "Result: " << input.GetValue() << endl;
+
 }
 
 };  // aoc2023_14
