@@ -31,6 +31,7 @@ using namespace std;
 constexpr char kMovableRock = 'O';
 constexpr char kEmptySpace = '.';
 constexpr char kWall = '#';
+constexpr int64_t kTargetCycles = 1000000000;
 
 class PuzzleInput {
   public:
@@ -113,30 +114,11 @@ class PuzzleInput {
   }
 
   void ShakeForCycle(int cycles = 1) {
-    // struct input_hash {
-    //   std::size_t operator() (const PuzzleInput& input) const {
-    //     return input.GetValue();
-    //   }
-    // };
-    // unordered_set<PuzzleInput, input_hash> seen_values;
     for (int c = 0; c < cycles; ++c) {
       for (int i = 0; i < 4; ++i) {
         ShakeNorth();
         RotateClockwise();
       }
-      // print();
-      // auto value = GetValue();
-      // auto it = seen_values.find(*this);
-      // if (it != seen_values.end()) {
-      //   cout <<"Found a repeated value \"" << value << "\" at cycle: " << c << endl;
-      //   print(); 
-      //   break;
-      // }
-      // seen_values.insert(*this);
-      // if ((c % 1000000) == 0) {
-      //   cout << "Cycle: " << c << ". Value: " << value << endl;
-      //   print(); 
-      // }
     }
   }
 
@@ -159,7 +141,7 @@ class PuzzleInput {
   }
 };
 
-int64_t FindValueAtCycle(PuzzleInput& input, int64_t cycles = 1000000000) {
+int64_t FindValueAtCycle(PuzzleInput& input, int64_t cycles = kTargetCycles) {
   PuzzleInput input_2 = input;
   int64_t c1 = 0;
   input_2.ShakeForCycle();
@@ -167,13 +149,14 @@ int64_t FindValueAtCycle(PuzzleInput& input, int64_t cycles = 1000000000) {
   while (c1 < cycles) {
     if (input == input_2) {
       cout << "Found matching inputs at cycle: " << c1 << endl;
+      // Calculating how many cycles are missing
       int64_t pending = cycles - c1;
       int64_t distance = c2 - c1;
       int64_t addition = pending / distance * distance;
       cout << "Pending: " << pending << ". Distance: " << distance << endl; 
       cout << "Adding " << c1 << " += " << addition << endl; 
       c1 += addition;
-      cout << "New cycle: " << c1 << endl; 
+      cout << "This match repeats at cycle: " << c1 << endl;
       break;
     }
     input.ShakeForCycle();
@@ -181,6 +164,7 @@ int64_t FindValueAtCycle(PuzzleInput& input, int64_t cycles = 1000000000) {
     input_2.ShakeForCycle(2);
     c2 += 2;
   }
+  // Processing pending cycles
   while (c1 < cycles) {
     input.ShakeForCycle();
     ++c1;
@@ -203,7 +187,6 @@ void solve(int part = 1) {
     result = FindValueAtCycle(input);
   }
   cout << "Result: " << result << endl;
-
 }
 
 };  // aoc2023_14
