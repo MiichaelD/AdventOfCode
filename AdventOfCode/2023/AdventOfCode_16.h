@@ -86,9 +86,9 @@ void Navigate(
     unordered_map<pair<int,int>, vector<char>, util::pair_hash>& visited_pos,
     deque<PosDirection>& pos_dirs) {
   for (int i = 0; i < pos_dirs.size(); ++i) {
-    cout << "Position " << i << " out of " << pos_dirs.size() << "\t";
+    // cout << "Position " << i << " out of " << pos_dirs.size() << "\t";
     PosDirection& pos_dir = pos_dirs[i];
-    util::printPair(pos_dir.position);  cout << endl;
+    // util::printPair(pos_dir.position);  cout << endl;
     while(true) {
       if (pos_dir.position.first < 0 ||
           pos_dir.position.first >= input.map.size()
@@ -103,16 +103,16 @@ void Navigate(
       if (visited) { break; }
       visited_pos[pos_dir.position].push_back(pos_dir.direction);
       char pos_char = input.map[pos_dir.position.first][pos_dir.position.second];
-      cout << "\tPosition: "; util::printPair(pos_dir.position); 
-      cout << "=> Direction: " << pos_dir.direction << " found: " << pos_char;
-      cout << " => Total visited: " << visited_pos.size() << endl;
+      // cout << "\tPosition: "; util::printPair(pos_dir.position); 
+      // cout << "=> Direction: " << pos_dir.direction << " found: " << pos_char;
+      // cout << " => Total visited: " << visited_pos.size() << endl;
       switch(pos_char) {
         case '|':  // North-South split
           if (pos_dir.direction == kEast || pos_dir.direction == kWest) {
             pos_dirs.emplace_back(
               std::make_pair(pos_dir.position.first - 1, pos_dir.position.second), kNorth);
-              cout << "\t\tAdded: "; util::printPair(pos_dirs.back().position);
-              cout << endl;
+              // cout << "\t\tAdded: "; util::printPair(pos_dirs.back().position);
+              // cout << endl;
             pos_dir.direction = kSouth;
           }
           Advance(pos_dir);
@@ -121,8 +121,8 @@ void Navigate(
           if (pos_dir.direction == kNorth || pos_dir.direction == kSouth) {
             pos_dirs.emplace_back(
               std::make_pair(pos_dir.position.first, pos_dir.position.second - 1), kWest);
-              cout << "\t\tAdded: "; util::printPair(pos_dirs.back().position);
-              cout << endl;
+              // cout << "\t\tAdded: "; util::printPair(pos_dirs.back().position);
+              // cout << endl;
             pos_dir.direction = kEast;
           }
           Advance(pos_dir);
@@ -164,6 +164,27 @@ void solve(int part = 1) {
     Navigate(input, visited_pos, pos_dirs);
     input.Print(visited_pos);
     cout << endl << "Visited positions: " << visited_pos.size() << endl;
+  } else {
+    const vector<char> possible_directions{kNorth, kEast, kSouth, kWest};
+    size_t max_energized = 0;
+    for (int f = 0; f < input.map.size(); ++f) {
+      for (int c = 0; c < input.map[f].size(); ++c) {
+        if (f > 0 && f < (input.map.size() -1) &&
+            c > 0 && c < (input.map[f].size() - 1)) { continue; }
+        for (char direction : possible_directions) {
+          unordered_map<pair<int,int>, vector<char>, util::pair_hash> visited_pos;
+          deque<PosDirection> pos_dirs;
+          pos_dirs.emplace_back(std::make_pair(f, c), direction);
+          util::printPair(pos_dirs.front().position);
+          cout << " with Direction: " << pos_dirs.front().direction << " produces: ";
+          Navigate(input, visited_pos, pos_dirs);
+          // input.Print(visited_pos);
+          cout << visited_pos.size() << " visited positions" << endl;
+          max_energized = std::max(max_energized, visited_pos.size());
+        }
+      }
+    }
+    cout << endl << "Optimal configuration has : " << max_energized << " tiles" << endl;
   }
 }
 
