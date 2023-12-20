@@ -28,22 +28,118 @@
 namespace aoc2023_19 {
 using namespace std;
 
-void solve1() {
-  string input;
-  cin >> input;  
-}
 
-void solve2() {
-  string input;
-  cin >> input;
-}
+
+class Rating {
+ public:
+  int x,  m,  a,  s;
+  Rating(const string& line) {
+    int index = 3;
+    x = util::getNumberRef(line, index);
+    index += 3;
+    m = util::getNumberRef(line, index);
+    index += 3;
+    a = util::getNumberRef(line, index);
+    index += 3;
+    s = util::getNumberRef(line, index);
+    Print();
+  }
+
+  void Print() const {
+    cout << "Rating -  x: " << x << ", m: " << m << ", a: " << a << ", s: " << s << endl;
+  }
+};
+
+class Predicate {
+ public:
+  char metric = ' ';
+  char comparator = ' ';
+  int value = -1;
+  string next_node;
+
+  Predicate(const string& token, int startInd, int endInd) {
+    int i = startInd;
+    for (i = startInd; i < endInd; ++i) {
+      if (token[i] == ':') {
+        metric = token[startInd];
+        comparator = token[startInd + 1];
+        value = util::getNumber(token, startInd + 2);
+        break;
+      }
+    }
+    if (i++ < endInd) {
+      next_node = token.substr(i, endInd - i);
+    } else {
+      next_node = token.substr(startInd, endInd - startInd);
+    }
+  }
+
+  void Print() const {
+    cout << "Predicate - ";
+    if (comparator != ' ') {
+      cout << "Metric: " << metric << ", Comparator: " << comparator;
+      cout << ", Value: " << value <<  ", ";
+    }
+    cout <<"Next Node: " << next_node << endl;
+  }
+};
+
+class WorkFlow {
+ public:
+  string name;
+  vector<Predicate> predicates;
+  WorkFlow(const string& token) {
+    int index = 0;
+    for ( ; index < token.size(); ++index) {
+      if (token[index] == '{') {
+        name = token.substr(0, index);
+        break;
+      }
+    }
+    cout << "Workflow: " << name << endl;
+    for (int j = ++index; j < token.size(); ++j) {
+      if (token[j] == ',' || token[j] == '}') {
+        cout << "\t";
+        predicates.emplace_back(token, index, j).Print();
+        index = ++j;
+      }
+    }
+  }
+
+  void Print() const {
+    cout << "Workload: " << name << " has: ";
+    for (const auto& predicate : predicates) {
+      cout << "\t"; predicate.Print();
+    }
+    cout << endl;
+  }
+};
+
+struct PuzzleInput {
+  vector<WorkFlow> workflows;
+  vector<Rating> ratings;
+
+  static PuzzleInput GetInput(int part) {
+    PuzzleInput input;
+    string line;
+    while(!cin.eof()) {  // Workloads
+      getline(cin, line);
+      if (line.empty()) break;
+      input.workflows.emplace_back(line);
+    }
+    while(!cin.eof()) {  // Ratings
+      getline(cin, line);
+      if (line.empty()) break;
+      input.ratings.emplace_back(line);
+    }
+
+    return input;
+  }
+
+};
 
 void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
-  }
+  PuzzleInput input = PuzzleInput::GetInput(part);
 }
 
 };  // aoc2023_19
