@@ -28,7 +28,7 @@
 namespace aoc2023_19 {
 using namespace std;
 
-
+const std::string kInitialWorkflow("in");
 
 class Rating {
  public:
@@ -42,11 +42,24 @@ class Rating {
     a = util::getNumberRef(line, index);
     index += 3;
     s = util::getNumberRef(line, index);
-    Print();
   }
 
   void Print() const {
     cout << "Rating -  x: " << x << ", m: " << m << ", a: " << a << ", s: " << s << endl;
+  }
+
+  int GetValue(char c) const {
+    switch(c) {
+      case 'x': return x;
+      case 'm': return m;
+      case 'a': return a;
+      case 's': return s;
+    }
+    return -1;  // This shouldn't happen.
+  }
+
+  int TotalValue() const {
+    return x + m + a + s;
   }
 };
 
@@ -88,6 +101,7 @@ class WorkFlow {
  public:
   string name;
   vector<Predicate> predicates;
+  
   WorkFlow(const string& token) {
     int index = 0;
     for ( ; index < token.size(); ++index) {
@@ -96,27 +110,53 @@ class WorkFlow {
         break;
       }
     }
-    cout << "Workflow: " << name << endl;
     for (int j = ++index; j < token.size(); ++j) {
       if (token[j] == ',' || token[j] == '}') {
-        cout << "\t";
-        predicates.emplace_back(token, index, j).Print();
+        predicates.emplace_back(token, index, j);
         index = ++j;
       }
     }
   }
 
   void Print() const {
-    cout << "Workload: " << name << " has: ";
+    cout << "Workload: " << name <<  " at address: " << this  << " has:" << endl;
     for (const auto& predicate : predicates) {
       cout << "\t"; predicate.Print();
     }
     cout << endl;
   }
+
+  std::string Process(const Rating& rating) const {
+    // cout << "\tWorkflow `" << name << "` has " << predicates.size() << " predicates" << endl;
+    for (const Predicate& p : predicates) {
+      // cout << "\t"; p.Print();
+      switch(p.comparator) {
+        case '<':
+          // cout << "\t\tComparing " << rating.GetValue(p.metric) << " < " << p.value << endl;
+          if (rating.GetValue(p.metric) < p.value) {
+            return p.next_node;
+          }
+          break;
+        case '>': 
+          // cout << "\t\tComparing " << rating.GetValue(p.metric) << " > " << p.value << endl;
+          if (rating.GetValue(p.metric) > p.value) {
+            return p.next_node;
+          }
+          break;
+        case ' ':
+        default:
+          // cout << "\t\tReturning " << p.next_node << endl;
+          return p.next_node;
+      }
+    }
+    cerr << "\tReturning ERROR" << endl;
+    return "ERROR";
+  }
 };
 
 struct PuzzleInput {
   vector<WorkFlow> workflows;
+  unordered_map<string, const WorkFlow*> id_to_workflow;
   vector<Rating> ratings;
 
   static PuzzleInput GetInput(int part) {
@@ -125,21 +165,70 @@ struct PuzzleInput {
     while(!cin.eof()) {  // Workloads
       getline(cin, line);
       if (line.empty()) break;
-      input.workflows.emplace_back(line);
+      auto& workflow = input.workflows.emplace_back(line);
+      // This doesn't work because when assigning we create a copy with different addresses.
+      input.id_to_workflow[workflow.name] = &workflow;  
     }
     while(!cin.eof()) {  // Ratings
       getline(cin, line);
       if (line.empty()) break;
       input.ratings.emplace_back(line);
     }
-
     return input;
+  }
+
+  void Print() const {
+    cout << "Workflows:" <<endl;
+    for (const auto& entry : workflows) {
+      entry.Print();
+    }
+    cout << endl << "Workflows map:" <<endl;
+    for (const auto& entry : id_to_workflow) {
+      util::printPair(entry); cout << " - Name: " << entry.second->name << endl;
+    }
+    cout << endl <<"Ratings:" <<endl;
+    for (const auto& entry : ratings) {
+      entry.Print();
+    }
+  }
+
+  size_t ProcessRatings() const {
+    unordered_map<string, const WorkFlow*> local_id_to_workflow;
+    for (const auto& entry : workflows) {
+      local_id_to_workflow[entry.name] = &entry;
+    }
+    size_t solution = 0;
+
+    for (const Rating& r : ratings) {
+      r.Print();
+      string workflow_id = kInitialWorkflow; 
+      while (true) {
+        const auto it = local_id_to_workflow.find(workflow_id);
+        if (it == local_id_to_workflow.end()) {   // This shouldn't happen.
+          cerr << "ERROR: Workflow `" << workflow_id << "` not found." << endl;
+          return 0;
+        }
+        workflow_id = it->second->Process(r);
+        if (workflow_id[0] == 'A') {
+          cout << "\tAccepted" << endl;
+          solution += r.TotalValue();
+          break;
+        } else if (workflow_id[0] == 'R') {
+          cout << "\tRejected" << endl;
+          break;
+        }
+      }
+    }
+    return solution;
   }
 
 };
 
 void solve(int part = 1) {
   PuzzleInput input = PuzzleInput::GetInput(part);
+  // input.Print();
+  auto result = input.ProcessRatings();
+  cout << "Result: " << result << endl;
 }
 
 };  // aoc2023_19
