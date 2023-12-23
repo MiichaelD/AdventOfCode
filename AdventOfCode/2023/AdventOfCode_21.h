@@ -41,7 +41,6 @@ const vector<char> kPossibleDirs{kNorth, kEast, kSouth, kWest};
 
 typedef unordered_set<pair<int,int>, util::pair_hash> CoordinatesSet;
 
-
 // Updates the current_pos 1 step into the given direction.
 void Advance(char direction, pair<int,int>& pos_dir) {
   switch(direction) {
@@ -72,26 +71,47 @@ class PuzzleInput {
             || coord.second >= map.back().size());
   }
 
-  void NormalizeCoord(pair<int,int>& coord) {
+  pair<int,int> NormalizeCoord(const pair<int,int>& coord) {
+    auto output = coord;
     if(coord.first < 0) {
       int times = (-1 * coord.first) / map.size();
-      coord.first += map.size() * times;
-    }
-    if (coord.second <0) {
-      int times = (-1 * coord.second) / map.back().size();
-      coord.second += map.size() * times;
-    }
-    if (coord.first >= map.size()) {
+      if ((-1 * coord.first) % map.size()) {
+         ++times;
+      }
+      output.first += (map.size() * times);
+    } else if (coord.first >= map.size()) {
       int times = coord.first / map.size();
-      coord.first -= map.size() * times;
+      output.first -= (map.size() * times);
     }
-    if (coord.second >= map.back().size()) {
+    if (coord.second < 0) {
+      int times = (-1 * coord.second) / map.back().size();
+      if ((-1 * coord.second) % map.back().size()) {
+         ++times;
+      }
+      output.second += (map.back().size() * times);
+    } else if (coord.second >= map.back().size()) {
       int times = coord.second / map.back().size();
-      coord.second -= map.size() * times;
+      output.second -= (map.back().size() * times);
     }
+    return output;
   }
 
 public: 
+  void TestNormalCoords() {
+    cout << "Map is " << map.size() << "x" << map.back().size() << " in size" << endl;
+    vector<pair<int,int>> tests{
+      {-1,-5}, {-11,-25},
+      {1,5}, {11,25},
+      {11,11}, {12,13},
+      {-100,-50}, {100, 50},
+      {-121,-66}, {121, 66},
+    };
+    for (const auto& test : tests) {
+      auto result = NormalizeCoord(test);
+      util::printPair(test); cout << "\t->\t"; util::printPair(result, true);
+    }
+  }
+
   static PuzzleInput GetInput(int part) {
     PuzzleInput input;
     bool found_start = false;
@@ -139,9 +159,13 @@ public:
           if (part == 1) {
             continue;
           }
-          NormalizeCoord(new_pos);
+          auto norm_pos = NormalizeCoord(new_pos);
+          if (map[norm_pos.first][norm_pos.second] != kRock
+              && new_coors.find(new_pos) == new_coors.end()) {
+            new_coors.insert(new_pos);
+          }
+          continue;
         }
-        NormalizeCoord(new_pos);
         if (map[new_pos.first][new_pos.second] != kRock
             && new_coors.find(new_pos) == new_coors.end()) {
           new_coors.insert(new_pos);
@@ -157,13 +181,17 @@ public:
 
 void solve(int part = 1) {
   PuzzleInput input = PuzzleInput::GetInput(part);
-  for (int steps = 1; steps <= kMaxSteps; ++steps) {
+  // input.TestNormalCoords();
+  int steps = 1;
+  int max_steps = part == 1 ? kMaxSteps : 100;
+  for (; steps <= max_steps; ++steps) {
     cout << "Step: " << steps << endl;
     input.GenerateNextCoordinates(part);
   }
-  input.PrintCoordinates(kMaxSteps);
-  auto solution = input.GetPossibleSteps(kMaxSteps);
-  cout << "At step " << kMaxSteps << " we have " << solution << " possible steps" << endl;
+  --steps;
+  input.PrintCoordinates(steps);
+  auto solution = input.GetPossibleSteps(steps);
+  cout << "At step " << steps << " we have " << solution << " possible steps" << endl;
 }
 
 };  // aoc2023_21
