@@ -29,6 +29,9 @@ namespace aoc2023_19 {
 using namespace std;
 
 const std::string kInitialWorkflow("in");
+constexpr char kAccepted = 'A';
+constexpr char kRejected = 'R';
+constexpr int kMaxPredicateValue = 4000;
 
 class Rating {
  public:
@@ -209,11 +212,11 @@ struct PuzzleInput {
           return 0;
         }
         workflow_id = it->second->Process(r);
-        if (workflow_id[0] == 'A') {
+        if (workflow_id[0] == kAccepted) {
           cout << "\tAccepted" << endl;
           solution += r.TotalValue();
           break;
-        } else if (workflow_id[0] == 'R') {
+        } else if (workflow_id[0] == kRejected) {
           cout << "\tRejected" << endl;
           break;
         }
@@ -222,13 +225,41 @@ struct PuzzleInput {
     return solution;
   }
 
+  uint64_t FindAllAcceptedCombinations() const {
+    uint64_t solution = 1;
+    for (const auto& workflow: workflows) {
+      workflow.Print();
+      for (const auto& predicate : workflow.predicates) {
+        if (predicate.next_node.at(0) == kAccepted) {
+          switch(predicate.comparator) {
+            case '<':
+              solution *= predicate.value;
+              break;
+            case '>':
+              solution *= (kMaxPredicateValue - predicate.value);
+              break;
+            case ' ':
+            default :
+              solution *= kMaxPredicateValue;
+              break;
+          }
+        }
+      }
+    }
+    return solution;
+  }
 };
 
 void solve(int part = 1) {
   PuzzleInput input = PuzzleInput::GetInput(part);
-  // input.Print();
-  auto result = input.ProcessRatings();
-  cout << "Result: " << result << endl;
+  input.Print();
+  if (part == 1) {
+    auto result = input.ProcessRatings();
+    cout << "Result: " << result << endl;
+  } else {
+    auto result = input.FindAllAcceptedCombinations();
+    cout << "Result: " << result << endl;
+  }
 }
 
 };  // aoc2023_19
