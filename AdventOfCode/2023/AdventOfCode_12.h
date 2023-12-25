@@ -33,95 +33,105 @@ constexpr char kSpring = '#';
 constexpr char kDelimiter = '.';
 
 inline void printRepeated(int times, char c) {
-  for (int i = 0; i < times; ++i) {
-    cout << c;
-  }
+  for (int i = 0; i < times; ++i) { cout << c; }
 }
 
-void printProgress(
-    const string& line, int index, const deque<int>& running_reality, int spring_count) {
-  printRepeated(index * 2, ' '); printRepeated(index, ' '); cout << "V" << endl;
-  printRepeated(index * 2, ' '); cout << line << endl;
-  printRepeated(index * 2, ' '); util::printDeque(running_reality); cout << endl;
-  printRepeated(index * 2, ' '); cout << "Sprint count: " <<  spring_count << endl;
+inline void StringToVector(const string& in, vector<char>& vc) {
+  vc.reserve(in.size());
+  for (char c : in) {
+    vc.emplace_back(c);
+  }
 }
 
 struct Challenge {
   string read;
   deque<int> reality;
-  void print() const {
-    cout << "Read: " << read << ", for ";
-    util::printDeque(reality); cout << endl;
-  }
-};
+  deque<vector<char>> options;
 
-int64_t CountWaysToSolve(
-    const Challenge& challenge, int index, deque<int>& running_reality,
-    int spring_count);
-
-int ProcessDelimiter(const Challenge& challenge, int index, deque<int>& running_reality,
-    int& spring_count, int64_t& solutions) {
-  if (spring_count == 0) {  // skip block of delimiters
-    return 0;
-  }
-  if (running_reality.front() != spring_count) {  // Not valid
-    return -1;
-  }
-  running_reality.pop_front();
-  solutions += CountWaysToSolve(challenge, index + 1, running_reality, 0);
-  running_reality.push_front(spring_count);
-  spring_count = 0;
-  return 0;
-}
-
-int64_t CountWaysToSolve(
-    const Challenge& challenge, int index, deque<int>& running_reality,
-    int spring_count = 0) {
-  int64_t solutions = 0;
-  if (spring_count && (running_reality.front() == spring_count)) {
-    running_reality.pop_front();
-    solutions += CountWaysToSolve(challenge, index + 1, running_reality, 0);
-    running_reality.push_front(spring_count);
-    spring_count = 0;
-  }
-  for (; running_reality.size() && index < challenge.read.size(); ++index) {
-    printProgress(challenge.read, index, running_reality, spring_count);
-    switch(challenge.read[index]) {
-      case kDelimiter: {
-        if (spring_count == 0) {  // skip block of delimiters
-          continue;
-        }
-        if (running_reality.front() != spring_count) {
-          return 0;
-        }
-        running_reality.pop_front();
-        solutions += CountWaysToSolve(challenge, index + 1, running_reality, 0);
-        running_reality.push_front(spring_count);
-        spring_count = 0;
-      } break;
-      case kOptional:{
-        // Try not consuming.
-         printRepeated(index * 2, ' '); cout << "Considering it a ." << endl;
-        solutions += CountWaysToSolve(challenge, index + 1, running_reality, spring_count);
-        // Then try consuming, and there should be a separation block;
-        printRepeated(index * 2, ' '); cout << "Considering it a #" << endl;
-        return solutions +  CountWaysToSolve(challenge, index + 1, running_reality, spring_count + 1);
-      } break;
-      case kSpring: {
-        ++spring_count; 
-      } break;
+  void ExpandOptions() {
+    StringToVector(read, options.emplace_back());
+    for (int i = 0; i < read.size(); ++i) {
+      switch(read[i]) {
+        case kOptional: {
+            // Duplicate options. 1/2 as Delimiter other 1/2  as spring
+            size_t total = options.size();
+            for (int o = 0; o < total; ++o) {
+              options.emplace_back(options[o])[i] = kSpring;
+              options[o][i] = kDelimiter;
+            }
+          }
+          break;
+        case kSpring:
+        case kDelimiter:
+        default: break;
+        
+      }
     }
   }
-  if (spring_count == running_reality.front()) {  // If we match on the last pending check.
-    solutions += (running_reality.size() != 1) ? 0 : 1;
+  void print() const {
+    cout << "Read: " << read << ", for ";
+    util::printDeque(reality); 
+    // cout << endl << "Expanded options:" << endl;
+    // for (const auto& option : options) {
+    //   util::printVector(option); cout << endl;
+    // }
+    cout << endl;
   }
-  return solutions;
-}
 
-inline int64_t CountWaysToSolve(const Challenge& challenge, int index = 0) {
-  deque<int> running_reality = challenge.reality;
-  return CountWaysToSolve(challenge, index, running_reality);
-}
+  bool IsOptionValid(int option_index) const {
+    int spring_count = 0;
+    auto expected = reality;
+    const auto& option = options.at(option_index);
+    // util::printVector(option); cout << endl;
+    for (int i = 0; i < option.size(); ++i) {
+      switch(option[i]) {
+        case kSpring: {
+          ++spring_count;
+          if (!expected.size()) {  // Not satisfied
+            // printRepeated(i, ' '); cout << "^\tUNSatisfied: due no more expectations" << endl;
+            return false;
+          }
+        }
+        break;
+        case kDelimiter: {
+          if (spring_count) {
+            if (spring_count != expected.front()) {
+              return false;
+            }
+            expected.pop_front();
+          }
+          spring_count = 0;
+        }
+        break;
+      }
+    }
+    if (spring_count) {
+      if (!expected.size()) {
+        // cout << "\tUNSatisfied due to extra " << spring_count << " springs" << endl;
+        return false;
+      }
+      if (spring_count != expected.front()) {
+        // cout << "\tUNSatisfied due  " << spring_count << " springs != " << expected.front() << endl;
+        return false;
+      }
+      expected.pop_front();
+    }
+    if (!expected.size()) {
+      // cout << "\tSatisfied" << endl;
+      return true;
+    }
+    // cout << "\tUNSatisfied due to missing " << expected.size() << " expectations" << endl;
+    return false;
+  }
+
+  int64_t CountValidOptions() const {
+    int64_t solutions = 0;
+    for (int op_ind = 0; op_ind < options.size(); ++op_ind) {
+      solutions += IsOptionValid(op_ind);
+    }
+    return solutions;
+  }
+};
 
 struct PuzzleInput {
   vector<Challenge> challenges;
@@ -137,6 +147,7 @@ struct PuzzleInput {
         input.challenges.back().reality.emplace_back(
         util::getNumberRef(thing_to_parse, i));
       }
+      input.challenges.back().ExpandOptions();
     }
     return input;
   }
@@ -145,17 +156,14 @@ struct PuzzleInput {
       challenge.print();
     }
   }
-  int processed = 0;
+
   int64_t CountWaysToSolve() {
     int64_t solutions = 0;
     for (const auto& challenge : challenges) {
       cout << "Case: "; challenge.print();
-      auto result = aoc2023_12::CountWaysToSolve(challenge);
+      auto result = challenge.CountValidOptions();
       cout << "Produced: " << result << endl << endl;
       solutions += result;
-      if (++processed == 2) {
-        break;
-      }
     }
     return solutions;
   }
@@ -163,6 +171,7 @@ struct PuzzleInput {
 
 void solve(int part = 1) {
   PuzzleInput input = PuzzleInput::GetInput();
+  // input.print();
   auto solutions =  input.CountWaysToSolve();
   cout << "Possible Solutions: " << solutions << endl;
 }
