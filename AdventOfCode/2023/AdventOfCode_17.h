@@ -41,7 +41,7 @@ struct PosDirection {
   char direction;
   int rolling_value = 0;
   int consecutive = 0;
-
+  PosDirection() = default;
   PosDirection(const PosDirection& pos_dir)
       : position(pos_dir.position), direction(pos_dir.direction),
       rolling_value(pos_dir.rolling_value), consecutive(pos_dir.consecutive) {}
@@ -79,7 +79,7 @@ struct pos_dir_hash {
   }
 };
 
-typedef unordered_map<pair<int, int>, int, util::pair_hash> VisitedPos;
+typedef unordered_map<pair<int, int>, vector<PosDirection>, util::pair_hash> VisitedPos;
 
 // Updates the current_pos 1 step into the given direction.
 inline void Advance(PosDirection& pos_dir) {
@@ -148,13 +148,14 @@ class PuzzleInput {
       cout << ". RollValue: " << pos_dir.rolling_value;
       cout << ". MapVal: " << map[pos_dir.position.first][pos_dir.position.second] << endl;
       auto it = visited_pos.find(pos_dir.position);
-      if (it != visited_pos.end() && it->second < pos_dir.rolling_value) {
+      // if (it != visited_pos.end() && it->second.back().rolling_value < pos_dir.rolling_value) {
+      if (it != visited_pos.end() && it->second.size() > 3) {
         // We have seen this position and with a lower heat lost.
         continue;
       }
       // Traverse from this point.
       cout << "Marked as visited with new value: " << pos_dir.rolling_value << endl;
-      visited_pos[pos_dir.position] = pos_dir.rolling_value;
+      visited_pos[pos_dir.position].push_back(pos_dir);
       rolling_path.push_back(pos_dir);
       if (pos_dir.position == target_pos &&
           pos_dir.rolling_value <= end_pos_val) {  // We found a better path.
@@ -162,7 +163,7 @@ class PuzzleInput {
         solutions.push_back(rolling_path);
         end_pos_val = pos_dir.rolling_value;
         rolling_path.pop_back();  // Remove last added point.
-        break;
+        continue;
       }
       AddPossibleDirections(map, pos_dir, pos_dirs);
       rolling_path.pop_back();  // Remove last added point.
@@ -215,7 +216,7 @@ class PuzzleInput {
     for (int f = 0; f < map.size(); ++f) {
       for (int c = 0; c < map.back().size(); ++c) {
         auto it = visited_pos.find(make_pair(f, c)) ;
-        cout << (it != visited_pos.end() ? it->second : 0) << ", ";
+        cout << (it != visited_pos.end() ? it->second.back().rolling_value : 0) << ", ";
       }
       cout << endl;
     }
@@ -237,7 +238,11 @@ class PuzzleInput {
     }
     Print(visited_pos);
     auto it = visited_pos.find(target_pos) ;
-    return (it != visited_pos.end() ? it->second : 0);
+    cout << "Solutions found:";
+    for (const auto& item : it->second) {
+      item.print();
+    }
+    return (it != visited_pos.end() ? it->second.back().rolling_value : 0);
   }
 };
 
