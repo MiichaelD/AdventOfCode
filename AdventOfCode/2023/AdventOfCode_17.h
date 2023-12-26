@@ -24,6 +24,7 @@
 #include <unordered_set>
 #include <vector>
 #include "../util/util.h"
+#include <queue>
 
 namespace aoc2023_17 {
 using namespace std;
@@ -33,11 +34,14 @@ constexpr char kNorth = 'N';
 constexpr char kSouth = 'S';
 constexpr char kEast = 'E';
 constexpr char kWest = 'W';
-const vector<char> kPosibleDirs{kNorth, kEast, kSouth, kWest};
-
-typedef unordered_map<pair<int,int>, int, util::pair_hash> VisitedPos;
+const vector<char> kPosibleDirs{kEast, kSouth, kWest, kNorth};
 
 struct PosDirection {
+  pair<int, int> position;
+  char direction;
+  int rolling_value = 0;
+  int consecutive = 0;
+
   PosDirection(const PosDirection& pos_dir)
       : position(pos_dir.position), direction(pos_dir.direction),
       rolling_value(pos_dir.rolling_value), consecutive(pos_dir.consecutive) {}
@@ -45,10 +49,6 @@ struct PosDirection {
       : position(pos), direction(d) {}
   PosDirection(pair<int,int>&& pos, char d)
       : position(std::move(pos)), direction(d) {}
-  int rolling_value = 0;
-  int consecutive = 0;
-  pair<int, int> position;
-  char direction;
 
   void print() const {
     util::printPair(position);
@@ -56,11 +56,30 @@ struct PosDirection {
     cout << ". Consecutive steps: " << consecutive << endl;
   }
 
-  bool operator=(const PosDirection& pos_dir) {
-    return pos_dir.position.first == position.first
-        && pos_dir.position.second == position.second;
+  // bool operator=(const PosDirection& pos_dir) const {
+  //   return pos_dir.position.first == position.first
+  //       && pos_dir.position.second == position.second
+  //       && pos_dir.consecutive == consecutive
+  //       && pos_dir.direction == direction;
+  // }
+  
+  bool operator<(const PosDirection& pos_dir) const {
+    return rolling_value > pos_dir.rolling_value;
   }
 };
+
+struct pos_dir_hash {
+  std::size_t operator()(const PosDirection& pd) const {
+    std::size_t h1 = std::hash<int>()(pd.position.first);
+    std::size_t h2 = std::hash<int>()(pd.position.second);
+    std::size_t h3 = std::hash<int>()(pd.consecutive);
+    std::size_t h4 = std::hash<char>()(pd.direction);
+    // std::size_t h5 = std::hash<int>()(pd.rolling_value);
+    return h1 ^ h2 ^ h3 ^ h4 /*h5 ^*/ ;
+  }
+};
+
+typedef unordered_map<pair<int, int>, int, util::pair_hash> VisitedPos;
 
 // Updates the current_pos 1 step into the given direction.
 inline void Advance(PosDirection& pos_dir) {
@@ -82,7 +101,7 @@ bool IsOppositeDir(char dir1, char dir2) {
 
 void AddPossibleDirections(
     const vector<vector<int>>& map, const PosDirection& current, 
-    deque<PosDirection>& pos_dirs) {
+    priority_queue<PosDirection>& pos_dirs) {
   for (char dir : kPosibleDirs) {
     if (dir == current.direction && current.consecutive >= kMaxConsecutiveSteps) {
       cout << "\tSkipping due consecutive direction: " << dir << endl;
@@ -92,14 +111,13 @@ void AddPossibleDirections(
       cout << "\tSkipping due opposite direction: " << dir << endl;
       continue;
     }
-    PosDirection& new_pos = pos_dirs.emplace_back(current);
+    PosDirection new_pos = current;
     new_pos.direction = dir;
     Advance(new_pos);
     if (new_pos.position.first < 0 || new_pos.position.second < 0 ||
         new_pos.position.first >= map.size() ||
         new_pos.position.second >= map.back().size()) {
       cout << "\tSkipping due Out of Bounds: " << dir << endl;
-      pos_dirs.pop_back();
       continue;
     }
     new_pos.rolling_value += map[new_pos.position.first][new_pos.position.second];
@@ -108,7 +126,8 @@ void AddPossibleDirections(
     } else {
       new_pos.consecutive = 1;
     }
-    cout << "\tAdded: "; new_pos.print();
+    cout << "\tAdding: "; new_pos.print();
+    pos_dirs.emplace(new_pos);
   }
 }
 
@@ -118,18 +137,18 @@ class PuzzleInput {
   pair<int, int> target_pos;
 
   void FindOptimalPath(
-      deque<PosDirection>& pos_dirs, VisitedPos& visited_pos, 
+      priority_queue<PosDirection>& pos_dirs, VisitedPos& visited_pos, 
       deque<PosDirection>& rolling_path, deque<deque<PosDirection>>& solutions) const {
     int end_pos_val = INT_MAX;
-    // for (int i = 0; i < pos_dirs.size(); ++ i){
     for (int i = 0; pos_dirs.size(); ++ i){
-      auto pos_dir = pos_dirs.front();
-      pos_dirs.pop_front();
+      auto pos_dir = pos_dirs.top();
+      pos_dirs.pop();
       cout << "Exploring: "; util::printPair(pos_dir.position);
+      cout << ". Pending: " << pos_dirs.size();
       cout << ". RollValue: " << pos_dir.rolling_value;
       cout << ". MapVal: " << map[pos_dir.position.first][pos_dir.position.second] << endl;
       auto it = visited_pos.find(pos_dir.position);
-      if (it != visited_pos.end() && it->second <= pos_dir.rolling_value) {
+      if (it != visited_pos.end() && it->second < pos_dir.rolling_value) {
         // We have seen this position and with a lower heat lost.
         continue;
       }
@@ -137,14 +156,13 @@ class PuzzleInput {
       cout << "Marked as visited with new value: " << pos_dir.rolling_value << endl;
       visited_pos[pos_dir.position] = pos_dir.rolling_value;
       rolling_path.push_back(pos_dir);
-
       if (pos_dir.position == target_pos &&
           pos_dir.rolling_value <= end_pos_val) {  // We found a better path.
         cout << "Found a path with value: " << pos_dir.rolling_value << endl;
         solutions.push_back(rolling_path);
         end_pos_val = pos_dir.rolling_value;
         rolling_path.pop_back();  // Remove last added point.
-        continue;
+        break;
       }
       AddPossibleDirections(map, pos_dir, pos_dirs);
       rolling_path.pop_back();  // Remove last added point.
@@ -175,20 +193,40 @@ class PuzzleInput {
     }
   }
 
+  // vector<PosDirection> GetVisitedPosByPos(
+  //     const VisitedPos& visited_pos, const pair<int,int>& pos) const {
+  //   vector<PosDirection> solutions;
+  //   PosDirection pos_dir(pos, kEast);
+  //   for (int i = 1 ; i <= kMaxConsecutiveSteps; ++i) {
+  //     pos_dir.consecutive = i;
+  //     for (char dir : kPosibleDirs) {
+  //       pos_dir.direction = dir;
+  //       auto it = visited_pos.find(pos_dir);
+  //       if (it != visited_pos.end()) {
+  //         cout << "Found a solution with rolling value of: " << it->first.rolling_value << endl;
+  //         solutions.push_back(it->first);
+  //       }
+  //     }
+  //   }
+  //   return solutions;
+  // }
+
   void Print(const VisitedPos& visited_pos) const {
     for (int f = 0; f < map.size(); ++f) {
       for (int c = 0; c < map.back().size(); ++c) {
-        cout << visited_pos.at(make_pair(f, c)) << ", ";
+        auto it = visited_pos.find(make_pair(f, c)) ;
+        cout << (it != visited_pos.end() ? it->second : 0) << ", ";
       }
       cout << endl;
     }
   }
 
-  size_t MinHeatLossPath() const {
+  int MinHeatLossPath() const {
     deque<PosDirection> path;
     VisitedPos visited_pos;
     deque<deque<PosDirection>> solutions;
-    deque<PosDirection> pos_dirs{PosDirection(start_pos, 'E')};  
+    priority_queue<PosDirection> pos_dirs;  
+    pos_dirs.push({start_pos, 'E'});
     FindOptimalPath(pos_dirs, visited_pos, path, solutions);
     for (const auto& solution : solutions) {
       cout << "Solution: ";
@@ -198,7 +236,8 @@ class PuzzleInput {
       cout << endl;
     }
     Print(visited_pos);
-    return visited_pos[target_pos];
+    auto it = visited_pos.find(target_pos) ;
+    return (it != visited_pos.end() ? it->second : 0);
   }
 };
 
