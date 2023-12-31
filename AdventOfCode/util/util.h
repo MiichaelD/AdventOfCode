@@ -7,6 +7,7 @@
 #include <sstream>
 #include <utility>
 #include <math.h>
+#include <unordered_set>
 
 namespace util {
 
@@ -14,7 +15,7 @@ using namespace std;
 
 struct pair_hash {
   template <class T1, class T2>
-  std::size_t operator () (std::pair<T1,T2> const &p) const {
+  std::size_t operator()(const std::pair<T1,T2>& p) const {
     std::size_t h1 = std::hash<T1>()(p.first);
     std::size_t h2 = std::hash<T2>()(p.second);
     return h1 ^ h2;
@@ -23,10 +24,29 @@ struct pair_hash {
 
 struct vector_size_hash {
   template <class T1, class T2>
-  bool operator () (const std::vector<T1>& a, const std::vector<T2>& b) {
+  bool operator() (const std::vector<T1>& a, const std::vector<T2>& b) {
     return a.size() < b.size();
   }
 };
+
+typedef pair<int,int> Coordinate2d;
+typedef unordered_set<Coordinate2d, util::pair_hash> CoordinatesSet;
+
+constexpr char kNorth = 'N';
+constexpr char kSouth = 'S';
+constexpr char kEast = 'E';
+constexpr char kWest = 'W';
+const vector<char> kPossibleDirs{kNorth, kEast, kSouth, kWest};
+
+// Updates the current_pos 1 step into the given direction.
+void Advance(char direction, Coordinate2d& pos_dir) {
+  switch(direction) {
+    case kNorth: pos_dir.first -= 1; break;
+    case kSouth: pos_dir.first += 1; break;
+    case kWest: pos_dir.second -= 1; break;
+    case kEast: pos_dir.second += 1; break;
+  }
+}
 
 template <class T1, class T2>
 bool vector_size_predicate(const std::vector<T1>& a, const std::vector<T2>& b) {

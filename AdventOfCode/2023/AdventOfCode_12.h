@@ -162,7 +162,7 @@ struct PuzzleInput {
     for (const auto& challenge : challenges) {
       cout << "Case: "; challenge.print();
       auto result = challenge.CountValidOptions();
-      cout << "Produced: " << result << endl << endl;
+      cout << "Produced: " << result << " out of " << challenge.options.size() << endl << endl;
       solutions += result;
     }
     return solutions;

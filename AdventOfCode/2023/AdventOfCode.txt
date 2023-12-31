@@ -28,22 +28,18 @@
 namespace aoc2023_XX {
 using namespace std;
 
-void solve1() {
-  string input;
-  cin >> input;  
-}
+struct PuzzleInput {
 
-void solve2() {
-  string input;
-  cin >> input;
-}
+  static PuzzleInput GetInput(int part) {
+    PuzzleInput input;
+
+    return input;
+  }
+
+};
 
 void solve(int part = 1) {
-  if (part == 1) {
-    solve1();
-  } else {
-    solve2();
-  }
+  PuzzleInput input = PuzzleInput::GetInput(part);
 }
 
 };  // aoc2023_XX

@@ -73,6 +73,7 @@
 #include "2023/AdventOfCode_18.h"
 #include "2023/AdventOfCode_19.h"
 #include "2023/AdventOfCode_20.h"
+#include "2023/AdventOfCode_21.h"
 #include "util/util.h"
 
 // Compiling & Running:    g++ -std=c++17 main.cpp -o main && ./main [<part>|<generate <day>>]
@@ -97,6 +98,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2023_16::solve(part);
+  aoc2023_17::solve(part);
   return EXIT_SUCCESS;
 }

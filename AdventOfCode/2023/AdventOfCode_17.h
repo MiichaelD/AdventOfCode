@@ -163,7 +163,7 @@ class PuzzleInput {
         solutions.push_back(rolling_path);
         end_pos_val = pos_dir.rolling_value;
         rolling_path.pop_back();  // Remove last added point.
-        continue;
+        break;
       }
       AddPossibleDirections(map, pos_dir, pos_dirs);
       rolling_path.pop_back();  // Remove last added point.
