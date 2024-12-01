@@ -17,11 +17,12 @@
 #include <vector>
 #include <unordered_map>
 
- std::unordered_map<std::string, int> numbers = 
- {{"one", 1}, {"two", 2}, {"three", 3}, {"four", 4},  {"five", 5},
- {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9 }};
-
 namespace aoc2023_01 {
+
+  std::unordered_map<std::string, int> numbers = 
+  {{"one", 1}, {"two", 2}, {"three", 3}, {"four", 4},  {"five", 5},
+  {"six", 6}, {"seven", 7}, {"eight", 8}, {"nine", 9 }};
+
   using namespace std;
 
   int64_t solve1(const std::string& input){
