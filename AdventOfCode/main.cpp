@@ -53,28 +53,29 @@
 // #include "2022/AdventOfCode_06.h"
 // #include "2022/AdventOfCode_07.h"
 // #include "2022/AdventOfCode_08.h"
-#include "2023/AdventOfCode_01.h"
-#include "2023/AdventOfCode_02.h"
-#include "2023/AdventOfCode_03.h"
-#include "2023/AdventOfCode_04.h"
-#include "2023/AdventOfCode_05.h"
-#include "2023/AdventOfCode_06.h"
-#include "2023/AdventOfCode_07.h"
-#include "2023/AdventOfCode_08.h"
-#include "2023/AdventOfCode_09.h"
-#include "2023/AdventOfCode_10.h"
-#include "2023/AdventOfCode_11.h"
-#include "2023/AdventOfCode_12.h"
-#include "2023/AdventOfCode_13.h"
-#include "2023/AdventOfCode_14.h"
-#include "2023/AdventOfCode_15.h"
-#include "2023/AdventOfCode_16.h"
-#include "2023/AdventOfCode_17.h"
-#include "2023/AdventOfCode_18.h"
-#include "2023/AdventOfCode_19.h"
-#include "2023/AdventOfCode_20.h"
-#include "2023/AdventOfCode_21.h"
+// #include "2023/AdventOfCode_01.h"
+// #include "2023/AdventOfCode_02.h"
+// #include "2023/AdventOfCode_03.h"
+// #include "2023/AdventOfCode_04.h"
+// #include "2023/AdventOfCode_05.h"
+// #include "2023/AdventOfCode_06.h"
+// #include "2023/AdventOfCode_07.h"
+// #include "2023/AdventOfCode_08.h"
+// #include "2023/AdventOfCode_09.h"
+// #include "2023/AdventOfCode_10.h"
+// #include "2023/AdventOfCode_11.h"
+// #include "2023/AdventOfCode_12.h"
+// #include "2023/AdventOfCode_13.h"
+// #include "2023/AdventOfCode_14.h"
+// #include "2023/AdventOfCode_15.h"
+// #include "2023/AdventOfCode_16.h"
+// #include "2023/AdventOfCode_17.h"
+// #include "2023/AdventOfCode_18.h"
+// #include "2023/AdventOfCode_19.h"
+// #include "2023/AdventOfCode_20.h"
+// #include "2023/AdventOfCode_21.h"
 #include "2024/AdventOfCode_01.h"
+#include "2024/AdventOfCode_02.h"
 #include "util/util.h"
 
 // Compiling & Running:    g++ -std=c++17 main.cpp -o main && ./main [<part>|<generate <day>>]
@@ -99,6 +100,6 @@ int main(int argc, char *argv[]) {
     }
   }
   cout << "Solving part: " << part << endl;
-  aoc2024_01::solve(part);
+  aoc2024_02::solve(part);
   return EXIT_SUCCESS;
 }

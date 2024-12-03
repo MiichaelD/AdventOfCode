@@ -1,16 +1,16 @@
 /*
-  Link:         http://adventofcode.com/2023/day/2
+  Link:         http://adventofcode.com/2024/day/2
  
   Compiling:     g++ -std=c++17 -o main main.cpp 
-  Running:       cat 2023/AdventOfCode_02_input.txt | ./main
+  Running:       cat 2024/AdventOfCode_02_input.txt | ./main
                
   Programmer:   Michael Duarte.
 
-  Date:         12/02/2023
+  Date:         12/02/2024
 */
 
-#ifndef _2023_ADVENTOFCODE_02_H_
-#define _2023_ADVENTOFCODE_02_H_
+#ifndef _2024_ADVENTOFCODE_02_H_
+#define _2024_ADVENTOFCODE_02_H_
 
 #include <algorithm>
 #include <iostream>
@@ -19,125 +19,53 @@
 #include <vector>
 #include "../util/util.h"
 
-namespace aoc2023_02 {
+namespace aoc2024_02 {
   using namespace std;
 
-  constexpr int kMaxRed = 12, kMaxGreen = 13,  kMaxBlue = 14;
-
-  struct GameRound {
-    int red = 0;
-    int green = 0;
-    int blue = 0;
-    bool isValid() const {
-      return red <= kMaxRed && green <= kMaxGreen && blue <= kMaxBlue;
+  std::vector<int> GetLevelsFromInput(const std::string& input) {
+    std::vector<int> levels;
+    for (int i = 0; i < input.size(); ++i) {
+      levels.push_back(util::getNumberRef(input, i));
     }
-    void print() const {
-      cout << "\tRed: " << red << ". Green: " << green << ". Blue: " << blue;
-      if (!isValid()) {
-        cout << ". INVALID!";
-      }
-      cout << endl;
-    }
-  };
-
-  struct Game {
-    int id = 0;
-    vector<GameRound> rounds;
-    bool isValid() const {
-      for (const GameRound& round : rounds) {
-        if (!round.isValid()) {
-          return false;
-        }
-      }
-      return true;
-    }
-    void print() const {
-      cout << "Game " << id << ". Rounds: " << rounds.size() << ".";
-      if (!isValid()) {
-        cout << " INVALID";
-      }
-      cout << endl;
-      for (const GameRound& round : rounds) {
-         round.print();
-      }
-    }
-    int maxRed() {
-      int max = 0;
-       for (const GameRound& round : rounds) {
-         max = std::max(round.red, max);
-      }
-      return max;
-    }
-
-    int maxGreen() {
-      int max = 0;
-       for (const GameRound& round : rounds) {
-         max = std::max(round.green, max);
-      }
-      return max;
-    }
-
-    int maxBlue() {
-      int max = 0;
-       for (const GameRound& round : rounds) {
-         max = std::max(round.blue, max);
-      }
-      return max;
-    }
-    int64_t power() {
-      int64_t result = maxRed();
-      result *= maxGreen();
-      result *= maxBlue();
-      return result;
-    }
-  };
-
-  Game parseGame(const std::string& input) {
-    Game g;
-    std::string strTemp;
-    int intTemp, index = 5;
-    g.id = util::getNumberRef(input, index);
-    index += 2; // skip colon + space.
-    g.rounds.emplace_back();
-
-    while (index < input.size()) {
-      intTemp = util::getNumberRef(input, index);
-      switch(input[++index]) {
-        case 'r': g.rounds.back().red += intTemp; break;
-        case 'g': g.rounds.back().green += intTemp; break;
-        case 'b': g.rounds.back().blue += intTemp; break;
-      }
-      for (++index; index < input.size(); ++index) {
-        if (input[index] == ' ') {
-          if (input[index - 1] == ';') {
-            g.rounds.emplace_back();
-          }
-          ++index;
-          break;
-        }
-      }
-    }
-    g.print();
-    return g;
+    return levels;
   }
 
-  int64_t solve1(const std::string& input){
-    Game g = parseGame(input);
-    return g.isValid() ? g.id : 0;
+  bool IsValid(const std::vector<int> &levels) {
+    int delta = 0;
+    for (int i = 1; i < levels.size(); ++i) {
+      int d = levels[i] - levels[i-1];
+      if (d == 0) {
+        cout << "delta of 0. "; 
+        return false;  // Mixing ascending and descending
+      }
+      if (delta > 0 && d < 0 || delta < 0 && d > 0) {
+        cout << "mixing ascending and descending. "; 
+        return false;  // Mixing ascending and descending
+      }
+      if (abs(d) > 3) {
+        cout << "Step " << abs(d) << " is > 3. "; 
+        return false;  // step is > 3.
+      }
+      delta = d;
+    }
+    return true;
   }
 
-  int64_t solve2(const std::string& input) {
-    Game g = parseGame(input);
-    return g.power();
+  int IsValid(const std::string& input) {
+    cout << input << " is: ";
+    std::vector<int> levels = GetLevelsFromInput(input);
+    bool valid = IsValid(levels);
+    cout << (valid ? "Valid" : "Invalid") << endl;
+    return valid ? 1 : 0;
   }
 
   void solve(int part = 1) {
     std::string input;
-    int64_t acum = 0;
+    int result = 0;
     while (std::getline(cin, input)) {
-      acum += (part == 1 ? solve1(input) : solve2(input));
+      result += (part == 1 ? IsValid(input) : IsValid(input));
     }
-    cout << "Solution: " << acum << endl;
+    cout << "Solution: " << result << endl;
   }
 };
-#endif /* _2023_ADVENTOFCODE_01_H_ */
+#endif /* _2024_ADVENTOFCODE_01_H_ */
