@@ -30,31 +30,51 @@ namespace aoc2024_02 {
     return levels;
   }
 
-  bool IsValid(const std::vector<int> &levels) {
+  bool IsValid(const std::vector<int> &levels, int skip_level = 0, int tolerance = 0) {
     int delta = 0;
     for (int i = 1; i < levels.size(); ++i) {
       int d = levels[i] - levels[i-1];
       if (d == 0) {
-        cout << "delta of 0. "; 
-        return false;  // Mixing ascending and descending
+        cout << "delta of 0. ";
+        if (tolerance-- == 0) {
+          return false;  // Mixing ascending and descending
+        }
       }
       if (delta > 0 && d < 0 || delta < 0 && d > 0) {
-        cout << "mixing ascending and descending. "; 
-        return false;  // Mixing ascending and descending
+        cout << "mixing ascending and descending. ";
+        if (tolerance-- == 0) {
+          return false;  // Mixing ascending and descending
+        }
       }
       if (abs(d) > 3) {
-        cout << "Step " << abs(d) << " is > 3. "; 
-        return false;  // step is > 3.
+        cout << "Step " << abs(d) << " is > 3. ";
+        if (tolerance-- == 0) {
+          return false;  // step is > 3.
+        }
       }
       delta = d;
     }
     return true;
   }
 
-  int IsValid(const std::string& input) {
+  int IsValid(const std::string& input, int part = 1, int tolerance = 0) {
     cout << input << " is: ";
     std::vector<int> levels = GetLevelsFromInput(input);
-    bool valid = IsValid(levels);
+    bool valid = IsValid(levels, tolerance);
+    for (int i = 0; !valid && part == 2 && i < levels.size(); ++i) {
+      std::vector<int> levels_skip;
+      levels_skip.reserve(levels.size());
+      for (int j = 0; j < i; ++ j) {
+        levels_skip.push_back(levels.at(j));
+      }
+      for (int j = i+1; j < levels.size(); ++ j) {
+        levels_skip.push_back(levels.at(j));
+      }
+      valid = IsValid(levels_skip, tolerance);
+      if (valid) {
+        break;
+      }
+    }
     cout << (valid ? "Valid" : "Invalid") << endl;
     return valid ? 1 : 0;
   }
@@ -63,7 +83,7 @@ namespace aoc2024_02 {
     std::string input;
     int result = 0;
     while (std::getline(cin, input)) {
-      result += (part == 1 ? IsValid(input) : IsValid(input));
+      result += (part == 1 ? IsValid(input) : IsValid(input, part));
     }
     cout << "Solution: " << result << endl;
   }
